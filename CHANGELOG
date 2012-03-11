@@ -1,10 +1,8 @@
 CHANGELOG
 
-2012-mm-dd, 0.x.y, ""
+
+2012-03-11, 0.4.1, "moving to github"
 * fixed all input to reset on pause
-
-
-2012-03-11, 0.4.1, "the sneaky update"
 * added setVelocity to PxBodyComponent
 * added possibility to turn off auto pause on focus lost
 * remove all static properties and functions from PxEngine
