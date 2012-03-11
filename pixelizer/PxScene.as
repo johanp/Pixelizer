@@ -38,6 +38,8 @@ package pixelizer {
 			_entityRoot.scene = this;
 			
 			_collisionManager = new PxCollisionManager();
+			
+			_mainCamera = new PxCamera( Pixelizer.engine.width, Pixelizer.engine.height, -Pixelizer.engine.width / 2, -Pixelizer.engine.height / 2 );
 		}
 		
 		/**
@@ -63,7 +65,6 @@ package pixelizer {
 		 */
 		public function onAddedToEngine( pEngine : PxEngine ) : void {
 			engine = pEngine;
-			_mainCamera = new PxCamera( engine.width, engine.height, -engine.width / 2, -engine.height / 2 );
 		}
 		
 		/**

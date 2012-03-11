@@ -74,6 +74,7 @@ package pixelizer {
 		 */
 		public function PxEngine( pWidth : int, pHeight : int, pScale : int = 1, pFPS : int = 30, pRendererClass : Class = null, pShowLogo : Boolean = true ) {
 			Pixelizer.init( );
+			Pixelizer.engine = this;
 			
 			_showingLogo = pShowLogo;
 			_targetFPS = pFPS;
@@ -325,6 +326,7 @@ package pixelizer {
 				if ( !_hasFocus ) {
 					_internalTimer.stop();
 					PxSoundManager.pause();
+					PxInput.reset();
 				}
 				
 				// move on as fast as possible

@@ -130,6 +130,17 @@ package pixelizer {
 		}
 		
 		/**
+		 * Resets all input.
+		 */
+		static public function reset() : void {
+			resetMouseButton();
+			var pos : int = _keysDown.length;
+			while( -- pos >= 0 ) {
+				_keysDown[ pos ] = 0;
+			}
+		}
+		
+		/**
 		 * Invoked by the engine at regular intervals. Synchronizes internal data with Flash's.
 		 * @param	pDT	Time step in seconds.
 		 */
