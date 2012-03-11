@@ -1,0 +1,111 @@
+CHANGELOG
+
+2012-03-11. 0.4.1, "the sneaky update"
+* added setVelocity to PxBodyComponent
+* added possibility to turn off auto pause on focus lost
+* remove all static properties and functions from PxEngine
+* document class no longer has to extend PxEngine
+
+
+2012-03-03, 0.4, "functionality complete"
+* added possiblity to add log output functions
+* added PxString for common string operations
+* added log messages to performance view
+* fixed bug which caused pause overlay to look weird in some special occasions
+* added isReleased() to PxInput
+* fixed typo in isUp in PxInput which caused it not to work
+* added input example
+* added possiblity to store and fetch entities by handle
+* added benchmark test between different blitting options
+* added possiblity to flip sprites vertically
+* updated the default font
+* added mouse entity
+* added simple gui button entity
+* added instructions to pause screen
+* added support for multiple render components per entity
+* moved all (text alignment & sprite sheet flips) constants to Pixelizer
+* made some slight changes to how sprite sheets are created and populated
+* removed possibility to assign special cameras to entities
+* added scrollFactor to entities for easy parallax effects
+* added pixelation of movie clips to sprite sheets
+* added sprite sheet example
+* added PxActorEntity prefab, contains render, anim, body and collider
+* added pause and unpause to sounds
+* added fast approximate cos and sine functions
+* moved pivot point from PxBlitRenderComponent to PxTransformComponent
+* added site locking functionality to Pixelizer
+* fixed so that entity rotation is taken into account when nesting entities
+* added example showing nested entities
+
+
+2012-02-25, 0.3, "starting to shape up"
+* moved onCollisionX from PxEntity to PxColliderComponent
+* added shadow, multiline, alignment, and outlines to text rendering
+* added text rendering example
+* added get mousePosition() : Point to PxInput
+* added PxSoundEntity for simple sound playback
+* added PxSoundManager for overall sound control
+* added mute and unmute to PxSound
+* added sound playback example
+* fixed positional jitter casued by sub-pixel placed camera
+* removed support for multiple simultaneous scenes
+* added KEY_ESC to PxInput
+* added scene stack for easy handling of multiple scenes and states
+* merged PxRenderObject and PxTilemapObject with their components for better overview
+* remove stats view component and entity and merged the functionality into Pixelizer
+* renamed PxEntityComponent to PxComponent
+* totally revamped package hierarchies for better overview
+* split Pixelizer into Pixelizer and PxEngine
+* removed internal events
+* started writing asdoc for all classes
+* added emitter example
+* added logo on startup of engine
+* removed gui layer
+* added possibility to assign special cameras to entities
+* added transform example
+* added collision example
+* made sure scene changes didn't happen in the middle of updates
+* added self pause ability on focus lost
+* wrote docs for new classes
+
+
+2012-02-12, 0.2, "completely reworked"
+* removed messaging
+* fixed bug that caused crash if animation component was used before added to an entity
+* added transform component to base entity
+* scrapped viewports
+* added camera to scene
+* scrapped old collision system and added generalized colliders and collisionMasks
+* added box colliders and grid colliders
+* tidied up component folder with subfolders
+* added static Pixelizer class for quick access to convenient things
+* added stats for logic and rendering
+* added dedicated gui layer 
+* added a generated default font
+* added support for multiple scenes
+* added object pools
+* added point pool for internal use, 15% faster point allocation
+* simplified entity and component creation by adding parameters to constructors and set functions
+* added non solid colliders
+* added collision callback functions (start, ongoing, end)
+* possibility to select renderer in engine
+* ditched the C class prefix on all classes
+* merged PxEngine into Pixelizer class and made it inhertitable
+* added PxMath for convenient math functions
+* added collision and update stats to performance view
+* added emitter component
+* added destroyIn function for easy disposal of entities
+* added basic support for loading ogmo maps 
+* rewrote update and rendering pipelines to take advantage of the entity tree
+* added color scheme for fast but good looking things
+* moved animation fps from animation component to animation data
+* added possibility to populate grid from bitstring and/or xml (handy when using ogmo editor)
+* added support for collision layers to not collide with themselves
+* fixed erroneous behaviour with collider offsets
+* created an example game
+* made sure all files where properly formatted and removed unused imports
+
+
+2011-12-10, 0.1, "first public release"
+* undocumented
+* unfinished
