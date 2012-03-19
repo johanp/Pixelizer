@@ -76,11 +76,11 @@ package pixelizer.render {
 			if ( pScene.camera != null ) {
 				_view.width = pScene.camera.view.width;
 				_view.height = pScene.camera.view.height;
-				renderRenderComponents( pScene.entityRoot, pScene, pScene.entityRoot.transform.position, pScene.entityRoot.transform.rotation );
+				renderRenderComponents( pScene.entityRoot, pScene, pScene.entityRoot.transform.position, pScene.entityRoot.transform.rotation, pScene.entityRoot.transform.scaleX, pScene.entityRoot.transform.scaleY );
 			}
 		}
 		
-		private function renderRenderComponents( pEntity : PxEntity, pScene : PxScene, pPosition : Point, pRotation : Number ) : void {
+		private function renderRenderComponents( pEntity : PxEntity, pScene : PxScene, pPosition : Point, pRotation : Number, pScaleX : Number, pScaleY : Number ) : void {
 			_view.x = pScene.camera.view.x * pEntity.transform.scrollFactorX;
 			_view.y = pScene.camera.view.y * pEntity.transform.scrollFactorY;
 			
@@ -90,19 +90,19 @@ package pixelizer.render {
 					// TODO: find faster versions of sqrt and atan2
 					var d : Number = Math.sqrt( e.transform.position.x * e.transform.position.x + e.transform.position.y * e.transform.position.y );
 					var a : Number = Math.atan2( e.transform.position.y, e.transform.position.x ) + pRotation;
-					pos.x = pPosition.x + d * PxMath.cos( a );
-					pos.y = pPosition.y + d * PxMath.sin( a );
+					pos.x = pPosition.x + d * PxMath.cos( a ) * e.transform.scaleX * pScaleX;
+					pos.y = pPosition.y + d * PxMath.sin( a ) * e.transform.scaleY * pScaleY;
 				} else {
-					pos.x = pPosition.x + e.transform.position.x;
-					pos..y = pPosition.y + e.transform.position.y;
+					pos.x = pPosition.x + e.transform.position.x * e.transform.scaleX * pScaleX;
+					pos.y = pPosition.y + e.transform.position.y * e.transform.scaleY * pScaleY;
 				}
 				
 				var brcs : Vector.<PxComponent> = e.getComponentsByClass( PxBlitRenderComponent );
 				for each ( var brc : PxComponent in brcs ) {
-					( brc as PxBlitRenderComponent ).render( _view, _surface.bitmapData, pos, pRotation + e.transform.rotation, _renderStats );
+					( brc as PxBlitRenderComponent ).render( _view, _surface.bitmapData, pos, pRotation + e.transform.rotation, pScaleX * e.transform.scaleX, pScaleY * e.transform.scaleY, _renderStats );
 				}
 				
-				renderRenderComponents( e, pScene, pos, pRotation + e.transform.rotation );
+				renderRenderComponents( e, pScene, pos, pRotation + e.transform.rotation, pScaleX * e.transform.scaleX, pScaleY * e.transform.scaleY );
 				Pixelizer.pointPool.recycle( pos );
 			}
 		}

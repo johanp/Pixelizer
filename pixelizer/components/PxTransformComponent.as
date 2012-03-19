@@ -15,7 +15,7 @@ package pixelizer.components {
 		/**
 		 * Position on the scene.
 		 */
-		public var globalPosition : Point;
+		public var positionOnScene : Point;
 		/**
 		 * Local position from last frame.
 		 */
@@ -24,6 +24,10 @@ package pixelizer.components {
 		 * The entity's rotation in radians.
 		 */
 		public var rotation : Number = 0;
+		/**
+		 * Rotation on the scene.
+		 */
+		public var rotationOnScene : Number = 0;
 		/**
 		 * What offset from hotspot to rotate the around.
 		 */
@@ -37,6 +41,15 @@ package pixelizer.components {
 		 */
 		public var scaleY : Number = 1;
 		
+		/**
+		 * X scale on the scene.
+		 */
+		public var scaleXOnScene : Number = 1;
+		/**
+		 * Y scale on the scene.
+		 */
+		public var scaleYOnScene : Number = 1;
+		
 		public var scrollFactorX : Number = 1;
 		public var scrollFactorY : Number = 1;
 		
@@ -47,8 +60,8 @@ package pixelizer.components {
 		 */
 		public function PxTransformComponent( pX : int = 0, pY : int = 0 ) {
 			super();
-			globalPosition = Pixelizer.pointPool.fetch();
-			globalPosition.x = globalPosition.y = 0;
+			positionOnScene = Pixelizer.pointPool.fetch();
+			positionOnScene.x = positionOnScene.y = 0;
 			
 			pivotOffset = Pixelizer.pointPool.fetch();
 			pivotOffset.x = pivotOffset.y = 0;
@@ -66,8 +79,8 @@ package pixelizer.components {
 		 * Clears all resources used by this component.
 		 */
 		override public function dispose() : void {
-			Pixelizer.pointPool.recycle( globalPosition );
-			globalPosition = null;
+			Pixelizer.pointPool.recycle( positionOnScene );
+			positionOnScene = null;
 			
 			Pixelizer.pointPool.recycle( lastPosition );
 			lastPosition = null;

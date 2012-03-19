@@ -88,7 +88,7 @@ package pixelizer.sound {
 		override public function update( pDT : Number ) : void {
 			if ( parent != null && !_isGlobal ) {
 				if ( _soundChannel != null ) {
-					updateSoundTransform( transform.globalPosition );
+					updateSoundTransform( transform.positionOnScene );
 					_soundChannel.soundTransform = _soundTransform;
 				}
 			}

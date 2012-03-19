@@ -109,7 +109,7 @@ package pixelizer.components.render {
 		 * @param	pOffset		Offset from top left corner.
 		 * @param	pRenderStats	Render stats to update.
 		 */
-		override public function render( pView : Rectangle, pBitmapData : BitmapData, pOffset : Point, pRotation : Number, pRenderStats : PxRenderStats ) : void {
+		override public function render( pView : Rectangle, pBitmapData : BitmapData, pOffset : Point, pRotation : Number, pScaleX : Number, pScaleY : Number, pRenderStats : PxRenderStats ) : void {
 			var tileSize : int = _tileSheet.spriteWidth;
 			
 			var objsRendered : int = 0;
