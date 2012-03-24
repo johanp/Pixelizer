@@ -2,6 +2,7 @@ package examples.collision {
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
 	import pixelizer.components.collision.PxBoxColliderComponent;
+	import pixelizer.components.PxBodyComponent;
 	import pixelizer.components.render.PxAnimationComponent;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.physics.PxCollisionData;
@@ -25,6 +26,8 @@ package examples.collision {
 			_rendComp.alpha = 0.7;
 			_animComp = addComponent( new PxAnimationComponent( spriteSheet ) ) as PxAnimationComponent;
 			_animComp.gotoAndStop( 0 );
+			
+			addComponent( new PxBodyComponent( 0 ) );
 			
 			var collider : PxBoxColliderComponent = new PxBoxColliderComponent( 16, 16, pSolid );
 			collider.registerCallbacks( onCollisionStart, onCollisionOngoing, onCollisionEnd );

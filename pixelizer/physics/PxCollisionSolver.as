@@ -49,6 +49,14 @@
 			var cx : Number;
 			var cy : Number;
 			
+			// trace( pGrid.entity.transform.position.x );
+			
+			// modify box position to adapt to grid position
+			// will be set back to normal later
+			pBox.entity.transform.position.x -= pGrid.entity.transform.position.x;
+			pBox.entity.transform.position.y -= pGrid.entity.transform.position.y;
+			
+			// calc which tiles we might intersect with
 			tx1 = ( pBox.entity.transform.position.x - pBox.collisionBox.halfWidth + pBox.collisionBox.offsetX ) / pGrid.cellSize;
 			ty1 = ( pBox.entity.transform.position.y - pBox.collisionBox.halfHeight + pBox.collisionBox.offsetY ) / pGrid.cellSize;
 			tx2 = ( pBox.entity.transform.position.x + pBox.collisionBox.halfWidth + pBox.collisionBox.offsetX ) / pGrid.cellSize;
@@ -115,7 +123,12 @@
 					}
 				}
 			}
+
+			// remove and adaptation to grid position
+			pBox.entity.transform.position.x += pGrid.entity.transform.position.x;
+			pBox.entity.transform.position.y += pGrid.entity.transform.position.y;
 			
+			// calc collision response
 			_pt.x = pBox.entity.transform.position.x - curPos.x;
 			_pt.y = pBox.entity.transform.position.y - curPos.y;
 			

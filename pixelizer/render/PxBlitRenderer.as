@@ -90,11 +90,11 @@ package pixelizer.render {
 					// TODO: find faster versions of sqrt and atan2
 					var d : Number = Math.sqrt( e.transform.position.x * e.transform.position.x + e.transform.position.y * e.transform.position.y );
 					var a : Number = Math.atan2( e.transform.position.y, e.transform.position.x ) + pRotation;
-					pos.x = pPosition.x + d * PxMath.cos( a ) * e.transform.scaleX * pScaleX;
-					pos.y = pPosition.y + d * PxMath.sin( a ) * e.transform.scaleY * pScaleY;
+					pos.x = pPosition.x + d * PxMath.cos( a ) * pScaleX;
+					pos.y = pPosition.y + d * PxMath.sin( a ) * pScaleY;
 				} else {
-					pos.x = pPosition.x + e.transform.position.x * e.transform.scaleX * pScaleX;
-					pos.y = pPosition.y + e.transform.position.y * e.transform.scaleY * pScaleY;
+					pos.x = pPosition.x + e.transform.position.x * pScaleX;
+					pos.y = pPosition.y + e.transform.position.y * pScaleY;
 				}
 				
 				var brcs : Vector.<PxComponent> = e.getComponentsByClass( PxBlitRenderComponent );

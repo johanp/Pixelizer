@@ -1,7 +1,5 @@
 package pixelizer {
 	import __AS3__.vec.Vector;
-	import examples.nesting.RotatingEntity;
-	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.IPxEntityContainer;
 	import pixelizer.physics.PxCollisionManager;
 	import pixelizer.render.PxCamera;
