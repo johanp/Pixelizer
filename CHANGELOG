@@ -5,9 +5,10 @@ CHANGELOG
 * fixed so that scaling affects render position
 * renamed all global transform properies to fooOnScene
 * fixed global position propagation through nested entites
-
 * fixed grid to box collision to take grid position into account
 * fixed bug which caused local position to be scaled
+* added function for easier modification of collision layers
+* added a grid collider to the collider example
 
 2012-03-11, 0.4.1, "the sneaky update"
 * fixed all input to reset on pause

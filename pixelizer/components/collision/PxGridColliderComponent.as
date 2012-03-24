@@ -21,8 +21,8 @@ package pixelizer.components.collision {
 		public function PxGridColliderComponent( pWidth : int, pHeight : int, pCellSize : int = 16 ) {
 			super();
 			
-			collisionLayer = 1;
-			collisionLayerMask = 0;
+			addCollisionLayer( 0 ); // grid
+			collisionLayerMask = 0; // doesn't collide with anything (but others may collide with grid)
 			
 			_cellSize = pCellSize;
 			_width = pWidth;
