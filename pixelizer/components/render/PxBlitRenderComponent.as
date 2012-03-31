@@ -13,7 +13,7 @@ package pixelizer.components.render {
 	 * Allows for graphical output using the blit renderer.
 	 * Can be animated using animation components.
 	 */
-	public class PxBlitRenderComponent extends PxComponent implements IPxRenderableComponent {
+	public class PxBlitRenderComponent extends PxComponent {
 		
 		private var _bufferTopLeft_ : Point;
 		private var _globalTopLeft_ : Point;

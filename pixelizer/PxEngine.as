@@ -7,6 +7,7 @@ package pixelizer {
 	import flash.system.System;
 	import flash.utils.getTimer;
 	import flash.utils.Timer;
+	import pixelizer.components.collision.PxColliderComponent;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.components.render.PxTextFieldComponent;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
