@@ -184,6 +184,14 @@ package pixelizer {
 		public function getEntitiesByHandle( pRootEntity : PxEntity, pHandle : String, pEntityVector : Vector.<PxEntity> ) : void {
 			return _entityRoot.getEntitiesByHandle( pRootEntity, pHandle, pEntityVector );
 		}
+		
+		
+		public function forEachEntity( pEntityRoot : PxEntity, pFunction : Function ) : void {
+			pFunction( pEntityRoot );
+			for each( var e : PxEntity in pEntityRoot.entities ) {
+				forEachEntity( e, pFunction );
+			}
+		}
 	
 	}
 }

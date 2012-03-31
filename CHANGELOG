@@ -11,6 +11,8 @@ CHANGELOG
 * added a grid collider to the collider example
 * fixed bug which caused box colliders to collide with other box colliders by default
 * fixed bug which caused entity local position to be scaled by entity local scale
+* fixed bug which caused box collider to get wrong offset when resizing
+* added PxBoxColliderRenderer for easier collision debugging
 
 
 2012-03-11, 0.4.1, "the sneaky update"

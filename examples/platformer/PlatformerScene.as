@@ -1,9 +1,12 @@
 package examples.platformer {
 	import examples.assets.AssetFactory;
 	import flash.geom.Point;
+	import pixelizer.components.collision.PxBoxColliderComponent;
+	import pixelizer.components.collision.PxBoxColliderRenderComponent;
 	import pixelizer.components.render.PxTextFieldComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
+	import pixelizer.PxEngine;
 	import pixelizer.PxEntity;
 	import pixelizer.PxInput;
 	import pixelizer.PxScene;
@@ -30,6 +33,7 @@ package examples.platformer {
 		
 		// player
 		private var _player : Player;
+		
 		
 		public function PlatformerScene() {
 			
@@ -97,7 +101,28 @@ package examples.platformer {
 			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
 				engine.popScene();
 			}
+			
+			
+			if ( PxInput.isPressed( PxInput.KEY_D ) ) {
+				forEachEntity( entityRoot, addColliderRenderer );
+			}
+			if ( PxInput.isPressed( PxInput.KEY_E ) ) {
+				forEachEntity( entityRoot, removeColliderRenderer );
+			}
+		}
 		
+		private function addColliderRenderer( pEntity : PxEntity ) : void {
+			if ( pEntity.hasComponentByClass( PxBoxColliderComponent ) )  {
+				if ( !pEntity.hasComponentByClass( PxBoxColliderRenderComponent ) ) {
+					pEntity.addComponent( new PxBoxColliderRenderComponent() );
+				}
+			}
+		}
+		
+		private function removeColliderRenderer( pEntity : PxEntity ) : void {
+			if ( pEntity.hasComponentByClass( PxBoxColliderRenderComponent ) )  {
+				pEntity.removeComponent( new PxBoxColliderRenderComponent() );
+			}
 		}
 		
 		private function spawnPickup() : void {
@@ -122,6 +147,7 @@ package examples.platformer {
 				}
 			}
 			_actionLayer.addEntity( pickup )
+			
 		}
 	
 	}

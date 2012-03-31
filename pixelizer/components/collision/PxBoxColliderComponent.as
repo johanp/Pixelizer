@@ -41,6 +41,8 @@ package pixelizer.components.collision {
 		public function setSize( pWidth : Number, pHeight : Number ) : void {
 			collisionBox.halfWidth = pWidth / 2;
 			collisionBox.halfHeight = pHeight / 2;
+			collisionBox.offsetX = pWidth / 2;
+			collisionBox.offsetY = pHeight / 2;
 		
 		}
 	

@@ -13,7 +13,7 @@ package pixelizer.render {
 		 * Renders a scene.
 		 * @param	pScene	Scene to render.
 		 */
-		function render( pScene : PxScene, pComponentToRender : Class = null ) : void;
+		function render( pScene : PxScene ) : void;
 		
 		/**
 		 * Returns the display object for the renderer. The display object contains the visible result of each render pass.

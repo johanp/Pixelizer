@@ -13,7 +13,7 @@ package pixelizer.components.render {
 	 * Allows for graphical output using the blit renderer.
 	 * Can be animated using animation components.
 	 */
-	public class PxBlitRenderComponent extends PxComponent implements IPxRenderableComponent {
+	public class PxBlitRenderComponent extends PxComponent {
 		
 		private var _bufferTopLeft_ : Point;
 		private var _globalTopLeft_ : Point;
@@ -54,7 +54,7 @@ package pixelizer.components.render {
 			renderOffset.x = renderOffset.y = 0;
 			
 			_matrix = Pixelizer.matrixPool.fetch();
-			_colorTransform = new ColorTransform( 1, 1, 1, 1, 0, 0, 0, 0 );
+			_colorTransform = new ColorTransform( );
 			
 			bitmapData = pBitmapData;
 			
@@ -64,7 +64,8 @@ package pixelizer.components.render {
 			if ( pHotspot != null ) {
 				hotspot.x = pHotspot.x;
 				hotspot.y = pHotspot.y;
-			} else if ( pBitmapData != null ) {
+			} 
+			else if ( pBitmapData != null ) {
 				hotspot.x = pBitmapData.width / 2;
 				hotspot.y = pBitmapData.height / 2;
 			}
