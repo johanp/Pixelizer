@@ -294,8 +294,6 @@ package pixelizer {
 				// count fps
 				_frameCount++;
 				
-				// update stats
-				
 				// render
 				_renderer.beforeRendering();
 				// render scenes

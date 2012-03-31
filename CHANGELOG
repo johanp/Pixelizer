@@ -1,14 +1,17 @@
 CHANGELOG
 
-2012-mm-dd, 0.x.y, ""
+2012-mm-dd, 0.4.2, "the fixer"
 * fixed so that scaling propagates to nested entities
 * fixed so that scaling affects render position
-* renamed all global transform properies to fooOnScene
+* renamed all global transform properies to xyzOnScene
 * fixed global position propagation through nested entites
 * fixed grid to box collision to take grid position into account
 * fixed bug which caused local position to be scaled
 * added function for easier modification of collision layers
 * added a grid collider to the collider example
+* fixed bug which caused box colliders to collide with other box colliders by default
+* fixed bug which caused entity local position to be scaled by entity local scale
+
 
 2012-03-11, 0.4.1, "the sneaky update"
 * fixed all input to reset on pause

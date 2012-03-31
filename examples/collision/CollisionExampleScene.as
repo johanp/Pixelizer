@@ -49,6 +49,7 @@ package examples.collision {
 			_controllableEntity = addEntity( new VisualCollisionEntity( true ) );
 			_controllableEntity.transform.setPosition( 160, 120 );
 			
+			// some things to collide with
 			for ( var i : int = 0; i < 40; i++ ) {
 				var e : VisualCollisionEntity = new VisualCollisionEntity( PxMath.randomBoolean() );
 				e.transform.setPosition( PxMath.randomInt( 40, 264 ), PxMath.randomInt( 40, 184 ) );

@@ -6,7 +6,9 @@ package pixelizer.render {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
+	import pixelizer.components.collision.PxColliderComponent;
 	import pixelizer.components.PxComponent;
+	import pixelizer.components.render.IPxRenderableComponent;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.PxEntity;
@@ -67,7 +69,7 @@ package pixelizer.render {
 		 * any PxBlitRenderComponents found.
 		 * @param	pScene	Scene to render.
 		 */
-		public function render( pScene : PxScene ) : void {
+		public function render( pScene : PxScene, pComponentToRender : Class = null ) : void {
 			// clear bitmap data
 			if ( pScene.background ) {
 				_surface.bitmapData.fillRect( _surface.bitmapData.rect, pScene.backgroundColor );
@@ -76,11 +78,15 @@ package pixelizer.render {
 			if ( pScene.camera != null ) {
 				_view.width = pScene.camera.view.width;
 				_view.height = pScene.camera.view.height;
-				renderRenderComponents( pScene.entityRoot, pScene, pScene.entityRoot.transform.position, pScene.entityRoot.transform.rotation, pScene.entityRoot.transform.scaleX, pScene.entityRoot.transform.scaleY );
+				if ( pComponentToRender == null ) {
+					pComponentToRender = PxBlitRenderComponent;
+				}
+				
+				renderComponents( pComponentToRender, pScene.entityRoot, pScene, pScene.entityRoot.transform.position, pScene.entityRoot.transform.rotation, pScene.entityRoot.transform.scaleX, pScene.entityRoot.transform.scaleY );
 			}
 		}
 		
-		private function renderRenderComponents( pEntity : PxEntity, pScene : PxScene, pPosition : Point, pRotation : Number, pScaleX : Number, pScaleY : Number ) : void {
+		private function renderComponents( pComponentClass : Class, pEntity : PxEntity, pScene : PxScene, pPosition : Point, pRotation : Number, pScaleX : Number, pScaleY : Number ) : void {
 			_view.x = pScene.camera.view.x * pEntity.transform.scrollFactorX;
 			_view.y = pScene.camera.view.y * pEntity.transform.scrollFactorY;
 			
@@ -97,12 +103,12 @@ package pixelizer.render {
 					pos.y = pPosition.y + e.transform.position.y * pScaleY;
 				}
 				
-				var brcs : Vector.<PxComponent> = e.getComponentsByClass( PxBlitRenderComponent );
-				for each ( var brc : PxComponent in brcs ) {
-					( brc as PxBlitRenderComponent ).render( _view, _surface.bitmapData, pos, pRotation + e.transform.rotation, pScaleX * e.transform.scaleX, pScaleY * e.transform.scaleY, _renderStats );
+				var renderableComponents : Vector.<PxComponent> = e.getComponentsByClass( pComponentClass );
+				for each ( var renderableComponent : IPxRenderableComponent in renderableComponents ) {
+					renderableComponent.render( _view, _surface.bitmapData, pos, pRotation + e.transform.rotation, pScaleX * e.transform.scaleX, pScaleY * e.transform.scaleY, _renderStats );
 				}
 				
-				renderRenderComponents( e, pScene, pos, pRotation + e.transform.rotation, pScaleX * e.transform.scaleX, pScaleY * e.transform.scaleY );
+				renderComponents( pComponentClass, e, pScene, pos, pRotation + e.transform.rotation, pScaleX * e.transform.scaleX, pScaleY * e.transform.scaleY );
 				Pixelizer.pointPool.recycle( pos );
 			}
 		}

@@ -20,7 +20,8 @@ package pixelizer.components.collision {
 			super( pSolid );
 			collisionBox = new PxAABB( pWidth, pHeight, pWidth / 2, pHeight / 2 );
 			addCollisionLayer( 1 ); // i'm a box
-			addCollisionLayerMask( 0 ); // grids and other boxes
+			addCollisionLayerMask( 0 ); // grids 
+			addCollisionLayerMask( 1 ); // other boxes
 		}
 		
 		/**

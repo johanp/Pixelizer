@@ -106,15 +106,15 @@ package pixelizer {
 				e.transform.positionOnScene.y = pEntity.transform.positionOnScene.y;
 				
 				if ( e.transform.rotationOnScene == 0 ) {
-					e.transform.positionOnScene.x += e.transform.position.x * e.transform.scaleXOnScene;
-					e.transform.positionOnScene.y += e.transform.position.y * e.transform.scaleYOnScene;
+					e.transform.positionOnScene.x += e.transform.position.x * pEntity.transform.scaleXOnScene;
+					e.transform.positionOnScene.y += e.transform.position.y * pEntity.transform.scaleXOnScene;
 				}
 				else {
 					// TODO: find faster versions of sqrt and atan2
 					var d : Number = Math.sqrt( e.transform.position.x * e.transform.position.x + e.transform.position.y * e.transform.position.y );
 					var a : Number = Math.atan2( e.transform.position.y, e.transform.position.x ) + pEntity.transform.rotationOnScene;
-					e.transform.positionOnScene.x += d * PxMath.cos( a ) * e.transform.scaleXOnScene;
-					e.transform.positionOnScene.y += d * PxMath.sin( a ) * e.transform.scaleYOnScene;
+					e.transform.positionOnScene.x += d * PxMath.cos( a ) * pEntity.transform.scaleXOnScene;
+					e.transform.positionOnScene.y += d * PxMath.sin( a ) * pEntity.transform.scaleYOnScene;
 				}
 				
 				updateEntityTree( e, pDT );

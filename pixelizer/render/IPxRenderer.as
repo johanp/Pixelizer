@@ -1,5 +1,6 @@
 package pixelizer.render {
 	import flash.display.DisplayObject;
+	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.PxScene;
 	import pixelizer.utils.PxRenderStats;
 	
@@ -12,7 +13,7 @@ package pixelizer.render {
 		 * Renders a scene.
 		 * @param	pScene	Scene to render.
 		 */
-		function render( pScene : PxScene ) : void;
+		function render( pScene : PxScene, pComponentToRender : Class = null ) : void;
 		
 		/**
 		 * Returns the display object for the renderer. The display object contains the visible result of each render pass.
