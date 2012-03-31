@@ -5,25 +5,33 @@ package pixelizer.components.collision
 	import pixelizer.components.render.PxBlitRenderComponent;
 	
 	/**
-	 * ...
+	 * Renders a box collider. Add this component to an entity to have it's box collider render automatically.
 	 * @author Johan Peitz
 	 */
 	public class PxBoxColliderRenderComponent extends PxBlitRenderComponent 
 	{
 		private var _boxColliderComp : PxBoxColliderComponent = null;
-		private var _renderComp : PxBlitRenderComponent = null;
 
+		/**
+		 * Constructs a new PxBoxColliderRenderComponent.
+		 */
 		public function PxBoxColliderRenderComponent() : void {
 			super();
 			alpha = 0.5;
 		}
 
-		
+		/**
+		 * Disposes all resources used by component.
+		 */
 		override public function dispose() : void {
 			_boxColliderComp = null;
 			super.dispose();
 		}
 
+		/**
+		 * Updates the component.
+		 * @param	pDT	Time step in seconds.
+		 */
 		override public function update( pDT : Number ) : void {
 			// get collider info
 			if ( _boxColliderComp == null ) {
@@ -36,14 +44,7 @@ package pixelizer.components.collision
 					bitmapData.dispose();
 				}
 				bitmapData = new BitmapData( _boxColliderComp.collisionBox.halfWidth * 2, _boxColliderComp.collisionBox.halfHeight * 2, false, 0xFF00FF );
-				
-				/*
-				if ( _renderComp == null ) {
-					_renderComp = entity.getComponentByClass( PxBlitRenderComponent ) as PxBlitRenderComponent;
-				}
-				hotspot.x = _renderComp.hotspot.x;
-				hotspot.y = _renderComp.hotspot.y;
-				*/
+			
 			}
 
 			// keep calm and carry on

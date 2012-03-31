@@ -53,7 +53,6 @@ package pixelizer {
 			_entities = new Vector.<PxEntity>;
 			_entitiesToAdd = new Vector.<PxEntity>;
 			_entitiesToRemove = new Vector.<PxEntity>;
-			//_entitiesByHandle = new Dictionary();
 			
 			_onRemovedCallbacks = new Vector.<Function>;
 			

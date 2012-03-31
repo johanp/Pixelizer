@@ -1,6 +1,5 @@
 package pixelizer.render {
 	import flash.display.DisplayObject;
-	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.PxScene;
 	import pixelizer.utils.PxRenderStats;
 	

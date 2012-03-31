@@ -1,6 +1,6 @@
 CHANGELOG
 
-2012-mm-dd, 0.4.2, "the fixer"
+2012-03-31, 0.4.2, "the fixer"
 * fixed so that scaling propagates to nested entities
 * fixed so that scaling affects render position
 * renamed all global transform properies to xyzOnScene
