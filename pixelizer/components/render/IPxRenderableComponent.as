@@ -11,7 +11,7 @@ package pixelizer.components.render
 	 */
 	public interface IPxRenderableComponent 
 	{
-		function render( pView : Rectangle, pBitmapData : BitmapData, pPosition : Point, pRotation : Number, pScaleX : Number, pScaleY : Number, pRenderStats : PxRenderStats ) : void ;
+		function render( pView : Rectangle, pBitmapData : BitmapData, pPosition : Point, pRotation :  Number, pScaleX : Number, pScaleY : Number, pRenderStats : PxRenderStats ) : void ;
 	}
 	
 }
