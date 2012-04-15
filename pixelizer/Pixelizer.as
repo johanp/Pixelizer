@@ -15,8 +15,8 @@ package pixelizer {
 	 */
 	public class Pixelizer {
 		public static const MAJOR_VERSION : int = 0;
-		public static const MINOR_VERSION : int = 3;
-		public static const INTERNAL_VERSION : int = 0;
+		public static const MINOR_VERSION : int = 4;
+		public static const INTERNAL_VERSION : int = 2;
 		
 		public static const COLOR_RED : int = 0xFF5D5D;
 		public static const COLOR_GREEN : int = 0x5DFC5D;

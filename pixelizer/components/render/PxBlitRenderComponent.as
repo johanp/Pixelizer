@@ -61,14 +61,15 @@ package pixelizer.components.render {
 			hotspot = Pixelizer.pointPool.fetch();
 			hotspot.x = hotspot.y = 0;
 
+			if ( pBitmapData != null ) {
+				hotspot.x = pBitmapData.width / 2;
+				hotspot.y = pBitmapData.height / 2;
+			}
+
 			if ( pHotspot != null ) {
 				hotspot.x = pHotspot.x;
 				hotspot.y = pHotspot.y;
 			} 
-			else if ( pBitmapData != null ) {
-				hotspot.x = pBitmapData.width / 2;
-				hotspot.y = pBitmapData.height / 2;
-			}
 		
 		}
 		

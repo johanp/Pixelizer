@@ -10,6 +10,7 @@ package examples.collision {
 	import pixelizer.PxEntity;
 	import pixelizer.render.PxSpriteSheet;
 	import pixelizer.utils.PxImageUtil;
+	import pixelizer.utils.PxLog;
 	import pixelizer.utils.PxMath;
 	
 	public class VisualCollisionEntity extends PxEntity {
@@ -48,6 +49,7 @@ package examples.collision {
 		
 		private function onCollisionStart( pCollisionData : PxCollisionData ) : void {
 			_animComp.gotoAndStop( 1 );
+			PxLog.log( "start " + pCollisionData.otherCollider, this );
 		}
 		
 		private function onCollisionOngoing( pCollisionData : PxCollisionData ) : void {
@@ -56,6 +58,8 @@ package examples.collision {
 		
 		private function onCollisionEnd( pCollisionData : PxCollisionData ) : void {
 			_animComp.gotoAndStop( 0 );
+			PxLog.log( "end " + pCollisionData.otherCollider, this );
+			
 		}
 	}
 
