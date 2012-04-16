@@ -20,6 +20,7 @@ Features:
  * handy math and string routines
  * effective object pools
  * useful logging
+ * persistent storage to lower memory foot print
  * and much more
 	
 	

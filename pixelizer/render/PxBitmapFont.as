@@ -12,8 +12,6 @@ package pixelizer.render {
 	 * @author Johan Peitz
 	 */
 	public class PxBitmapFont {
-		private static var _storedFonts : Dictionary = new Dictionary();
-		
 		private static var ZERO_POINT : Point = new Point();
 		
 		private var _glyphs : Array;
@@ -195,28 +193,6 @@ package pixelizer.render {
 			return _glyphs.length;
 		}
 		
-		/**
-		 * Stores a font for global use using an identifier.
-		 * @param	pHandle	String identifer for the font.
-		 * @param	pFont	Font to store.
-		 */
-		public static function store( pHandle : String, pFont : PxBitmapFont ) : void {
-			_storedFonts[ pHandle ] = pFont;
-			PxLog.log( "font '" + pHandle + "' stored, " + pFont.numLetters + " letters", "[o PxBitmapFont]", PxLog.INFO );
-		}
-		
-		/**
-		 * Retrieves a font previously stored.
-		 * @param	pHandle	Identifier of font to fetch.
-		 * @return	Stored font, or null if no font was found.
-		 */
-		public static function fetch( pHandle : String ) : PxBitmapFont {
-			var f : PxBitmapFont = _storedFonts[ pHandle ];
-			if ( f == null ) {
-				PxLog.log( "no font found with handle '" + pHandle + "'", "[o PxBitmapFont]", PxLog.WARNING );
-			}
-			return f;
-		}
 	
 	}
 }

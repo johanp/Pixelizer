@@ -2,6 +2,7 @@ package pixelizer.components.render {
 	import flash.display.BitmapData;
 	import pixelizer.Pixelizer;
 	import pixelizer.render.PxBitmapFont;
+	import pixelizer.utils.PxRepository;
 	
 	/**
 	 * Renders a text field.
@@ -29,7 +30,7 @@ package pixelizer.components.render {
 		 */
 		public function PxTextFieldComponent() : void {
 			super();
-			_font = PxBitmapFont.fetch( "default" );
+			_font = PxRepository.fetch( "_pixelizer_font" );
 		}
 		
 		/**

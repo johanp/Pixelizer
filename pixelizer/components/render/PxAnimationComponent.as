@@ -78,17 +78,21 @@ package pixelizer.components.render {
 		public function gotoAndPlay( pLabel : String, pRestart : Boolean = true ) : void {
 			if ( !pRestart && _currentAnimationLabel == pLabel && _flipFlags == _lastFlipFlags )
 				return;
-			_currentAnimationLabel = pLabel;
+				
 			
-			_currentAnimation = _spriteSheet.getAnimation( _currentAnimationLabel );
-			_currentAnimationFrame = 0;
-			_animationPlaying = true;
-			_frameTimer = 0;
-			_frameDuration = 1 / _currentAnimation.fps;
+			_currentAnimation = _spriteSheet.getAnimation( pLabel );
+			if ( _currentAnimation != null ) {
+				_currentAnimationLabel = pLabel;
+				
+				_currentAnimationFrame = 0;
+				_animationPlaying = true;
+				_frameTimer = 0;
+				_frameDuration = 1 / _currentAnimation.fps;
 			
-			// show first frame
-			_currentSpriteSheetFrame = _currentAnimation.frames[ _currentAnimationFrame ];
-			_renderComponentNeedsUpdate = true;
+				// show first frame
+				_currentSpriteSheetFrame = _currentAnimation.frames[ _currentAnimationFrame ];
+				_renderComponentNeedsUpdate = true;
+			}
 		
 		}
 		
@@ -159,16 +163,21 @@ package pixelizer.components.render {
 		public function set flip( pFlipFlags : int ) : void {
 			_lastFlipFlags = _flipFlags;
 			_flipFlags = pFlipFlags;
+			if ( _lastFlipFlags != pFlipFlags ) {
+				_renderComponentNeedsUpdate = true;
+			}
 		}
 		
 		private function updateRenderComponent() : void {
 			if ( _renderComponentRef != null ) {
 				_renderComponentRef.bitmapData = _spriteSheet.getFrame( _currentSpriteSheetFrame, _flipFlags );
-				var offset : Point = _spriteSheet.getFrameOffset( _currentSpriteSheetFrame, _flipFlags );
-				_renderComponentRef.renderOffset.x = offset.x;
-				_renderComponentRef.renderOffset.y = offset.y;
+				if ( _renderComponentRef != null ) {
+					var offset : Point = _spriteSheet.getFrameOffset( _currentSpriteSheetFrame, _flipFlags );
+					_renderComponentRef.renderOffset.x = offset.x;
+					_renderComponentRef.renderOffset.y = offset.y;
 				
-				_renderComponentNeedsUpdate = false;
+					_renderComponentNeedsUpdate = false;
+				}
 			}
 		}
 		

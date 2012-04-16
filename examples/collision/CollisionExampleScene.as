@@ -62,7 +62,7 @@ package examples.collision {
 			// big area to collide with
 			var entity : PxEntity = addEntity( new PxEntity( 40, 100 ) );
 			entity.addComponent( new PxBlitRenderComponent( PxImageUtil.createRect( 20, 20 ) ) );
-			var bc  :PxBoxColliderComponent = entity.addComponent( new PxBoxColliderComponent( 40, 40, false ) ) as PxBoxColliderComponent;
+			var bc : PxBoxColliderComponent = entity.addComponent( new PxBoxColliderComponent( 40, 40, false ) ) as PxBoxColliderComponent;
 			bc.collisionBox.offsetX = 10;
 			bc.collisionBox.offsetY = 10;
 			entity.addComponent( new PxBoxColliderRenderComponent() );

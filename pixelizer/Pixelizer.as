@@ -16,21 +16,24 @@ package pixelizer {
 	public class Pixelizer {
 		public static const MAJOR_VERSION : int = 0;
 		public static const MINOR_VERSION : int = 4;
-		public static const INTERNAL_VERSION : int = 2;
-		
+		public static const INTERNAL_VERSION : int = 3;
+		 
 		public static const COLOR_RED : int = 0xFF5D5D;
 		public static const COLOR_GREEN : int = 0x5DFC5D;
 		public static const COLOR_BLUE : int = 0x5CBCFC;
 		public static const COLOR_WHITE : int = 0xFFFFFF;
-		public static const COLOR_BLACK : int = 0x000000;
+ 		public static const COLOR_BLACK : int = 0x000000;
 		public static const COLOR_GRAY : int = 0xE6E6E6;
 		
 		public static const LEFT : int = 1;
 		public static const RIGHT : int = 2;
 		public static const CENTER : int = 3;
 		
+		static public const NO_FLIP : int = 0;
 		static public const H_FLIP : int = 1;
 		static public const V_FLIP : int = 2;
+		
+		static public const COLLISION_LAYER_GRID : int = 0;
 		
 		/**
 		 * Object pool for points.

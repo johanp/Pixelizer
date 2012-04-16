@@ -11,6 +11,7 @@ package examples.platformer {
 	import pixelizer.render.PxSpriteSheet;
 	import pixelizer.sound.PxSoundManager;
 	import pixelizer.utils.PxMath;
+	import pixelizer.utils.PxRepository;
 	
 	/**
 	 * ...
@@ -21,7 +22,7 @@ package examples.platformer {
 		public function GoodPickup() {
 			super();
 			
-			animComp.spriteSheet = PxSpriteSheet.fetch( "pickups" );
+			animComp.spriteSheet = PxRepository.fetch( "pickups" );
 			animComp.gotoAndPlay( "good" );
 			
 			// the body handles velocities 
@@ -29,7 +30,7 @@ package examples.platformer {
 			
 			boxColliderComp.setSize( 16, 16 );
 			boxColliderComp.solid = false;
-			boxColliderComp.collisionLayerMask = 0;
+			boxColliderComp.addToCollisionLayer( 1 );// pick ups
 			boxColliderComp.registerCallbacks( onCollisionStart );
 		
 		}
@@ -84,6 +85,8 @@ package examples.platformer {
 				f = 10000 / ( dist * dist );
 				g.addVelocity( -f * PxMath.cos( a ), -f * Math.sin( a ) );
 			}
+			
+			destroyIn( 0 );
 		}
 		
 		public function addVelocity( pVX : Number, pVY : Number ) : void {

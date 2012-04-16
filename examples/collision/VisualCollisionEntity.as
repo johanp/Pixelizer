@@ -31,7 +31,15 @@ package examples.collision {
 			addComponent( new PxBodyComponent( 0 ) );
 			
 			var collider : PxBoxColliderComponent = new PxBoxColliderComponent( 16, 16, pSolid );
-			collider.registerCallbacks( onCollisionStart, onCollisionOngoing, onCollisionEnd );
+			// live in box layer
+			collider.addToCollisionLayer( 2 );
+			// collide with other boxes
+			collider.enableCollisionWithCollisionLayer( 2 );
+			// collide with grid
+			collider.enableCollisionWithCollisionLayer( Pixelizer.COLLISION_LAYER_GRID );
+			
+			
+			collider.registerCallbacks( onCollisionStart, null, onCollisionEnd );
 			addComponent( collider );
 		}
 		
@@ -40,21 +48,12 @@ package examples.collision {
 			super.dispose();
 		}
 		
-		/*
-		   override public function update( pDT : Number ) : void {
-		
-		   super.update( pDT );
-		   }
-		 */
 		
 		private function onCollisionStart( pCollisionData : PxCollisionData ) : void {
 			_animComp.gotoAndStop( 1 );
 			PxLog.log( "start " + pCollisionData.otherCollider, this );
 		}
 		
-		private function onCollisionOngoing( pCollisionData : PxCollisionData ) : void {
-			_animComp.gotoAndStop( 1 );
-		}
 		
 		private function onCollisionEnd( pCollisionData : PxCollisionData ) : void {
 			_animComp.gotoAndStop( 0 );

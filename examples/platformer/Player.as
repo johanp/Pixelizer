@@ -14,6 +14,7 @@ package examples.platformer {
 	import pixelizer.render.PxBlitRenderer;
 	import pixelizer.render.PxSpriteSheet;
 	import pixelizer.sound.PxSoundEntity;
+	import pixelizer.utils.PxRepository;
 	
 	/**
 	 * ...
@@ -29,14 +30,31 @@ package examples.platformer {
 			super();
 			
 			// animComponent, to handle sprite sheet animations
-			animComp.spriteSheet = PxSpriteSheet.fetch( "player" );
+			animComp.spriteSheet = PxRepository.fetch( "player" );
 			animComp.gotoAndPlay( "idle" );
 			
-			// set up collider size
+			// set up collider 
 			boxColliderComp.setSize( 16, 16 );
 			boxColliderComp.registerCallbacks( onCollisionStart, onCollisionOngoing, onCollisionEnd );
 		
+			reset();
 		}
+		
+
+		// reset the player character
+		public function reset() : void {
+			transform.position.x = 120;
+			transform.position.y = 32;
+			_alive = true;
+			_onGround = false;
+			bodyComp.velocity.x = bodyComp.velocity.y = 0;
+			animComp.gotoAndPlay( "idle" );
+
+			// what to collide with
+			boxColliderComp.enableCollisionWithCollisionLayer( 1 ); // pick ups
+			boxColliderComp.enableCollisionWithCollisionLayer( Pixelizer.COLLISION_LAYER_GRID ); // grid
+		}
+		
 		
 		override public function dispose() : void {
 			super.dispose();
@@ -91,16 +109,15 @@ package examples.platformer {
 		private function onCollisionStart( pCollisionData : PxCollisionData ) : void {
 			// collided with grid?
 			if ( pCollisionData.otherCollider is PxGridColliderComponent ) {
+				trace( "o", pCollisionData.otherCollider.collisionLayer, pCollisionData.otherCollider.collisionLayerMask );
+				trace( "m", pCollisionData.myCollider.collisionLayer, pCollisionData.myCollider.collisionLayerMask );
 				if ( pCollisionData.overlap.y != 0 ) {
 					_onGround = true;
 					animComp.gotoAndPlay( "idle" );
 				}
 			} 
+
 			// collided with heart?
-			else if ( pCollisionData.otherCollider.entity is GoodPickup ) {
-				pCollisionData.otherCollider.entity.destroyIn( 0 );
-			} 
-			// collided with skull?
 			else if ( pCollisionData.otherCollider.entity is BadPickup ) {
 				die();
 			}
@@ -129,18 +146,6 @@ package examples.platformer {
 			}
 		}
 		
-		// reset the player character
-		public function reset() : void {
-			transform.position.x = 120;
-			transform.position.y = 32;
-			_alive = true;
-			_onGround = false;
-			bodyComp.velocity.x = bodyComp.velocity.y = 0;
-			animComp.gotoAndPlay( "idle" );
-			
-			boxColliderComp.collisionLayerMask = 1 + 2;
-			boxColliderComp.collisionLayer = 2;
-		}
 	
 	}
 

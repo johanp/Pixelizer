@@ -55,7 +55,6 @@ package examples.platformer {
 			
 			// create a player, and add it to the action layer
 			_player = new Player();
-			_player.reset();
 			_actionLayer.addEntity( _player );
 			
 			// each scene has a camera, set it to track the player
@@ -74,7 +73,7 @@ package examples.platformer {
 			}
 			
 			// play music
-			addEntity( new PxSoundEntity( AssetFactory.musicSound, null, true ) );
+			//addEntity( new PxSoundEntity( AssetFactory.musicSound, null, true ) );
 		}
 		
 		override public function dispose() : void {

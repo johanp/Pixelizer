@@ -67,7 +67,8 @@ package examples.spritesheet {
 			_animComp.gotoAndPlay( "run" );
 			e.addComponent( _animComp );
 			addEntity( e );
-			
+
+
 			addEntity( new PxTextFieldEntity( "Frames from SWF (high quality).         Frames from SWF (low quality)." ) ).transform.setPosition( 20, 20 );
 			addEntity( new PxTextFieldEntity( "Frames from image." ) ).transform.setPosition( 20, 120 );
 		}

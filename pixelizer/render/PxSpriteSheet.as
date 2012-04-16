@@ -15,7 +15,6 @@ package pixelizer.render {
 	 * @author Johan Peitz
 	 */
 	public class PxSpriteSheet {
-		private static var _storedSheets : Dictionary = new Dictionary();
 		
 		private var _frameOffsets : Array;
 		private var _framesDefault : Array;
@@ -97,7 +96,7 @@ package pixelizer.render {
 		 * @param pQuality	Quality to use while rendering frames.
 		 * @return Number of frames added.
 		 */
-		public function addFramesFromMovieClip( pMC : MovieClip, pQuality : String = StageQuality.LOW ) : int {
+		public function addFramesFromMovieClip( pMC : MovieClip, pQuality : String = StageQuality.LOW, pFlipFlags : int = 0 ) : int {
 			var currentQuality : String = Pixelizer.stage.quality;
 			Pixelizer.stage.quality = pQuality;
 			
@@ -106,12 +105,21 @@ package pixelizer.render {
 				
 				var bounds : Rectangle = pMC.getBounds( pMC );
 				
+				
 				var bd : BitmapData = new BitmapData( Math.ceil( bounds.width ), Math.ceil( bounds.height ), true, 0x0 );
 				var matrix : Matrix = new Matrix( 1, 0, 0, 1, -bounds.x, -bounds.y );
 				
 				bd.draw( pMC, matrix );
 				_framesDefault.push( bd );
 				_frameOffsets.push( new Point( int( -bounds.x ), int( -bounds.y ) ) );
+				
+				if ( pFlipFlags & Pixelizer.H_FLIP ) {
+					var bdHFlip : BitmapData = new BitmapData( bd.width, bd.height, true, 0x0 );
+					matrix = new Matrix( -1, 0, 0, 1, bd.width, 0 );
+					bdHFlip.draw( bd, matrix );
+					_framesHFlip.push( bdHFlip );
+				}
+				
 			}
 			
 			// revert quality settings
@@ -208,27 +216,6 @@ package pixelizer.render {
 			return _framesDefault[ pFrameID ];
 		}
 		
-		/**
-		 * Stores a sprite sheet for global use.
-		 * @param	pHandle	Identifier for the sprite sheet.
-		 * @param	pSheet	The sprite sheet to store.
-		 * @return	Stored sheet.
-		 */
-		public static function store( pHandle : String, pSheet : PxSpriteSheet ) : PxSpriteSheet {
-			_storedSheets[ pHandle ] = pSheet;
-			return pSheet;
-		}
-		
-		/**
-		 * Retrieves a sprite sheet previously stored.
-		 * @param	pHandle	Identifier of sprite sheet to fetch.
-		 * @return	Stored sprite sheet, or null if no sprite sheet was found.
-		 */
-		public static function fetch( pHandle : String ) : PxSpriteSheet {
-			if ( _storedSheets[ pHandle ] == null ) {
-				PxLog.log( "no sprite sheet found with handle '" + pHandle + "'", "[o PXSpriteSheet]", PxLog.WARNING );
-			}
-			return _storedSheets[ pHandle ];
-		}
+	
 	}
 }
