@@ -14,6 +14,10 @@ CHANGELOG
 * remove store and fetch functions from PxSpriteSheet and PxBitmapFont
 * added PxRepository for centralized storage
 * renamed functions for handling collision layers in in PxColliderComponent 
+* added shadow offset to PxTextComponent
+* added "POWERED BY" text to logo
+* fixed bug that caused jump through floors to sometimes pop entities up to their level
+* added basic input recording and playback
 
 
 2012-03-31, 0.4.2, "the fixer"

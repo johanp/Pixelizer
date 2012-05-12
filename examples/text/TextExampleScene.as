@@ -36,7 +36,7 @@ package examples.text {
 			addTextEntity( textEntity );
 			
 			// shadowed text
-			textEntity = new PxTextFieldEntity( "and have a dramatic shadow.", Pixelizer.COLOR_GRAY );
+			textEntity = new PxTextFieldEntity( "and have a dramatic shadow.", Pixelizer.COLOR_LIGHT_GRAY );
 			textEntity.textField.shadow = true;
 			textEntity.textField.shadowColor = Pixelizer.COLOR_BLUE;
 			addTextEntity( textEntity );

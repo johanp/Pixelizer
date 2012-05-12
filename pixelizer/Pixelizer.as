@@ -23,7 +23,9 @@ package pixelizer {
 		public static const COLOR_BLUE : int = 0x5CBCFC;
 		public static const COLOR_WHITE : int = 0xFFFFFF;
  		public static const COLOR_BLACK : int = 0x000000;
-		public static const COLOR_GRAY : int = 0xE6E6E6;
+		public static const COLOR_LIGHT_GRAY : int = 0xE6E6E6;
+		public static const COLOR_GRAY : int = 0xAAAAAA;
+		public static const COLOR_DARK_GRAY : int = 0x808080;
 		
 		public static const LEFT : int = 1;
 		public static const RIGHT : int = 2;

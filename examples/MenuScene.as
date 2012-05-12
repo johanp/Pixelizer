@@ -65,7 +65,7 @@ package examples {
 				}
 			}
 			
-			_clock = addEntity( new PxTextFieldEntity( "", Pixelizer.COLOR_GRAY ) ) as PxTextFieldEntity;
+			_clock = addEntity( new PxTextFieldEntity( "", Pixelizer.COLOR_LIGHT_GRAY ) ) as PxTextFieldEntity;
 			_clock.transform.setPosition( 10, 220 );
 		}
 		

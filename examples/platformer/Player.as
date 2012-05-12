@@ -36,7 +36,7 @@ package examples.platformer {
 			// set up collider 
 			boxColliderComp.setSize( 16, 16 );
 			boxColliderComp.registerCallbacks( onCollisionStart, onCollisionOngoing, onCollisionEnd );
-		
+			
 			reset();
 		}
 		

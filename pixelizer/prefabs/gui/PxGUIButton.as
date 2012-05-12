@@ -37,7 +37,7 @@ package pixelizer.prefabs.gui {
 			_textField.text = _label;
 			_textField.padding = 4;
 			_textField.background = true;
-			_textField.backgroundColor = Pixelizer.COLOR_GRAY;
+			_textField.backgroundColor = Pixelizer.COLOR_LIGHT_GRAY;
 			_textField.update( 0 );
 			addComponent( _textField );
 			
@@ -93,7 +93,7 @@ package pixelizer.prefabs.gui {
 		
 		protected function onMouseOut( pCollisionData : PxCollisionData ) : void {
 			_mouseIsOver = false;
-			_textField.backgroundColor = Pixelizer.COLOR_GRAY;
+			_textField.backgroundColor = Pixelizer.COLOR_LIGHT_GRAY;
 		}
 	
 	}

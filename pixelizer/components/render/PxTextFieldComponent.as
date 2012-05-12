@@ -1,5 +1,6 @@
 package pixelizer.components.render {
 	import flash.display.BitmapData;
+	import flash.geom.Point;
 	import pixelizer.Pixelizer;
 	import pixelizer.render.PxBitmapFont;
 	import pixelizer.utils.PxRepository;
@@ -16,6 +17,7 @@ package pixelizer.components.render {
 		protected var _outlineColor : int = 0x0;
 		protected var _shadow : Boolean = false;
 		protected var _shadowColor : int = 0x0;
+		protected var _shadowOffset : Point;
 		protected var _background : Boolean = false;
 		protected var _backgroundColor : int = 0xFFFFFF;
 		protected var _alignment : int = Pixelizer.LEFT;
@@ -31,6 +33,9 @@ package pixelizer.components.render {
 		public function PxTextFieldComponent() : void {
 			super();
 			_font = PxRepository.fetch( "_pixelizer_font" );
+			_shadowOffset = Pixelizer.pointPool.fetch();
+			_shadowOffset.x = 1;
+			_shadowOffset.y = 1;
 		}
 		
 		/**
@@ -38,6 +43,8 @@ package pixelizer.components.render {
 		 */
 		override public function dispose() : void {
 			_font = null;
+			Pixelizer.pointPool.recycle( _shadowOffset );
+			_shadowOffset = null;
 			super.dispose();
 		}
 		
@@ -142,7 +149,7 @@ package pixelizer.components.render {
 					oy += 1;
 				}
 				if ( _shadow ) {
-					_font.render( bitmapData, t, _shadowColor, 1 + ox + _padding, 1 + oy + row * fontHeight + _padding );
+					_font.render( bitmapData, t, _shadowColor, _shadowOffset.x + ox + _padding, _shadowOffset.y + oy + row * fontHeight + _padding );
 				}
 				_font.render( bitmapData, t, _color, ox + _padding, oy + row * fontHeight + _padding );
 				row++;
@@ -270,6 +277,14 @@ package pixelizer.components.render {
 		public function set font( pFont : PxBitmapFont ) : void {
 			_font = pFont;
 			_pendingTextChange = true;
+		}
+		
+		/**
+		 * Returns the offset parameter for text shadows.
+		 * @return a point
+		 */
+		public function get shadowOffset() : Point {
+			return _shadowOffset;
 		}
 	
 	}

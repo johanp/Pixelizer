@@ -49,8 +49,8 @@
 			
 			var dx : Number;
 			var dy : Number;
-			var cx : Number;
-			var cy : Number;
+			var cx : int;
+			var cy : int;
 			
 			// trace( pGrid.entity.transform.position.x );
 			
@@ -112,7 +112,7 @@
 									if ( bodyComp != null ) {
 										if ( bodyComp.velocity.y >= 0 ) {
 											if ( cy >= pBox.entity.transform.position.y ) {
-												var lastTY : int = ( bodyComp.lastPosition.y + pBox.collisionBox.halfHeight - 1 ) / pGrid.cellSize;
+												var lastTY : int = ( bodyComp.lastPosition.y + pBox.collisionBox.offsetY + pBox.collisionBox.halfHeight - 1 ) / pGrid.cellSize;
 												if ( lastTY < y ) {
 													pBox.entity.transform.position.y -= _pt.y;
 												}
@@ -126,7 +126,7 @@
 				}
 			}
 
-			// remove and adaptation to grid position
+			// remove adaptation to grid position
 			pBox.entity.transform.position.x += pGrid.entity.transform.position.x;
 			pBox.entity.transform.position.y += pGrid.entity.transform.position.y;
 			
