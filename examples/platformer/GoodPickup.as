@@ -1,5 +1,4 @@
 package examples.platformer {
-	import examples.assets.AssetFactory;
 	import flash.geom.Point;
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.components.PxBodyComponent;
@@ -19,6 +18,9 @@ package examples.platformer {
 	 */
 	public class GoodPickup extends PxActorEntity {
 		
+		[Embed( source="../assets/heart.mp3" )]
+		private static var heartSoundCls : Class;
+
 		public function GoodPickup() {
 			super();
 			
@@ -53,7 +55,7 @@ package examples.platformer {
 			var a : Number;
 			var colors : Array = [ 0xFF5750, 0xCC2E29, 0xFFA9A6, 0xFFFFFF ];
 			
-			PxSoundManager.play( AssetFactory.heartSound, transform.position );
+			PxSoundManager.play( new heartSoundCls(), transform.position );
 			
 			// emit particles
 			for ( var i : int = 0; i < 50; i++ ) {

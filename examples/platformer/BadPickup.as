@@ -1,5 +1,4 @@
 package examples.platformer {
-	import examples.assets.AssetFactory;
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.components.PxBodyComponent;
 	import pixelizer.components.render.PxAnimationComponent;
@@ -16,6 +15,9 @@ package examples.platformer {
 	 * @author Johan Peitz
 	 */
 	public class BadPickup extends PxActorEntity {
+		[Embed( source="../assets/explosion.mp3" )]
+		private static var explosionSoundCls : Class;
+
 		
 		public function BadPickup() {
 			super();
@@ -70,7 +72,7 @@ package examples.platformer {
 				parent.addEntity( p );
 			}
 			
-			PxSoundManager.play( AssetFactory.explosionSound, transform.position );
+			PxSoundManager.play( new explosionSoundCls(), transform.position );
 			
 			destroyIn( 0 );
 		}

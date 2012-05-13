@@ -1,5 +1,4 @@
 package examples.benchmark {
-	import examples.assets.AssetFactory;
 	import examples.collision.CollisionExampleScene;
 	import examples.emitter.EmittersExampleScene;
 	import examples.input.InputExampleScene;
@@ -20,6 +19,9 @@ package examples.benchmark {
 	
 	public class BenchmarkExampleScene extends PxScene {
 		
+		[Embed( source="../assets/pickups.png" )]
+		private static var pickupsCls : Class;
+
 		private var _testEntities : Array = [];
 		private var _infoText : PxTextFieldEntity;
 		private var _mode : int = 0;
@@ -29,7 +31,7 @@ package examples.benchmark {
 			backgroundColor = Pixelizer.COLOR_WHITE;
 			
 			// image to use
-			var bd : BitmapData = AssetFactory.pickups;
+			var bd : BitmapData = new pickupsCls().bitmapData;
 			
 			// position examples
 			for ( var i : int = 0; i < 500; i++ ) {

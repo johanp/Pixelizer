@@ -1,6 +1,5 @@
 package examples.platformer {
 	
-	import examples.assets.AssetFactory;
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.components.collision.PxGridColliderComponent;
 	import pixelizer.components.PxBodyComponent;
@@ -22,6 +21,9 @@ package examples.platformer {
 	 */
 	public class Player extends PxActorEntity {
 		
+		[Embed( source="../assets/jump.mp3" )]
+		private static var jumpSoundCls : Class;
+
 		private var _onGround : Boolean = false;
 		
 		private var _alive : Boolean = true;
@@ -83,7 +85,7 @@ package examples.platformer {
 					if ( PxInput.isDown( PxInput.KEY_UP ) ) {
 						bodyComp.velocity.y -= 11;
 						animComp.gotoAndPlay( "jump" );
-						addEntity( new PxSoundEntity( AssetFactory.jumpSound, Pixelizer.ZERO_POINT ) );
+						addEntity( new PxSoundEntity( new jumpSoundCls(), Pixelizer.ZERO_POINT ) );
 					}
 				}
 				
@@ -109,8 +111,6 @@ package examples.platformer {
 		private function onCollisionStart( pCollisionData : PxCollisionData ) : void {
 			// collided with grid?
 			if ( pCollisionData.otherCollider is PxGridColliderComponent ) {
-				trace( "o", pCollisionData.otherCollider.collisionLayer, pCollisionData.otherCollider.collisionLayerMask );
-				trace( "m", pCollisionData.myCollider.collisionLayer, pCollisionData.myCollider.collisionLayerMask );
 				if ( pCollisionData.overlap.y != 0 ) {
 					_onGround = true;
 					animComp.gotoAndPlay( "idle" );

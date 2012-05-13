@@ -1,5 +1,5 @@
 package examples.text {
-	import examples.assets.AssetFactory;
+	import pixelizer.components.PxTransformComponent;
 	import pixelizer.components.render.PxTextFieldComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
@@ -10,7 +10,12 @@ package examples.text {
 	
 	public class TextExampleScene extends PxScene {
 		
+		[Embed( source="../assets/round_font.png" )]
+		private static var roundFontCls : Class;
+
 		private var _fieldCount : int = 0;
+		
+		
 		
 		public function TextExampleScene() {
 			// bg color of scene
@@ -73,8 +78,10 @@ package examples.text {
 			addTextEntity( textEntity );
 			
 			// text with other font
+			var letters : String = " !\"#$%&'()*+,-./" + "0123456789:;<=>?" + "@ABCDEFGHIJKLMNO" + "PQRSTUVWXYZ[}]^_" + "'abcdefghijklmno" + "pqrstuvwxyz{|}~\\";
+			var font : PxBitmapFont = new PxBitmapFont( new roundFontCls().bitmapData, letters );
 			textEntity = new PxTextFieldEntity( "OH! A different font! Very fancy.", Pixelizer.COLOR_BLUE );
-			textEntity.textField.font = AssetFactory.roundFont;
+			textEntity.textField.font = font;
 			textEntity.textField.shadow = true;
 			textEntity.textField.shadowColor = Pixelizer.COLOR_RED;
 			addTextEntity( textEntity );

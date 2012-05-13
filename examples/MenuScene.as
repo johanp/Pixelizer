@@ -1,5 +1,4 @@
 package examples {
-	import examples.assets.AssetFactory;
 	import examples.benchmark.BenchmarkExampleScene;
 	import examples.collision.CollisionExampleScene;
 	import examples.emitter.EmittersExampleScene;

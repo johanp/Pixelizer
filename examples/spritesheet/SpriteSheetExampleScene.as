@@ -1,5 +1,4 @@
 package examples.spritesheet {
-	import examples.assets.AssetFactory;
 	import flash.display.MovieClip;
 	import flash.display.StageQuality;
 	import pixelizer.components.render.PxAnimationComponent;
@@ -20,6 +19,12 @@ package examples.spritesheet {
 	 */
 	public class SpriteSheetExampleScene extends PxScene {
 		
+		[Embed( source="../assets/player.png" )]
+		private static var playerBitmapCls : Class;
+
+		[Embed( source="../assets/animation.swf",symbol="animation" )]
+		private static var mcAnimationCls : Class;
+
 		private var _animComp : PxAnimationComponent;
 		private var _timePassed : Number = 0;
 		private var _animID : int = 0;
@@ -28,7 +33,7 @@ package examples.spritesheet {
 			var i : int;
 			
 			var sheet : PxSpriteSheet = new PxSpriteSheet();
-			var numFrames : int = sheet.addFramesFromMovieClip( AssetFactory.mc, StageQuality.HIGH );
+			var numFrames : int = sheet.addFramesFromMovieClip( new mcAnimationCls(), StageQuality.HIGH );
 			var frames : Array = [];
 			for ( i = 0; i < numFrames; i++ ) {
 				frames.push( i );
@@ -42,7 +47,7 @@ package examples.spritesheet {
 			addEntity( e );
 			
 			sheet = new PxSpriteSheet();
-			numFrames = sheet.addFramesFromMovieClip( AssetFactory.mc, StageQuality.LOW );
+			numFrames = sheet.addFramesFromMovieClip( new mcAnimationCls(), StageQuality.LOW );
 			frames = [];
 			for ( i = 0; i < numFrames; i++ ) {
 				frames.push( i );
@@ -56,7 +61,7 @@ package examples.spritesheet {
 			addEntity( e );
 			
 			sheet = new PxSpriteSheet();
-			sheet.addFramesFromBitmapData( AssetFactory.player, 16, 16 );
+			sheet.addFramesFromBitmapData( new playerBitmapCls().bitmapData, 16, 16 );
 			sheet.addAnimation( new PxAnimation( "idle", [ 0 ] ) );
 			sheet.addAnimation( new PxAnimation( "run", [ 0, 1 ], 10, PxAnimation.ANIM_LOOP ) );
 			sheet.addAnimation( new PxAnimation( "jump", [ 2 ] ) );

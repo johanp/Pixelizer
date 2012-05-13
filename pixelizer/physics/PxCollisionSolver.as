@@ -52,7 +52,6 @@
 			var cx : int;
 			var cy : int;
 			
-			// trace( pGrid.entity.transform.position.x );
 			
 			// modify box position to adapt to grid position
 			// will be set back to normal later

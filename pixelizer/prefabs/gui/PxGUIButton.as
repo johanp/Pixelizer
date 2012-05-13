@@ -1,6 +1,5 @@
 package pixelizer.prefabs.gui {
 	import pixelizer.components.collision.PxBoxColliderComponent;
-	import pixelizer.components.collision.PxBoxColliderRenderComponent;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.components.render.PxTextFieldComponent;
 	import pixelizer.physics.PxCollisionData;

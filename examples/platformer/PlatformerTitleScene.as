@@ -1,5 +1,4 @@
 package examples.platformer {
-	import examples.assets.AssetFactory;
 	import pixelizer.components.render.PxTextFieldComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
@@ -11,12 +10,21 @@ package examples.platformer {
 	import pixelizer.utils.PxRepository;
 	
 	public class PlatformerTitleScene extends PxScene {
+
+		[Embed( source="../assets/tiles.png" )]
+		private static var tilesBitmapCls : Class;
+		
+		[Embed( source="../assets/player.png" )]
+		private static var playerBitmapCls : Class;
+		
+		[Embed( source="../assets/pickups.png" )]
+		private static var pickupsBitmapCls : Class;
 		
 		public function PlatformerTitleScene() {
 			if ( PxRepository.fetch( "tiles" ) == null ) {
-				PxRepository.store( "tiles", new PxSpriteSheet() ).addFramesFromBitmapData( AssetFactory.tiles, 16, 16 );
-				PxRepository.store( "player", new PxSpriteSheet() ).addFramesFromBitmapData( AssetFactory.player, 16, 16, Pixelizer.H_FLIP );
-				PxRepository.store( "pickups", new PxSpriteSheet() ).addFramesFromBitmapData( AssetFactory.pickups, 16, 16, Pixelizer.H_FLIP );
+				PxRepository.store( "tiles", new PxSpriteSheet() ).addFramesFromBitmapData( new tilesBitmapCls().bitmapData, 16, 16 );
+				PxRepository.store( "player", new PxSpriteSheet() ).addFramesFromBitmapData( new playerBitmapCls().bitmapData, 16, 16, Pixelizer.H_FLIP );
+				PxRepository.store( "pickups", new PxSpriteSheet() ).addFramesFromBitmapData( new pickupsBitmapCls().bitmapData, 16, 16, Pixelizer.H_FLIP );
 				
 				// set up animations
 				PxRepository.fetch( "player" ).addAnimation( new PxAnimation( "idle", [ 0 ] ) );

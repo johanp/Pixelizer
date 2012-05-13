@@ -14,6 +14,7 @@ Features:
  * automated collision detection and response
  * spritesheets, animations and tilemaps
  * prerendering of movieclips
+ * recording and replaying of input streams
  * automatic panning and volume of moving sounds
  * exact mouse and keyboard input
  * fancy text rendering

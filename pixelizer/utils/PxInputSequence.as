@@ -1,6 +1,9 @@
 package pixelizer.utils {
 	import flash.utils.ByteArray;
 	
+	/**
+	 * Holds a sequence of input states.
+	 */
 	public class PxInputSequence {
 		
 		private var _posts : Array;
@@ -8,6 +11,9 @@ package pixelizer.utils {
 		private var _position : int;
 		private var _postPosition : int;
 		
+		/**
+		 * Creates a new sequence.
+		 */
 		public function PxInputSequence() {
 			_posts = new Array();
 			_position = 0;
@@ -15,6 +21,9 @@ package pixelizer.utils {
 			_currentPost = null;
 		}
 		
+		/**
+		 * Resets the sequence.
+		 */
 		public function reset() : void {
 			_position = 0;
 			_postPosition = 0;
@@ -22,12 +31,19 @@ package pixelizer.utils {
 			_currentPost = null;
 		}
 		
+		/**
+		 * Restarts the sequence. All data is kept, but start from the beginning.
+		 */
 		public function restart() : void {
 			_position = 0;
 			_postPosition = 0;
 			_currentPost = null;
 		}
 		
+		/**
+		 * Stores a post to the sequence.
+		 * @param	pInput Post to store.
+		 */
 		public function storePost( pInput : PxInputPost ) : void {
 			if ( _currentPost == null ) {
 				_currentPost = pInput;
@@ -42,6 +58,10 @@ package pixelizer.utils {
 			}
 		}
 		
+		/**
+		 * Fetches the next post in the queue.
+		 * @return	The next post in line.
+		 */
 		public function fetchPost() : PxInputPost {
 			if ( _currentPost == null ) {
 				_currentPost = _posts[ _position ];
@@ -58,6 +78,10 @@ package pixelizer.utils {
 			return _currentPost;
 		}
 		
+		/**
+		 * Returns a string representation of the sequence.
+		 * @return	String representation of the sequence
+		 */
 		public function toString() : String {
 			var s : String = "";
 			for each ( var p : PxInputPost in _posts ) {
@@ -70,6 +94,11 @@ package pixelizer.utils {
 			return s;
 		}
 		
+		/**
+		 * Populates the sequence using data from toString().
+		 * Restars the sequence.
+		 * @param	pData	Data to populate with.
+		 */
 		public function fromString( pData : String ) : void {
 			reset();
 			

@@ -17,6 +17,9 @@
 package pixelizer.utils {
 	import flash.utils.ByteArray;
 	
+	/**
+	 * Base64 functionality.
+	 */
 	public class PxBase64 {
 		private static const _encodeChars : Vector.<int> = InitEncoreChar();
 		private static const _decodeChars : Vector.<int> = InitDecodeChar();

@@ -23,7 +23,6 @@ package examples.replay {
 		}
 		
 		private function spawnEntity() : void {
-			trace( _currentEntity );
 			if ( _currentEntity != null ) {
 				_currentEntity.replay();
 			}
@@ -35,6 +34,11 @@ package examples.replay {
 			if ( PxInput.isPressed( PxInput.KEY_SPACE ) ) {
 				spawnEntity();
 			}
+			
+			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+				engine.popScene();
+			}
+			
 			
 			super.update( pDT );
 		}

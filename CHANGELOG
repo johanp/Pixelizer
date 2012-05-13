@@ -1,6 +1,6 @@
 CHANGELOG
 
-2012-mm-dd, 0.x.y, "the something something"
+2012-05-13, 0.4.3, "the squasher of bugs"
 * fixed underflow bug in collision detection code
 * fixed broken visibility control on tilemaps
 * fixed gotoAndStop in animation component to work before render component is detected
@@ -21,6 +21,7 @@ CHANGELOG
 * fixed bug that caused global sounds to be unmutable
 * added version number to PxLogoEntity
 * added simple record/replay example
+* removed AssetFactory in order to make examples easier to understand
 
 
 2012-03-31, 0.4.2, "the fixer"

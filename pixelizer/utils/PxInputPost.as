@@ -2,6 +2,10 @@ package pixelizer.utils {
 	import flash.utils.ByteArray;
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	
+	/**
+	 * Holds and input state, like up, down, jump, etc.
+	 * @author Johan Peitz
+	 */
 	public class PxInputPost {
 		public var left : Boolean = false;
 		public var right : Boolean = false;
@@ -12,6 +16,11 @@ package pixelizer.utils {
 		
 		public var duration : int = 0;
 		
+		/**
+		 * Checks if this input post is equal to another input post.
+		 * @param	pIP InputPost to check with.
+		 * @return	True if equal.
+		 */
 		public function equals( pIP : PxInputPost ) : Boolean {
 			if ( pIP.left != left )
 				return false;
@@ -29,11 +38,19 @@ package pixelizer.utils {
 			return true;
 		}
 		
+		/**
+		 * Returns this input post as a string.
+		 * @return String representation of inpit post.
+		 */
 		public function toString() : String {
 			return "" + ( left ? "L" : "" ) + ( right ? "R" : "" ) + ( up ? "U" : "" ) + ( down ? "D" : "" ) + ( jump ? "J" : "" ) + ( action ? "A" : "" ) + ";" + duration + "";
 		}
 		
-		
+		/**
+		 * Populates the input post from string data generated from toString().
+		 * @param	pData String with population data.
+		 * @return True is all went well. 
+		 */
 		public function fromString( pData : String ) : Boolean {
 			var parts : Array = pData.split( ";" );
 			
