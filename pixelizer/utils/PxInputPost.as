@@ -1,4 +1,5 @@
 package pixelizer.utils {
+	import flash.utils.ByteArray;
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	
 	public class PxInputPost {
@@ -28,31 +29,12 @@ package pixelizer.utils {
 			return true;
 		}
 		
-		public function getSerialized() : Object {
-			return { left: left, right: right, up: up, down: down, jump: jump, action: action, duration: duration };
-		}
-		
-		public function populateFromSerialized( o : Object ) : void {
-			left = o.left;
-			right = o.right;
-			up = o.up;
-			down = o.down;
-			jump = o.jump;
-			action = o.action;
-			duration = o.duration;
-		}
-		
 		public function toString() : String {
-			return "" + ( left ? "L" : " " ) + ( right ? "R" : " " ) + ( up ? "U" : " " ) + ( down ? "D" : " " ) + ( jump ? "J" : " " ) + ( action ? "A" : " " ) + " " + duration + " ";
-			;
+			return "" + ( left ? "L" : "" ) + ( right ? "R" : "" ) + ( up ? "U" : "" ) + ( down ? "D" : "" ) + ( jump ? "J" : "" ) + ( action ? "A" : "" ) + ";" + duration + "";
 		}
 		
-		public function getAsString() : String {
-			return ( left ? "L" : "" ) + ( right ? "R" : "" ) + ( up ? "U" : "" ) + ( down ? "D" : "" ) + ( jump ? "J" : "" ) + ( action ? "A" : "" ) + ";" + duration;
-			;
-		}
 		
-		public function setFromString( pData : String ) : Boolean {
+		public function fromString( pData : String ) : Boolean {
 			var parts : Array = pData.split( ";" );
 			
 			if ( parts.length != 2 ) return false;
@@ -65,8 +47,6 @@ package pixelizer.utils {
 			down = parts[ 0 ].indexOf( "D" ) != -1;
 			jump = parts[ 0 ].indexOf( "J" ) != -1;
 			action = parts[ 0 ].indexOf( "A" ) != -1;
-			
-			
 			
 			return true;
 		}

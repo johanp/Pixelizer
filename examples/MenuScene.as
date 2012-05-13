@@ -7,6 +7,7 @@ package examples {
 	import examples.input.InputExampleScene;
 	import examples.nesting.NestingExampleScene;
 	import examples.platformer.PlatformerTitleScene;
+	import examples.replay.ReplayExampleScene;
 	import examples.sound.SoundExampleScene;
 	import examples.spritesheet.SpriteSheetExampleScene;
 	import examples.text.TextExampleScene;
@@ -42,6 +43,7 @@ package examples {
 			_examples.push({ lbl: "Playing Sounds", cls: SoundExampleScene } );
 			_examples.push({ lbl: "Collisions", cls: CollisionExampleScene } );
 			_examples.push({ lbl: "Emitters", cls: EmittersExampleScene } );
+			_examples.push({ lbl: "Replays", cls: ReplayExampleScene } );
 			_examples.push({ lbl: "Platform Game", cls: PlatformerTitleScene } );
 			_examples.push({ lbl: "Benchmark", cls: BenchmarkExampleScene } );
 			

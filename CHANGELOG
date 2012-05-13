@@ -18,6 +18,9 @@ CHANGELOG
 * added "POWERED BY" text to logo
 * fixed bug that caused jump through floors to sometimes pop entities up to their level
 * added basic input recording and playback
+* fixed bug that caused global sounds to be unmutable
+* added version number to PxLogoEntity
+* added simple record/replay example
 
 
 2012-03-31, 0.4.2, "the fixer"

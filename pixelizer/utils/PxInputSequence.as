@@ -1,4 +1,5 @@
 package pixelizer.utils {
+	import flash.utils.ByteArray;
 	
 	public class PxInputSequence {
 		
@@ -57,48 +58,34 @@ package pixelizer.utils {
 			return _currentPost;
 		}
 		
-		public function getSerialized() : Array {
-			var s : Array = [];
-			for each ( var p : PxInputPost in _posts ) {
-				s.push( p.getSerialized() );
-			}
-			return s;
-		}
-		
-		public function populateFromSerialized( pSerializedArray : Array ) : void {
-			reset();
-			for each ( var o : Object in pSerializedArray ) {
-				var post : PxInputPost = new PxInputPost();
-				post.populateFromSerialized( o );
-				storePost( post );
-			}
-			restart();
-		}
-		
-		public function getAsString() : String {
+		public function toString() : String {
 			var s : String = "";
 			for each ( var p : PxInputPost in _posts ) {
-				s += p.getAsString() + ":";
+				s += p.toString() + ":";
 			}
+			
+			// lose the last ':'
+			s = s.substr( 0, s.length - 1 );
+
 			return s;
 		}
 		
-		public function setFromString( pData : String ) : Boolean {
-			// RJ;0:R;33:RJ;6:R;8:LJ;3:LRJ;0:RJ;16:R;8:RJ;2:R;5:
+		public function fromString( pData : String ) : void {
 			reset();
-			var parts : Array = pData.split( ":" );
-			for each( var part : String in parts ) {
-				if ( part.length > 0 ) {
-					var ip : PxInputPost = new PxInputPost();
-					if ( !ip.setFromString( part ) ) {
-						return false;
-					}
-					storePost( ip );
+			
+			var posts : Array = pData.split( ":" );
+			
+			for each ( var data : String in posts ) {
+				if ( data.length > 0 ) {
+					var post : PxInputPost = new PxInputPost();
+					post.fromString( data );
+					storePost( post );
 				}
 			}
 			restart();
-			return true;
 		}
+		
+		
 	
 	}
 }
