@@ -1,5 +1,4 @@
 package examples.sound {
-	import examples.assets.AssetFactory;
 	import flash.geom.Point;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.components.render.PxTextFieldComponent;
@@ -12,6 +11,8 @@ package examples.sound {
 	import pixelizer.utils.PxImageUtil;
 	
 	public class SoundExampleScene extends PxScene {
+		[Embed( source="../assets/sheep.mp3" )]
+		private static var sheepSoundCls : Class;
 		
 		public function SoundExampleScene() {
 			
@@ -54,7 +55,7 @@ package examples.sound {
 		
 		override public function update( pDT : Number ) : void {
 			if ( PxInput.mousePressed ) {
-				addEntity( new VisibleSoundEntity( AssetFactory.sheepSound, PxInput.mousePosition ) );
+				addEntity( new VisibleSoundEntity( new sheepSoundCls(), PxInput.mousePosition ) );
 					// could also have been
 					// PxSoundManager.play( new _sheepSound(), PxInput.mousePosition );
 					// but then we wouldn't see it

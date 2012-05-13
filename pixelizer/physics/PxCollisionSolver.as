@@ -4,6 +4,7 @@
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.components.collision.PxGridColliderComponent;
 	import pixelizer.components.PxBodyComponent;
+	import pixelizer.Pixelizer;
 	
 	/**
 	 * Helper class to solve collisions detected by the collision manager.
@@ -37,7 +38,9 @@
 			var tx2 : int;
 			var ty2 : int;
 			
-			var curPos : Point = pBox.entity.transform.position.clone();
+			var curPos : Point = Pixelizer.pointPool.fetch();
+			curPos.x = pBox.entity.transform.position.x;
+			curPos.y = pBox.entity.transform.position.y;
 			
 			var x : int;
 			var y : int;
@@ -46,10 +49,9 @@
 			
 			var dx : Number;
 			var dy : Number;
-			var cx : Number;
-			var cy : Number;
+			var cx : int;
+			var cy : int;
 			
-			// trace( pGrid.entity.transform.position.x );
 			
 			// modify box position to adapt to grid position
 			// will be set back to normal later
@@ -67,7 +69,6 @@
 				for ( x = tx1; x <= tx2; x++ ) {
 					tile = pGrid.getCell( x, y );
 					if ( tile > 0 ) {
-						
 						// tile center point
 						cx = x * pGrid.cellSize + ths;
 						cy = y * pGrid.cellSize + ths;
@@ -110,7 +111,7 @@
 									if ( bodyComp != null ) {
 										if ( bodyComp.velocity.y >= 0 ) {
 											if ( cy >= pBox.entity.transform.position.y ) {
-												var lastTY : int = ( bodyComp.lastPosition.y + pBox.collisionBox.halfHeight - 1 ) / pGrid.cellSize;
+												var lastTY : int = ( bodyComp.lastPosition.y + pBox.collisionBox.offsetY + pBox.collisionBox.halfHeight - 1 ) / pGrid.cellSize;
 												if ( lastTY < y ) {
 													pBox.entity.transform.position.y -= _pt.y;
 												}
@@ -124,17 +125,25 @@
 				}
 			}
 
-			// remove and adaptation to grid position
+			// remove adaptation to grid position
 			pBox.entity.transform.position.x += pGrid.entity.transform.position.x;
 			pBox.entity.transform.position.y += pGrid.entity.transform.position.y;
 			
 			// calc collision response
 			_pt.x = pBox.entity.transform.position.x - curPos.x;
 			_pt.y = pBox.entity.transform.position.y - curPos.y;
+			if ( Math.abs( _pt.x ) < 0.00000001 ) {
+				_pt.x = 0;
+			}
+			if ( Math.abs( _pt.y ) < 0.00000001 ) {
+				_pt.y = 0;
+			}
 			
 			// reset box to original position
 			pBox.entity.transform.position.x = curPos.x;
 			pBox.entity.transform.position.y = curPos.y;
+			
+			Pixelizer.pointPool.recycle( curPos );
 			
 			return _pt;
 		

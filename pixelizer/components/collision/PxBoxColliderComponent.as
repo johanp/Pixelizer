@@ -19,9 +19,6 @@ package pixelizer.components.collision {
 		public function PxBoxColliderComponent( pWidth : Number, pHeight : Number, pSolid : Boolean = true ) {
 			super( pSolid );
 			collisionBox = new PxAABB( pWidth, pHeight, pWidth / 2, pHeight / 2 );
-			addCollisionLayer( 1 ); // i'm a box
-			addCollisionLayerMask( 0 ); // grids 
-			addCollisionLayerMask( 1 ); // other boxes
 		}
 		
 		/**

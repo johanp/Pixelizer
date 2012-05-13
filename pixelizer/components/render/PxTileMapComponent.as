@@ -13,7 +13,6 @@ package pixelizer.components.render {
 	 */
 	public class PxTileMapComponent extends PxBlitRenderComponent {
 		private var _grid : PxGrid;
-		private var _tileSize : int = 16;
 		
 		private var _numTiles : int = 0;
 		
@@ -73,14 +72,6 @@ package pixelizer.components.render {
 		}
 		
 		/**
-		 * Returns the size of tiles.
-		 * @return Size of tiles.
-		 */
-		public function get tileSize() : int {
-			return _tileSize;
-		}
-		
-		/**
 		 * Returns number of tiles in the map.
 		 * @return Amount of tiles in map.
 		 */
@@ -110,6 +101,9 @@ package pixelizer.components.render {
 		 * @param	pRenderStats	Render stats to update.
 		 */
 		override public function render( pView : Rectangle, pBitmapData : BitmapData, pOffset : Point, pRotation : Number, pScaleX : Number, pScaleY : Number, pRenderStats : PxRenderStats ) : void {
+			if ( !visible )
+				return;
+
 			var tileSize : int = _tileSheet.spriteWidth;
 			
 			var objsRendered : int = 0;

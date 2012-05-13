@@ -1,6 +1,7 @@
 package pixelizer.render {
 	import flash.display.BitmapData;
 	import pixelizer.render.PxBitmapFont;
+	import pixelizer.utils.PxRepository;
 	
 	/**
 	 * Creates a default font. This is done automatically when intializing Pixelizer.
@@ -39,7 +40,7 @@ package pixelizer.render {
 				letterPos++;
 			}
 			
-			PxBitmapFont.store( "default", new PxBitmapFont( bd, letters ) );
+			PxRepository.store( "_pixelizer_font", new PxBitmapFont( bd, letters ) );
 			bd.dispose();
 		}
 	}

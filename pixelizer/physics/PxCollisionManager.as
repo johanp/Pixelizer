@@ -200,7 +200,7 @@ package pixelizer.physics {
 			if ( collision ) {
 				return _overlap;
 			}
-			
+		
 			return null;
 		}
 	

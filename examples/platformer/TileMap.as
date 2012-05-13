@@ -3,6 +3,7 @@ package examples.platformer {
 	import pixelizer.components.render.PxTileMapComponent;
 	import pixelizer.PxEntity;
 	import pixelizer.render.PxSpriteSheet;
+	import pixelizer.utils.PxRepository;
 	
 	/**
 	 * Shows tiled graphics and holds the collision for the tilemap
@@ -20,13 +21,13 @@ package examples.platformer {
 			_height = pLevelXML.@height;
 			
 			// add collision
-			_gridComponent = new PxGridColliderComponent( _width, _height );
+			_gridComponent = new PxGridColliderComponent( _width, _height, 16 );
 			_gridComponent.grid.populateFromBitString( pLevelXML[ "solid" ][ 0 ], 1 );
 			_gridComponent.grid.populateFromBitString( pLevelXML[ "jump_through" ][ 0 ], 2, false );
 			addComponent( _gridComponent );
 			
 			// add tiled graphics
-			var tileMapComp : PxTileMapComponent = new PxTileMapComponent( _width, _height, PxSpriteSheet.fetch( "tiles" ) );
+			var tileMapComp : PxTileMapComponent = new PxTileMapComponent( _width, _height, PxRepository.fetch( "tiles" ) );
 			tileMapComp.populateFromXML( pLevelXML[ "background" ][ 0 ] );
 			addComponent( tileMapComp );
 		}

@@ -1,5 +1,4 @@
 package examples {
-	import examples.assets.AssetFactory;
 	import examples.benchmark.BenchmarkExampleScene;
 	import examples.collision.CollisionExampleScene;
 	import examples.emitter.EmittersExampleScene;
@@ -7,6 +6,7 @@ package examples {
 	import examples.input.InputExampleScene;
 	import examples.nesting.NestingExampleScene;
 	import examples.platformer.PlatformerTitleScene;
+	import examples.replay.ReplayExampleScene;
 	import examples.sound.SoundExampleScene;
 	import examples.spritesheet.SpriteSheetExampleScene;
 	import examples.text.TextExampleScene;
@@ -42,6 +42,7 @@ package examples {
 			_examples.push({ lbl: "Playing Sounds", cls: SoundExampleScene } );
 			_examples.push({ lbl: "Collisions", cls: CollisionExampleScene } );
 			_examples.push({ lbl: "Emitters", cls: EmittersExampleScene } );
+			_examples.push({ lbl: "Replays", cls: ReplayExampleScene } );
 			_examples.push({ lbl: "Platform Game", cls: PlatformerTitleScene } );
 			_examples.push({ lbl: "Benchmark", cls: BenchmarkExampleScene } );
 			
@@ -65,7 +66,7 @@ package examples {
 				}
 			}
 			
-			_clock = addEntity( new PxTextFieldEntity( "", Pixelizer.COLOR_GRAY ) ) as PxTextFieldEntity;
+			_clock = addEntity( new PxTextFieldEntity( "", Pixelizer.COLOR_LIGHT_GRAY ) ) as PxTextFieldEntity;
 			_clock.transform.setPosition( 10, 220 );
 		}
 		

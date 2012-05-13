@@ -1,5 +1,4 @@
 package examples.platformer {
-	import examples.assets.AssetFactory;
 	import flash.geom.Point;
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.components.collision.PxBoxColliderRenderComponent;
@@ -25,6 +24,10 @@ package examples.platformer {
 		// the level xml
 		[Embed( source='../assets/platformer.oel',mimeType="application/octet-stream" )]
 		public static const LevelData : Class;
+		
+		[Embed( source="../assets/music_loop.mp3" )]
+		private static var musicSoundCls : Class;
+		
 		
 		// layers to better control where things are drawn
 		private var _bgLayer : PxEntity;
@@ -55,7 +58,6 @@ package examples.platformer {
 			
 			// create a player, and add it to the action layer
 			_player = new Player();
-			_player.reset();
 			_actionLayer.addEntity( _player );
 			
 			// each scene has a camera, set it to track the player
@@ -74,7 +76,7 @@ package examples.platformer {
 			}
 			
 			// play music
-			addEntity( new PxSoundEntity( AssetFactory.musicSound, null, true ) );
+			addEntity( new PxSoundEntity( new musicSoundCls(), null, true ) );
 		}
 		
 		override public function dispose() : void {

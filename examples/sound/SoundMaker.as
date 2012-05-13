@@ -1,5 +1,4 @@
 package examples.sound {
-	import examples.assets.AssetFactory;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.PxEntity;
@@ -11,13 +10,16 @@ package examples.sound {
 	 */
 	public class SoundMaker extends PxEntity {
 		
+		[Embed( source="../assets/bird_song.mp3" )]
+		private static var birdSoundCls : Class;
+
 		private var _timePassed : Number = 0;
 		
 		public function SoundMaker() {
 			super( 160, 120 );
 			addComponent( new PxBlitRenderComponent( PxImageUtil.createRect( 32, 32, Pixelizer.COLOR_BLUE ) ) );
 			
-			addEntity( new VisibleSoundEntity( AssetFactory.birdSound, Pixelizer.ZERO_POINT, true ) );
+			addEntity( new VisibleSoundEntity( new birdSoundCls(), Pixelizer.ZERO_POINT, true ) );
 		}
 		
 		override public function update( pDT : Number ) : void {

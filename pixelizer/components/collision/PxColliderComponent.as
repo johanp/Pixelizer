@@ -154,36 +154,36 @@ package pixelizer.components.collision {
 		}
 		
 		/**
-		 * Adds a collision layer from the collider.
-		 * @param	pLayerBit	Which bit to remove. 
+		 * Adds collider to a collision layer.
+		 * @param	pLayerID 	Which layer to add collider to. 
 		 */
-		public function addCollisionLayer( pLayerBit : int ):void {
-			collisionLayer |= ( 1 << pLayerBit );
+		public function addToCollisionLayer( pLayerID : int ):void {
+			collisionLayer |= ( 1 << pLayerID );
 		}
 		
 		/**
-		 * Removes a collision layer from the collider.
-		 * @param	pLayerBit	Which bit to remove. 
+		 * Removes a collider from a collision layer.
+		 * @param	pLayerID	Which layer to remove from. 
 		 */
-		public function removeCollisionLayer( pLayerBit : int ) : void {
-			collisionLayer &= ( ~ ( 1 << pLayerBit ) );
+		public function removeFromCollisionLayer( pLayerID : int ) : void {
+			collisionLayer &= ( ~ ( 1 << pLayerID ) );
 		}
 		
 		
 		/**
-		 * Adds a collision layer mask to the collider.
-		 * @param	pLayerBit	Which bit to add. 
+		 * Adds a collision layer to collide with.
+		 * @param	pLayerID 	Which layer to add. 
 		 */
-		public function addCollisionLayerMask( pLayerBit : int ):void {
-			collisionLayerMask |= ( 1 << pLayerBit );
+		public function enableCollisionWithCollisionLayer( pLayerID : int ):void {
+			collisionLayerMask |= ( 1 << pLayerID );
 		}
 		
 		/**
-		 * Removes a collision layer mask from the collider.
-		 * @param	pLayerBit	Which bit to remove. 
+		 * Removes a collision layer to no longer collide with.
+		 * @param	pLayerID	Which layer to remove. 
 		 */
-		public function removeCollisionLayerMask( pLayerBit : int ) : void {
-			collisionLayerMask &= ( ~ ( 1 << pLayerBit ) );
+		public function disableCollisionWithCollisionLayer( pLayerID : int ) : void {
+			collisionLayerMask &= ( ~ ( 1 << pLayerID ) );
 		}
 		
 		

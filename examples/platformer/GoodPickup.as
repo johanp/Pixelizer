@@ -1,5 +1,4 @@
 package examples.platformer {
-	import examples.assets.AssetFactory;
 	import flash.geom.Point;
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.components.PxBodyComponent;
@@ -11,6 +10,7 @@ package examples.platformer {
 	import pixelizer.render.PxSpriteSheet;
 	import pixelizer.sound.PxSoundManager;
 	import pixelizer.utils.PxMath;
+	import pixelizer.utils.PxRepository;
 	
 	/**
 	 * ...
@@ -18,10 +18,13 @@ package examples.platformer {
 	 */
 	public class GoodPickup extends PxActorEntity {
 		
+		[Embed( source="../assets/heart.mp3" )]
+		private static var heartSoundCls : Class;
+
 		public function GoodPickup() {
 			super();
 			
-			animComp.spriteSheet = PxSpriteSheet.fetch( "pickups" );
+			animComp.spriteSheet = PxRepository.fetch( "pickups" );
 			animComp.gotoAndPlay( "good" );
 			
 			// the body handles velocities 
@@ -29,7 +32,7 @@ package examples.platformer {
 			
 			boxColliderComp.setSize( 16, 16 );
 			boxColliderComp.solid = false;
-			boxColliderComp.collisionLayerMask = 0;
+			boxColliderComp.addToCollisionLayer( 1 );// pick ups
 			boxColliderComp.registerCallbacks( onCollisionStart );
 		
 		}
@@ -52,7 +55,7 @@ package examples.platformer {
 			var a : Number;
 			var colors : Array = [ 0xFF5750, 0xCC2E29, 0xFFA9A6, 0xFFFFFF ];
 			
-			PxSoundManager.play( AssetFactory.heartSound, transform.position );
+			PxSoundManager.play( new heartSoundCls(), transform.position );
 			
 			// emit particles
 			for ( var i : int = 0; i < 50; i++ ) {
@@ -84,6 +87,8 @@ package examples.platformer {
 				f = 10000 / ( dist * dist );
 				g.addVelocity( -f * PxMath.cos( a ), -f * Math.sin( a ) );
 			}
+			
+			destroyIn( 0 );
 		}
 		
 		public function addVelocity( pVX : Number, pVY : Number ) : void {

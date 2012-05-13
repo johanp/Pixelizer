@@ -44,7 +44,7 @@ package pixelizer.sound {
 			}
 			
 			if ( _isGlobal ) {
-				_soundTransform = new SoundTransform();
+				_soundTransform = new SoundTransform( PxSoundManager.globalVolume );
 			} else {
 				_soundTransform = new SoundTransform( 0, 0 );
 			}
@@ -91,6 +91,9 @@ package pixelizer.sound {
 					updateSoundTransform( transform.positionOnScene );
 					_soundChannel.soundTransform = _soundTransform;
 				}
+			}
+			if ( _isGlobal ) {
+				setVolumeToGlobalVolume();
 			}
 			
 			super.update( pDT );
@@ -158,6 +161,14 @@ package pixelizer.sound {
 				play();
 			} else {
 				destroyIn( 0 );
+			}
+		}
+		
+		public function setVolumeToGlobalVolume() : void {
+			if ( _soundChannel != null ) {
+				_soundTransform.pan = 0;
+				_soundTransform.volume = PxSoundManager.globalVolume;
+				_soundChannel.soundTransform = _soundTransform
 			}
 		}
 	
