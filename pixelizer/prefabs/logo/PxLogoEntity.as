@@ -2,6 +2,7 @@ package pixelizer.prefabs.logo {
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.components.render.PxTextFieldComponent;
 	import pixelizer.Pixelizer;
+	import pixelizer.prefabs.gui.PxTextFieldEntity;
 	import pixelizer.PxEntity;
 	import pixelizer.PxInput;
 	import pixelizer.utils.PxImageUtil;
@@ -19,6 +20,7 @@ package pixelizer.prefabs.logo {
 		private var _fadeOut : Boolean = false;
 		private var _bg : PxBlitRenderComponent;
 		private var _textComp : PxTextFieldComponent;
+		private var _versionEntity : PxTextFieldEntity;
 		
 		private var _onLogoComplete : Function;
 		
@@ -47,9 +49,15 @@ package pixelizer.prefabs.logo {
 			_textComp.text = "POWERED BY";
 			_textComp.color = Pixelizer.COLOR_GRAY;
 			_textComp.setHotspot( -9, 60 );
-			//_textComp.setHotspot( 67, 60 );
 			_textComp.alpha = 0;
 			addComponent( _textComp );
+			
+			_versionEntity = new PxTextFieldEntity();
+			_versionEntity.textField.text = "v" + Pixelizer.MAJOR_VERSION + "." + Pixelizer.MINOR_VERSION + "." + Pixelizer.INTERNAL_VERSION;
+			_versionEntity.textField.color = Pixelizer.COLOR_GRAY;
+			_versionEntity.textField.alpha = 0;
+			_versionEntity.transform.setPosition( Pixelizer.engine.width / 2 - 26, - Pixelizer.engine.height / 2 + 2);
+			addEntity( _versionEntity );
 			
 			_timePassed = 0;
 			Pixelizer.engine.resetTimers();
@@ -58,6 +66,7 @@ package pixelizer.prefabs.logo {
 		override public function dispose() : void {
 			_bg = null;
 			_textComp = null;
+			_versionEntity = null;
 			super.dispose();
 		}
 		
@@ -68,11 +77,13 @@ package pixelizer.prefabs.logo {
 				if ( _timePassed > 1 && _timePassed < 2 ) {
 					if ( _textComp.alpha < 1 ) {
 						_textComp.alpha += 0.05;
+						_versionEntity.textField.alpha += 0.05;
 					}
 				}
 				if ( _timePassed > 3.5 && _timePassed < 4.5 ) {
 					if ( _textComp.alpha > 0 ) {
 						_textComp.alpha -= 0.05;
+						_versionEntity.textField.alpha -= 0.05;
 					}
 				}
 			}
@@ -84,6 +95,7 @@ package pixelizer.prefabs.logo {
 			} else {
 				if ( PxInput.isPressed( PxInput.KEY_ESC ) || PxInput.mousePressed ) {
 					_textComp.alpha = 0;
+					_versionEntity.textField.alpha = 0;
 					_fadeOut = true;
 					for each ( var e : PxEntity in entities ) {
 						e.destroyIn( 0 );
