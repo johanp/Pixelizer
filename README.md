@@ -14,12 +14,14 @@ Features:
  * automated collision detection and response
  * spritesheets, animations and tilemaps
  * prerendering of movieclips
+ * recording and replaying of input streams
  * automatic panning and volume of moving sounds
  * exact mouse and keyboard input
  * fancy text rendering
  * handy math and string routines
  * effective object pools
  * useful logging
+ * persistent storage to lower memory foot print
  * and much more
 	
 	

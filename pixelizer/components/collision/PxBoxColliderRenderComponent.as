@@ -3,6 +3,7 @@ package pixelizer.components.collision
 	import flash.display.BitmapData;
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.components.render.PxBlitRenderComponent;
+	import pixelizer.utils.PxLog;
 	
 	/**
 	 * Renders a box collider. Add this component to an entity to have it's box collider render automatically.
@@ -44,7 +45,7 @@ package pixelizer.components.collision
 					bitmapData.dispose();
 				}
 				bitmapData = new BitmapData( _boxColliderComp.collisionBox.halfWidth * 2, _boxColliderComp.collisionBox.halfHeight * 2, false, 0xFF00FF );
-			
+				setHotspot( _boxColliderComp.collisionBox.halfWidth - _boxColliderComp.collisionBox.offsetX, _boxColliderComp.collisionBox.halfHeight - _boxColliderComp.collisionBox.offsetY );
 			}
 
 			// keep calm and carry on

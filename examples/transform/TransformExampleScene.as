@@ -1,5 +1,4 @@
 package examples.transform {
-	import examples.assets.AssetFactory;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.geom.Point;
@@ -13,6 +12,9 @@ package examples.transform {
 	import pixelizer.utils.PxMath;
 	
 	public class TransformExampleScene extends PxScene {
+		[Embed( source="../assets/box.png" )]
+		private static var boxCls : Class;
+
 		private var _yScaleEntity : PxEntity;
 		private var _xScaleEntity : PxEntity;
 		private var _rotatingEntity : PxEntity;
@@ -36,7 +38,7 @@ package examples.transform {
 			addEntity( textEntity );
 			
 			// image to use
-			var bd : BitmapData = AssetFactory.box;
+			var bd : BitmapData = new boxCls().bitmapData;
 			
 			// position examples
 			_stillEntity = new PxEntity( 40, 80 );

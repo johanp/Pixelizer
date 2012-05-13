@@ -1,5 +1,4 @@
 package examples.platformer {
-	import examples.assets.AssetFactory;
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.components.PxBodyComponent;
 	import pixelizer.components.render.PxAnimationComponent;
@@ -9,25 +8,29 @@ package examples.platformer {
 	import pixelizer.PxEntity;
 	import pixelizer.render.PxSpriteSheet;
 	import pixelizer.sound.PxSoundManager;
+	import pixelizer.utils.PxRepository;
 	
 	/**
 	 * ...
 	 * @author Johan Peitz
 	 */
 	public class BadPickup extends PxActorEntity {
+		[Embed( source="../assets/explosion.mp3" )]
+		private static var explosionSoundCls : Class;
+
 		
 		public function BadPickup() {
 			super();
 			
 			// anim comp, to handle animations
-			animComp.spriteSheet = PxSpriteSheet.fetch( "pickups" );
+			animComp.spriteSheet = PxRepository.fetch( "pickups" );
 			animComp.gotoAndPlay( "bad" );
 			
 			bodyComp.mass = 0;
 			
 			boxColliderComp.setSize( 16, 16 );
-			boxColliderComp.solid = false;
-			boxColliderComp.collisionLayerMask = 0;
+			boxColliderComp.solid = true;
+			boxColliderComp.addToCollisionLayer( 1 ); // pickups
 			boxColliderComp.registerCallbacks( onCollisionStart );
 		
 		}
@@ -69,7 +72,7 @@ package examples.platformer {
 				parent.addEntity( p );
 			}
 			
-			PxSoundManager.play( AssetFactory.explosionSound, transform.position );
+			PxSoundManager.play( new explosionSoundCls(), transform.position );
 			
 			destroyIn( 0 );
 		}

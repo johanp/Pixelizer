@@ -1,5 +1,29 @@
 CHANGELOG
 
+2012-05-13, 0.4.3, "the squasher of bugs"
+* fixed underflow bug in collision detection code
+* fixed broken visibility control on tilemaps
+* fixed gotoAndStop in animation component to work before render component is detected
+* minor changes to the collision example
+* removed default values on grid collider construction
+* added NO_FLIP to Pixelizer constants
+* added possibility to horizontally flip movieclip pre rendering
+* fixed bug that caused non animated animations not to flip when needed
+* fixed box collider not to collide with grids and other boxes by default
+* fixed to that animation component doesn't crash if animation not found
+* remove store and fetch functions from PxSpriteSheet and PxBitmapFont
+* added PxRepository for centralized storage
+* renamed functions for handling collision layers in in PxColliderComponent 
+* added shadow offset to PxTextComponent
+* added "POWERED BY" text to logo
+* fixed bug that caused jump through floors to sometimes pop entities up to their level
+* added basic input recording and playback
+* fixed bug that caused global sounds to be unmutable
+* added version number to PxLogoEntity
+* added simple record/replay example
+* removed AssetFactory in order to make examples easier to understand
+
+
 2012-03-31, 0.4.2, "the fixer"
 * fixed so that scaling propagates to nested entities
 * fixed so that scaling affects render position

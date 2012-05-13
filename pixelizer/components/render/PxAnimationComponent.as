@@ -1,6 +1,7 @@
 package pixelizer.components.render {
 	
 	import flash.geom.Point;
+	import flash.utils.getTimer;
 	import pixelizer.components.PxComponent;
 	import pixelizer.PxEntity;
 	import pixelizer.render.PxAnimation;
@@ -15,6 +16,7 @@ package pixelizer.components.render {
 		private var _renderComponentRef : PxBlitRenderComponent = null;
 		private var _currentAnimation : PxAnimation = null;
 		private var _currentAnimationFrame : int;
+		private var _currentSpriteSheetFrame : int;
 		private var _animationPlaying : Boolean = false;
 		private var _frameTimer : Number;
 		private var _frameDuration : Number = 0.1;
@@ -22,6 +24,7 @@ package pixelizer.components.render {
 		private var _flipFlags : int = 0;
 		private var _lastFlipFlags : int = 0;
 		private var _currentAnimationLabel : String;
+		private var _renderComponentNeedsUpdate : Boolean = false;
 		
 		/**
 		 * Creates a new component.
@@ -63,7 +66,8 @@ package pixelizer.components.render {
 		 */
 		public function gotoAndStop( pFrame : int ) : void {
 			_animationPlaying = false;
-			updateRenderComponent( pFrame );
+			_currentSpriteSheetFrame = pFrame;
+			_renderComponentNeedsUpdate = true;
 		}
 		
 		/**
@@ -74,16 +78,21 @@ package pixelizer.components.render {
 		public function gotoAndPlay( pLabel : String, pRestart : Boolean = true ) : void {
 			if ( !pRestart && _currentAnimationLabel == pLabel && _flipFlags == _lastFlipFlags )
 				return;
-			_currentAnimationLabel = pLabel;
+				
 			
-			_currentAnimation = _spriteSheet.getAnimation( _currentAnimationLabel );
-			_currentAnimationFrame = 0;
-			_animationPlaying = true;
-			_frameTimer = 0;
-			_frameDuration = 1 / _currentAnimation.fps;
+			_currentAnimation = _spriteSheet.getAnimation( pLabel );
+			if ( _currentAnimation != null ) {
+				_currentAnimationLabel = pLabel;
+				
+				_currentAnimationFrame = 0;
+				_animationPlaying = true;
+				_frameTimer = 0;
+				_frameDuration = 1 / _currentAnimation.fps;
 			
-			// show first frame
-			updateRenderComponent( _currentAnimation.frames[ _currentAnimationFrame ] );
+				// show first frame
+				_currentSpriteSheetFrame = _currentAnimation.frames[ _currentAnimationFrame ];
+				_renderComponentNeedsUpdate = true;
+			}
 		
 		}
 		
@@ -118,8 +127,14 @@ package pixelizer.components.render {
 						}
 					}
 					
-					updateRenderComponent( _currentAnimation.frames[ _currentAnimationFrame ] );
+					_currentSpriteSheetFrame = _currentAnimation.frames[ _currentAnimationFrame ];
+					_renderComponentNeedsUpdate = true;
+				
 				}
+			}
+			
+			if ( _renderComponentNeedsUpdate ) {
+				updateRenderComponent();
 			}
 			
 			_lastFlipFlags = _flipFlags;
@@ -130,7 +145,8 @@ package pixelizer.components.render {
 		 */
 		public function set spriteSheet( pSpriteSheet : PxSpriteSheet ) : void {
 			_spriteSheet = pSpriteSheet;
-			updateRenderComponent( 0 );
+			_currentSpriteSheetFrame = 0;
+			_renderComponentNeedsUpdate = true;
 		}
 		
 		/**
@@ -147,14 +163,21 @@ package pixelizer.components.render {
 		public function set flip( pFlipFlags : int ) : void {
 			_lastFlipFlags = _flipFlags;
 			_flipFlags = pFlipFlags;
+			if ( _lastFlipFlags != pFlipFlags ) {
+				_renderComponentNeedsUpdate = true;
+			}
 		}
 		
-		private function updateRenderComponent( pFrame : int ) : void {
+		private function updateRenderComponent() : void {
 			if ( _renderComponentRef != null ) {
-				_renderComponentRef.bitmapData = _spriteSheet.getFrame( pFrame, _flipFlags );
-				var offset : Point = _spriteSheet.getFrameOffset( pFrame, _flipFlags );
-				_renderComponentRef.renderOffset.x = offset.x;
-				_renderComponentRef.renderOffset.y = offset.y;
+				_renderComponentRef.bitmapData = _spriteSheet.getFrame( _currentSpriteSheetFrame, _flipFlags );
+				if ( _renderComponentRef != null ) {
+					var offset : Point = _spriteSheet.getFrameOffset( _currentSpriteSheetFrame, _flipFlags );
+					_renderComponentRef.renderOffset.x = offset.x;
+					_renderComponentRef.renderOffset.y = offset.y;
+				
+					_renderComponentNeedsUpdate = false;
+				}
 			}
 		}
 		

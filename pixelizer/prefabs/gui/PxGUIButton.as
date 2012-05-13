@@ -8,6 +8,7 @@ package pixelizer.prefabs.gui {
 	import pixelizer.PxInput;
 	import pixelizer.render.PxBitmapFont;
 	import pixelizer.utils.PxImageUtil;
+	import pixelizer.utils.PxRepository;
 	
 	/**
 	 * Contains a simple button which can be clicked. A PxMouseEntity must be on the scene in order for
@@ -31,11 +32,11 @@ package pixelizer.prefabs.gui {
 			_onClickedFunction = pOnClickedFunction;
 			
 			_textField = new PxTextFieldComponent();
-			_textField.width = PxBitmapFont.fetch( "default" ).getTextWidth( pLabel );
+			_textField.width = PxRepository.fetch( "_pixelizer_font" ).getTextWidth( pLabel );
 			_textField.text = _label;
 			_textField.padding = 4;
 			_textField.background = true;
-			_textField.backgroundColor = Pixelizer.COLOR_GRAY;
+			_textField.backgroundColor = Pixelizer.COLOR_LIGHT_GRAY;
 			_textField.update( 0 );
 			addComponent( _textField );
 			
@@ -44,7 +45,6 @@ package pixelizer.prefabs.gui {
 			collider.collisionLayer = 1 << 15;
 			collider.collisionLayerMask = 1 << 16;
 			addComponent( collider );
-		
 		}
 		
 		/**
@@ -92,7 +92,7 @@ package pixelizer.prefabs.gui {
 		
 		protected function onMouseOut( pCollisionData : PxCollisionData ) : void {
 			_mouseIsOver = false;
-			_textField.backgroundColor = Pixelizer.COLOR_GRAY;
+			_textField.backgroundColor = Pixelizer.COLOR_LIGHT_GRAY;
 		}
 	
 	}
