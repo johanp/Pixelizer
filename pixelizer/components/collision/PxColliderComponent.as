@@ -72,7 +72,7 @@ package pixelizer.components.collision {
 		 * @param	pScene	Scene entity was added to.
 		 */
 		override public function onEntityAddedToScene( pScene : PxScene ) : void {
-			entity.scene.collisionManager.addCollider( this );
+			entity.scene.collisionSystem.addCollider( this );
 		}
 		
 		/**
@@ -81,7 +81,7 @@ package pixelizer.components.collision {
 		 * @param	pScene	Scene entity was removed from.
 		 */
 		override public function onEntityRemovedFromScene() : void {
-			entity.scene.collisionManager.removeCollider( this );
+			entity.scene.collisionSystem.removeCollider( this );
 		}
 		
 		/**

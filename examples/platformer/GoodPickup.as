@@ -8,7 +8,6 @@ package examples.platformer {
 	import pixelizer.prefabs.PxActorEntity;
 	import pixelizer.PxEntity;
 	import pixelizer.render.PxSpriteSheet;
-	import pixelizer.sound.PxSoundManager;
 	import pixelizer.utils.PxMath;
 	import pixelizer.utils.PxRepository;
 	
@@ -55,7 +54,7 @@ package examples.platformer {
 			var a : Number;
 			var colors : Array = [ 0xFF5750, 0xCC2E29, 0xFFA9A6, 0xFFFFFF ];
 			
-			PxSoundManager.play( new heartSoundCls(), transform.position );
+			scene.soundSystem.play( new heartSoundCls(), transform.position );
 			
 			// emit particles
 			for ( var i : int = 0; i < 50; i++ ) {

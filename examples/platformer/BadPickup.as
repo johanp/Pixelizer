@@ -7,7 +7,6 @@ package examples.platformer {
 	import pixelizer.prefabs.PxActorEntity;
 	import pixelizer.PxEntity;
 	import pixelizer.render.PxSpriteSheet;
-	import pixelizer.sound.PxSoundManager;
 	import pixelizer.utils.PxRepository;
 	
 	/**
@@ -72,7 +71,7 @@ package examples.platformer {
 				parent.addEntity( p );
 			}
 			
-			PxSoundManager.play( new explosionSoundCls(), transform.position );
+			scene.soundSystem.play( new explosionSoundCls(), transform.position );
 			
 			destroyIn( 0 );
 		}

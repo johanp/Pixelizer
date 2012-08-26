@@ -1,8 +1,13 @@
 package pixelizer {
 	import __AS3__.vec.Vector;
+	import flash.system.System;
+	import pixelizer.components.collision.PxColliderComponent;
 	import pixelizer.IPxEntityContainer;
-	import pixelizer.physics.PxCollisionManager;
+	import pixelizer.physics.PxCollisionSystem;
 	import pixelizer.render.PxCamera;
+	import pixelizer.sound.PxSoundEntity;
+	import pixelizer.sound.PxSoundSystem;
+	import pixelizer.systems.PxSystem;
 	import pixelizer.utils.PxMath;
 	
 	/**
@@ -13,7 +18,12 @@ package pixelizer {
 	public class PxScene implements IPxEntityContainer {
 		private var _entityRoot : PxEntity;
 		
-		private var _collisionManager : PxCollisionManager;
+		/**
+		 * Systems running on current scene.
+		 */
+		private var _systems : Array;
+		private var _collisionSystem : PxCollisionSystem;
+		private var _soundSystem : PxSoundSystem;
 		
 		private var _mainCamera : PxCamera;
 		
@@ -37,7 +47,9 @@ package pixelizer {
 			_entityRoot = new PxEntity();
 			_entityRoot.scene = this;
 			
-			_collisionManager = new PxCollisionManager();
+			_systems = [];
+			_collisionSystem = addSystem( new PxCollisionSystem( this, 100 ) ) as PxCollisionSystem;
+			_soundSystem = addSystem( new PxSoundSystem( this, 200 ) ) as PxSoundSystem;
 			
 			_mainCamera = new PxCamera( Pixelizer.engine.width, Pixelizer.engine.height, -Pixelizer.engine.width / 2, -Pixelizer.engine.height / 2 );
 		}
@@ -52,10 +64,12 @@ package pixelizer {
 			_mainCamera.dispose();
 			_mainCamera = null;
 			
-			_collisionManager.dispose();
-			_collisionManager = null;
-			
 			engine = null;
+			
+			for each ( var s : PxSystem in _systems ) {
+				s.dispose();
+			}
+			_systems = null;
 		
 		}
 		
@@ -83,7 +97,10 @@ package pixelizer {
 			// update entities
 			updateEntityTree( _entityRoot, pDT );
 			
-			_collisionManager.update( pDT );
+			// update all systems
+			for each ( var s : PxSystem in _systems ) {
+				s.update( pDT );
+			}
 			
 			if ( _mainCamera != null ) {
 				_mainCamera.update( pDT );
@@ -108,8 +125,7 @@ package pixelizer {
 				if ( e.transform.rotationOnScene == 0 ) {
 					e.transform.positionOnScene.x += e.transform.position.x * pEntity.transform.scaleXOnScene;
 					e.transform.positionOnScene.y += e.transform.position.y * pEntity.transform.scaleXOnScene;
-				}
-				else {
+				} else {
 					// TODO: find faster versions of sqrt and atan2
 					var d : Number = Math.sqrt( e.transform.position.x * e.transform.position.x + e.transform.position.y * e.transform.position.y );
 					var a : Number = Math.atan2( e.transform.position.y, e.transform.position.x ) + pEntity.transform.rotationOnScene;
@@ -126,13 +142,6 @@ package pixelizer {
 		}
 		
 		/**
-		 * Returns the collision manager for this scene.
-		 */
-		public function get collisionManager() : PxCollisionManager {
-			return _collisionManager;
-		}
-		
-		/**
 		 * Returns the camera for this scene.
 		 */
 		public function get camera() : PxCamera {
@@ -145,6 +154,14 @@ package pixelizer {
 		 */
 		public function get entityRoot() : PxEntity {
 			return _entityRoot;
+		}
+		
+		public function get collisionSystem() : PxCollisionSystem {
+			return _collisionSystem;
+		}
+		
+		public function get soundSystem() : PxSoundSystem {
+			return _soundSystem;
 		}
 		
 		/**
@@ -185,12 +202,22 @@ package pixelizer {
 			return _entityRoot.getEntitiesByHandle( pRootEntity, pHandle, pEntityVector );
 		}
 		
-		
 		public function forEachEntity( pEntityRoot : PxEntity, pFunction : Function ) : void {
 			pFunction( pEntityRoot );
-			for each( var e : PxEntity in pEntityRoot.entities ) {
+			for each ( var e : PxEntity in pEntityRoot.entities ) {
 				forEachEntity( e, pFunction );
 			}
+		}
+		
+		public function removeSystem( pSystem : PxSystem ) : PxSystem {
+			_systems.splice( _systems.indexOf( pSystem ), 1 );
+			return pSystem;
+		}
+	
+		public function addSystem( pSystem : PxSystem ) : PxSystem {
+			_systems.push( pSystem );
+			_systems.sort( PxSystem.sortOnPriority );
+			return pSystem;
 		}
 	
 	}

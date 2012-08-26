@@ -18,7 +18,6 @@ package examples {
 	import pixelizer.PxEntity;
 	import pixelizer.PxInput;
 	import pixelizer.PxScene;
-	import pixelizer.sound.PxSoundManager;
 	
 	public class MenuScene extends PxScene {
 		

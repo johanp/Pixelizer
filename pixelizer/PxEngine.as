@@ -14,7 +14,6 @@ package pixelizer {
 	import pixelizer.prefabs.logo.PxLogoEntity;
 	import pixelizer.render.IPxRenderer;
 	import pixelizer.render.PxBlitRenderer;
-	import pixelizer.sound.PxSoundManager;
 	import pixelizer.utils.PxCollisionStats;
 	import pixelizer.utils.PxImageUtil;
 	import pixelizer.utils.PxLog;
@@ -195,7 +194,7 @@ package pixelizer {
 				_noFocusEntity = null;
 			}
 			
-			PxSoundManager.unpause();
+			_currentScene.soundSystem.unpause();
 		}
 		
 		private function onFocusOut( evt : Event ) : void {
@@ -222,6 +221,7 @@ package pixelizer {
 			
 			_noFocusEntity.addComponent( message );
 			_internalScene.addEntity( _noFocusEntity );
+			
 		}
 		
 		/**
@@ -324,7 +324,7 @@ package pixelizer {
 				// stop the internal timer if we lost focus
 				if ( !_hasFocus ) {
 					_internalTimer.stop();
-					PxSoundManager.pause();
+					_currentScene.soundSystem.pause();
 					PxInput.reset();
 				}
 				
@@ -472,7 +472,7 @@ package pixelizer {
 		 * @return The stats.
 		 */
 		public function get collisionStats() : PxCollisionStats {
-			return _currentScene.collisionManager.collisionStats;
+			return _currentScene.collisionSystem.collisionStats;
 		}
 		
 		/**

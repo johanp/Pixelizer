@@ -6,7 +6,7 @@ package pixelizer {
 	import flash.net.LocalConnection;
 	import flash.system.System;
 	import pixelizer.render.PxDefaultFontGenerator;
-	import pixelizer.sound.PxSoundManager;
+	//import pixelizer.sound.PxSoundManager;
 	import pixelizer.utils.PxLog;
 	import pixelizer.utils.PxObjectPool;
 	
@@ -15,8 +15,8 @@ package pixelizer {
 	 */
 	public class Pixelizer {
 		public static const MAJOR_VERSION : int = 0;
-		public static const MINOR_VERSION : int = 4;
-		public static const INTERNAL_VERSION : int = 3;
+		public static const MINOR_VERSION : int = 5;
+		public static const INTERNAL_VERSION : int = 0;
 		 
 		public static const COLOR_RED : int = 0xFF5D5D;
 		public static const COLOR_GREEN : int = 0x5DFC5D;
@@ -53,6 +53,11 @@ package pixelizer {
 		 * Reference to the stage.
 		 */
 		public static var stage : Stage;
+		
+		/**
+		 * Global volume. 0-1.
+		 */
+		static public var globalVolume : Number = 1;
 		
 		private static var _isInitialized : Boolean = false;
 		
@@ -91,7 +96,7 @@ package pixelizer {
 			stage.scaleMode = "noScale";
 			
 			PxInput.init( stage );
-			PxSoundManager.init();
+			//PxSoundManager.init();
 		
 		}
 		

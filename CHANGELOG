@@ -1,5 +1,12 @@
 CHANGELOG
 
+2012-08-26, 0.5.0, "a new beginning"
+* added possibility to hook in custom systems working on entities or components
+* converted collision manager to system
+* converted sound manager to system
+* fixed bug that caused occasional camera jitter
+
+
 2012-05-13, 0.4.3, "the squasher of bugs"
 * fixed underflow bug in collision detection code
 * fixed broken visibility control on tilemaps

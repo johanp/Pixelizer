@@ -4,11 +4,12 @@ package pixelizer.sound {
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
+	import pixelizer.Pixelizer;
 	import pixelizer.PxEntity;
 	import pixelizer.utils.PxLog;
 	
 	/**
-	 * Entity the plays a sound.
+	 * Entity that plays a sound.
 	 * @author Johan Peitz
 	 */
 	public class PxSoundEntity extends PxEntity {
@@ -44,7 +45,7 @@ package pixelizer.sound {
 			}
 			
 			if ( _isGlobal ) {
-				_soundTransform = new SoundTransform( PxSoundManager.globalVolume );
+				_soundTransform = new SoundTransform( Pixelizer.globalVolume );
 			} else {
 				_soundTransform = new SoundTransform( 0, 0 );
 			}
@@ -130,21 +131,21 @@ package pixelizer.sound {
 			var volDistToCam : Number = Point.distance( pScenePosition, camCenter );
 			
 			var vol : Number = 1;
-			if ( volDistToCam > PxSoundManager.volumeRange.x + PxSoundManager.volumeRange.y ) {
+			if ( volDistToCam > scene.soundSystem.volumeRange.x + scene.soundSystem.volumeRange.y ) {
 				vol = 0;
-			} else if ( volDistToCam > PxSoundManager.volumeRange.x ) {
-				vol = 1 - ( volDistToCam - PxSoundManager.volumeRange.x ) / ( PxSoundManager.volumeRange.y );
+			} else if ( volDistToCam > scene.soundSystem.volumeRange.x ) {
+				vol = 1 - ( volDistToCam - scene.soundSystem.volumeRange.x ) / ( scene.soundSystem.volumeRange.y );
 			}
 			
-			_soundTransform.volume = vol * PxSoundManager.globalVolume;
+			_soundTransform.volume = vol * Pixelizer.globalVolume;
 			
 			var panDistToCam : Number = Math.abs( pScenePosition.x - camCenter.x );
 			var pan : Number = 0;
 			
-			if ( panDistToCam > PxSoundManager.panRange.x + PxSoundManager.panRange.y ) {
+			if ( panDistToCam > scene.soundSystem.panRange.x + scene.soundSystem.panRange.y ) {
 				pan = 1;
-			} else if ( panDistToCam > PxSoundManager.panRange.x ) {
-				pan = Math.abs( panDistToCam - PxSoundManager.panRange.x ) / ( PxSoundManager.panRange.y );
+			} else if ( panDistToCam > scene.soundSystem.panRange.x ) {
+				pan = Math.abs( panDistToCam - scene.soundSystem.panRange.x ) / ( scene.soundSystem.panRange.y );
 			}
 			
 			if ( pScenePosition.x < camCenter.x ) {
@@ -164,10 +165,11 @@ package pixelizer.sound {
 			}
 		}
 		
-		public function setVolumeToGlobalVolume() : void {
+		
+		private function setVolumeToGlobalVolume() : void {
 			if ( _soundChannel != null ) {
 				_soundTransform.pan = 0;
-				_soundTransform.volume = PxSoundManager.globalVolume;
+				_soundTransform.volume = Pixelizer.globalVolume;
 				_soundChannel.soundTransform = _soundTransform
 			}
 		}

@@ -73,8 +73,8 @@ package pixelizer.render {
 		 */
 		public function update( pDT : Number ) : void {
 			if ( _targetEntity != null ) {
-				_lookAt.x = _targetEntity.transform.position.x;
-				_lookAt.y = _targetEntity.transform.position.y;
+				_lookAt.x = Math.round( _targetEntity.transform.position.x );
+				_lookAt.y = Math.round( _targetEntity.transform.position.y );
 				lookAt( _lookAt );
 			}
 			

@@ -7,7 +7,6 @@ package examples.sound {
 	import pixelizer.PxEntity;
 	import pixelizer.PxInput;
 	import pixelizer.PxScene;
-	import pixelizer.sound.PxSoundManager;
 	import pixelizer.utils.PxImageUtil;
 	
 	public class SoundExampleScene extends PxScene {
@@ -20,15 +19,15 @@ package examples.sound {
 			backgroundColor = Pixelizer.COLOR_WHITE;
 			
 			// change sound rules so the fit on screen
-			PxSoundManager.panRange = new Point( 120, 40 );
-			PxSoundManager.volumeRange = new Point( 80, 80 );
+			soundSystem.panRange = new Point( 120, 40 );
+			soundSystem.volumeRange = new Point( 80, 80 );
 			
 			var e : PxEntity;
 			var text : PxTextFieldEntity;
 			
 			// show pan range
 			e = addEntity( new PxEntity( 160, 120 ) );
-			e.addComponent( new PxBlitRenderComponent( PxImageUtil.createRect( 2 * PxSoundManager.panRange.x, 240, Pixelizer.COLOR_GREEN ), new Point( PxSoundManager.panRange.x, 120 ) ) );
+			e.addComponent( new PxBlitRenderComponent( PxImageUtil.createRect( 2 * soundSystem.panRange.x, 240, Pixelizer.COLOR_GREEN ), new Point( soundSystem.panRange.x, 120 ) ) );
 			
 			text = addEntity( new PxTextFieldEntity( " left                                       center                                       right", Pixelizer.COLOR_BLACK ) ) as PxTextFieldEntity;
 			text.textField.alignment = Pixelizer.CENTER;
@@ -37,7 +36,7 @@ package examples.sound {
 			
 			// show volume range 
 			e = addEntity( new PxEntity( 160, 120 ) );
-			e.addComponent( new PxBlitRenderComponent( PxImageUtil.createCircle( PxSoundManager.volumeRange.x, Pixelizer.COLOR_RED ), new Point( PxSoundManager.volumeRange.x, PxSoundManager.volumeRange.x ) ) );
+			e.addComponent( new PxBlitRenderComponent( PxImageUtil.createCircle( soundSystem.volumeRange.x, Pixelizer.COLOR_RED ), new Point( soundSystem.volumeRange.x, soundSystem.volumeRange.x ) ) );
 			
 			text = addEntity( new PxTextFieldEntity( "min                                     max volume                                     min", Pixelizer.COLOR_BLACK ) ) as PxTextFieldEntity;
 			text.textField.alignment = Pixelizer.CENTER;
@@ -62,10 +61,10 @@ package examples.sound {
 			}
 			
 			if ( PxInput.isPressed( PxInput.KEY_M ) ) {
-				if ( PxSoundManager.isMuted() ) {
-					PxSoundManager.unmute();
+				if ( soundSystem.isMuted() ) {
+					soundSystem.unmute();
 				} else {
-					PxSoundManager.mute();
+					soundSystem.mute();
 				}
 			}
 			

@@ -4,13 +4,18 @@ package pixelizer.physics {
 	import pixelizer.components.collision.PxColliderComponent;
 	import pixelizer.components.collision.PxGridColliderComponent;
 	import pixelizer.components.PxBodyComponent;
+	import pixelizer.physics.PxCollisionSolver;
+	import pixelizer.physics.PxCollisionData;
+	import pixelizer.PxScene;
+	import pixelizer.systems.PxSystem;
 	import pixelizer.utils.PxCollisionStats;
 	
 	/**
 	 * Manages collision between colliders of all types. Each scene has their own collision manager.
 	 * @author Johan Peitz
 	 */
-	public class PxCollisionManager {
+	public class PxCollisionSystem extends PxSystem {
+		
 		private var _colliders : Array = [];
 		private var _overlap : Point = new Point();
 		
@@ -20,21 +25,25 @@ package pixelizer.physics {
 		public var collisionStats : PxCollisionStats;
 		
 		/**
-		 * Creats a new collision manager.
+		 * Creates a new collision system.
 		 */
-		public function PxCollisionManager() {
+		public function PxCollisionSystem( pScene : PxScene, pPriority : int = 0 ) : void {
+			super( pScene, pPriority );
+			
 			collisionStats = new PxCollisionStats();
 		}
 		
 		/**
-		 * Clears all resources used by this manager.
+		 * Clears all resources used by this system.
 		 */
-		public function dispose() : void {
+		override public function dispose() : void {
 			_colliders = null;
+			super.dispose();
 		}
 		
+
 		/**
-		 * Adds a collider to the manager. The collider will now be check for collision against other colliders.
+		 * Adds a collider to the system. The collider will now be check for collision against other colliders.
 		 * @param	pCollider	Collider to add.
 		 */
 		public function addCollider( pCollider : PxColliderComponent ) : void {
@@ -42,18 +51,19 @@ package pixelizer.physics {
 		}
 		
 		/**
-		 * Removes a collider from the manager. It will no longer collide with other colliders.
+		 * Removes a collider from the system. It will no longer collide with other colliders.
 		 * @param	pCollider	Collider to remove.
 		 */
 		public function removeCollider( pCollider : PxColliderComponent ) : void {
 			_colliders.splice( _colliders.indexOf( pCollider ), 1 );
 		}
 		
+		
 		/**
 		 * Invoked regularly by the scene. Detects and responds to all collisions between colliders.
 		 * @param	pDT
 		 */
-		public function update( pDT : Number ) : void {
+		override public function update( pDT : Number ) : void {
 			var a : PxColliderComponent;
 			var b : PxColliderComponent;
 			var len : int = _colliders.length;
@@ -202,7 +212,7 @@ package pixelizer.physics {
 			}
 		
 			return null;
-		}
-	
+		}	
 	}
+
 }
