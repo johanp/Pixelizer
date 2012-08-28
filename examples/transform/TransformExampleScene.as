@@ -7,7 +7,7 @@ package examples.transform {
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
+	import pixelizer.PxInputSystem;
 	import pixelizer.PxScene;
 	import pixelizer.utils.PxMath;
 	
@@ -90,7 +90,7 @@ package examples.transform {
 			_xScaleEntity.transform.scaleX = 2 * PxMath.cos( _timePassed * 2 );
 			_yScaleEntity.transform.scaleY = 2 * PxMath.sin( _timePassed * 2 );
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 		}

@@ -73,9 +73,6 @@ package pixelizer {
 		 * @param 	pShowLogo	Specifies whether to show Pixelizer logo at start or not.
 		 */
 		public function PxEngine( pWidth : int, pHeight : int, pScale : int = 1, pFPS : int = 30, pRendererClass : Class = null, pShowLogo : Boolean = true ) {
-			Pixelizer.init( );
-			Pixelizer.engine = this;
-			
 			_showingLogo = pShowLogo;
 			_targetFPS = pFPS;
 			_width = pWidth;
@@ -87,6 +84,15 @@ package pixelizer {
 				_renderClass = PxBlitRenderer;
 			}
 			
+			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
+		}
+		
+		
+		
+		private function onAddedToStage( pEvent : Event ) : void {
+			removeEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
+			Pixelizer.onEngineAddedToStage( this, stage );
+			
 			_logicStats = new PxLogicStats();
 			
 			_currentScene = null;
@@ -96,17 +102,6 @@ package pixelizer {
 			_internalScene = new PxScene();
 			_internalScene.onAddedToEngine( this );
 			_internalScene.background = false;
-
-
-			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
-		}
-		
-		
-		private function onAddedToStage( pEvent : Event ) : void {
-			removeEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
-			
-			Pixelizer.onEngineAddedToStage( this, stage );
-			
 			
 			PxLog.addLogFunction( logListener );
 			PxLog.log( "size set to " + _width + "x" + _height + ", " + _scale + "x", this, PxLog.INFO );
@@ -194,7 +189,7 @@ package pixelizer {
 				_noFocusEntity = null;
 			}
 			
-			_currentScene.soundSystem.unpause();
+			_currentScene.onActivated();
 		}
 		
 		private function onFocusOut( evt : Event ) : void {
@@ -275,7 +270,7 @@ package pixelizer {
 					logicTime = getTimer();
 					
 					// update input
-					PxInput.update( _timeStepS );
+					//PxInput.update( _timeStepS );
 					
 					// update current scene
 					if ( _currentScene != null && _showingLogo == false ) {
@@ -286,7 +281,7 @@ package pixelizer {
 					_internalScene.update( _timeStepS );
 					
 					// finalize input
-					PxInput.afterUpdate();
+					//PxInput.afterUpdate();
 					
 					// calc logic time					
 					_logicStats.logicTime = getTimer() - logicTime;
@@ -324,8 +319,7 @@ package pixelizer {
 				// stop the internal timer if we lost focus
 				if ( !_hasFocus ) {
 					_internalTimer.stop();
-					_currentScene.soundSystem.pause();
-					PxInput.reset();
+					_currentScene.onDeactivated();
 				}
 				
 				// move on as fast as possible

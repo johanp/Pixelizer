@@ -4,8 +4,8 @@ package pixelizer.prefabs.logo {
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
 	import pixelizer.utils.PxImageUtil;
+	import pixelizer.PxInputSystem;
 	
 	/**
 	 * Entity displaying animated Pixelizer logo.
@@ -93,7 +93,7 @@ package pixelizer.prefabs.logo {
 					_bg.alpha -= pDT * 10;
 				}
 			} else {
-				if ( PxInput.isPressed( PxInput.KEY_ESC ) || PxInput.mousePressed ) {
+				if ( scene.inputSystem.isPressed( PxInputSystem.KEY_ESC ) || scene.inputSystem.mousePressed ) {
 					_textComp.alpha = 0;
 					_versionEntity.textField.alpha = 0;
 					_fadeOut = true;

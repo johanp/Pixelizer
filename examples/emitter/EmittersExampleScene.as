@@ -1,9 +1,9 @@
 package examples.emitter {
+	import pixelizer.PxInputSystem;
 	import pixelizer.components.PxEmitterComponent;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
 	import pixelizer.PxScene;
 	import pixelizer.utils.PxImageUtil;
 	import pixelizer.utils.PxMath;
@@ -49,7 +49,7 @@ package examples.emitter {
 		override public function update( pDT : Number ) : void {
 			super.update( pDT );
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 		}

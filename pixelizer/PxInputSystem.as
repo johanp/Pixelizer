@@ -3,56 +3,55 @@ package pixelizer {
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import pixelizer.systems.PxSystem;
 	import pixelizer.utils.PxLog;
 	
 	/**
 	 * Manages keyboard and mouse input.
 	 * @author Johan Peitz
 	 */
-	public class PxInput {
-		private static var _stage : Stage;
-		private static var _keysDown : Array = [];
+	public class PxInputSystem extends PxSystem {
+		private var _stage : Stage;
+		private var _keysDown : Array = [];
 		
 		/**
 		 * Specifies whether the mouse button is down.
 		 */
-		public static var mouseDown : Boolean = false;
+		public var mouseDown : Boolean = false;
 		/**
 		 * Specifies whether the mouse button was just pressed.
 		 */
-		public static var mousePressed : Boolean = false;
+		public var mousePressed : Boolean = false;
 		
 		/**
 		 * Specifies whether the mouse button is up.
 		 */
-		public static var mouseUp : Boolean = true;
+		public var mouseUp : Boolean = true;
 		/**
 		 * Specifies whether the mouse button was just released.
 		 */
-		public static var mouseReleased : Boolean = false;
+		public var mouseReleased : Boolean = false;
 		/**
 		 * Position of the mouse.
 		 */
-		public static var mousePosition : Point;
+		public var mousePosition : Point;
 		
 		/**
 		 * Specifies how much the mouse wheel changed.
 		 */
-		public static var mouseDelta : int = 0;
+		public var mouseDelta : int = 0;
 		
-		private static var _isInitialized : Boolean = false;
 		
 		/**
 		 * Initializes the input manager.
 		 * @param	pStage The Flash stage. Needed to listed for keyboard events.
 		 */
-		public static function init( pStage : Stage ) : void {
-			if ( _isInitialized ) {
-				PxLog.log( "PxInput already initialized.", "[o PxInput]", PxLog.WARNING );
-				return;
-			}
+		public function PxInputSystem( pScene : PxScene, pPriority : int = 0 ) : void {
+			super( pScene, pPriority );
 			
-			_stage = pStage;
+			_stage = Pixelizer.stage;
+			
+			
 			_stage.addEventListener( KeyboardEvent.KEY_DOWN, keyPressed );
 			_stage.addEventListener( KeyboardEvent.KEY_UP, keyReleased );
 			_stage.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
@@ -65,29 +64,25 @@ package pixelizer {
 				_keysDown.push( 0 );
 			}
 			
-			_isInitialized = true;
-			PxLog.log( "PxInput initialized.", "[o PxInput]", PxLog.INFO );
 		}
 		
 		/**
 		 * Disposes of all resources used by the input manager.
 		 */
-		public static function dispose() : void {
+		override public function dispose() : void {
 			_stage.removeEventListener( KeyboardEvent.KEY_DOWN, keyPressed );
 			_stage.removeEventListener( KeyboardEvent.KEY_UP, keyReleased );
 			_stage.removeEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
 			_stage.removeEventListener( MouseEvent.MOUSE_UP, onMouseUp );
 			_stage.removeEventListener( MouseEvent.MOUSE_WHEEL, onMouseWheel );
-			_stage = null;
 			_keysDown = null;
-			PxLog.log( "PxInput disposed.", "[o PxInput]", PxLog.INFO );
 		}
 		
 		/**
 		 * Returns the mouse's X position.
 		 * @return	The mouse's X position.
 		 */
-		public static function get mouseX() : int {
+		public function get mouseX() : int {
 			return mousePosition.x;
 		}
 		
@@ -95,21 +90,21 @@ package pixelizer {
 		 * Returns the mouse's Y position.
 		 * @return	The mouse's Y position.
 		 */
-		public static function get mouseY() : int {
+		public function get mouseY() : int {
 			return mousePosition.y;
 		}
 		
 		/**
 		 * Resets the status of the mouse button.
 		 */
-		public static function resetMouseButton() : void {
+		public function resetMouseButton() : void {
 			mouseDown = false;
 			mousePressed = false;
 			mouseUp = true;
 			mouseReleased = false;
 		}
 		
-		private static function onMouseDown( e : MouseEvent ) : void {
+		private function onMouseDown( e : MouseEvent ) : void {
 			if ( !mouseDown ) {
 				mouseDown = true;
 				mouseUp = false;
@@ -118,21 +113,21 @@ package pixelizer {
 			}
 		}
 		
-		private static function onMouseUp( e : MouseEvent ) : void {
+		private function onMouseUp( e : MouseEvent ) : void {
 			mouseDown = false;
 			mouseUp = true;
 			mousePressed = false;
 			mouseReleased = true;
 		}
 		
-		private static function onMouseWheel( e : MouseEvent ) : void {
+		private function onMouseWheel( e : MouseEvent ) : void {
 			mouseDelta += e.delta;
 		}
 		
 		/**
 		 * Resets all input.
 		 */
-		static public function reset() : void {
+		public function reset() : void {
 			resetMouseButton();
 			var pos : int = _keysDown.length;
 			while( -- pos >= 0 ) {
@@ -144,7 +139,7 @@ package pixelizer {
 		 * Invoked by the engine at regular intervals. Synchronizes internal data with Flash's.
 		 * @param	pDT	Time step in seconds.
 		 */
-		public static function update( pDT : Number ) : void {
+		override public function update( pDT : Number ) : void {
 			mousePosition.x = _stage.mouseX / Pixelizer.engine.scale;
 			mousePosition.y = _stage.mouseY / Pixelizer.engine.scale;
 		}
@@ -152,7 +147,7 @@ package pixelizer {
 		/**
 		 * Invoked by the engine after each logic cycle. Cleans up what needs to be cleaned up.
 		 */
-		public static function afterUpdate() : void {
+		override public function afterUpdate() : void {
 			if ( mousePressed )
 				mousePressed = false;
 			if ( mouseReleased )
@@ -166,7 +161,7 @@ package pixelizer {
 		 * @param	keyCode	The key code of the desired key.
 		 * @return	True if the key is up.
 		 */
-		public static function isUp( keyCode : uint ) : Boolean {
+		public function isUp( keyCode : uint ) : Boolean {
 			return _keysDown[ keyCode ] <= 0;
 		}
 		
@@ -175,7 +170,7 @@ package pixelizer {
 		 * @param	keyCode	The key code of the desired key.
 		 * @return	True if the key is down.
 		 */
-		public static function isDown( keyCode : uint ) : Boolean {
+		public function isDown( keyCode : uint ) : Boolean {
 			return _keysDown[ keyCode ] > 0;
 		}
 		
@@ -184,14 +179,14 @@ package pixelizer {
 		 * @param	keyCode	The key code of the desired key.
 		 * @return	True if the key was just pressed.
 		 */
-		public static function isPressed( keyCode : uint ) : Boolean {
+		public function isPressed( keyCode : uint ) : Boolean {
 			var p : Boolean = _keysDown[ keyCode ] == 1;
 			if ( p )
 				_keysDown[ keyCode ] = 2;
 			return p;
 		}
 		
-		public static function isReleased( keyCode : uint ) : Boolean {
+		public function isReleased( keyCode : uint ) : Boolean {
 			var p : Boolean = _keysDown[ keyCode ] == -1;
 			if ( p )
 				_keysDown[ keyCode ] = -2;
@@ -202,17 +197,17 @@ package pixelizer {
 		 * Fakes a key press of a certain key.
 		 * @param	keyCode	The key code of the desired key.
 		 */
-		public static function fakeKeyPress( keyCode : uint ) : void {
+		public function fakeKeyPress( keyCode : uint ) : void {
 			_keysDown[ keyCode ]++;
 		}
 		
-		private static function keyPressed( evt : KeyboardEvent ) : void {
+		private function keyPressed( evt : KeyboardEvent ) : void {
 			if ( _keysDown[ evt.keyCode ] <= 0 ) {
 				_keysDown[ evt.keyCode ] = 1;
 			}
 		}
 		
-		private static function keyReleased( evt : KeyboardEvent ) : void {
+		private function keyReleased( evt : KeyboardEvent ) : void {
 			_keysDown[ evt.keyCode ] = -1;
 		}
 		

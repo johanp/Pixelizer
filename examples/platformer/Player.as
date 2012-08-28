@@ -10,7 +10,7 @@ package examples.platformer {
 	import pixelizer.prefabs.PxActorEntity;
 	import pixelizer.prefabs.PxSoundEntity;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
+	import pixelizer.PxInputSystem;
 	import pixelizer.render.PxBlitRenderer;
 	import pixelizer.render.PxSpriteSheet;
 	import pixelizer.utils.PxRepository;
@@ -67,11 +67,11 @@ package examples.platformer {
 			
 			if ( _alive ) {
 				// handle controls
-				if ( PxInput.isDown( PxInput.KEY_LEFT ) ) {
+				if ( scene.inputSystem.isDown( PxInputSystem.KEY_LEFT ) ) {
 					bodyComp.velocity.x -= 1;
 					animComp.flip = Pixelizer.H_FLIP;
 				}
-				if ( PxInput.isDown( PxInput.KEY_RIGHT ) ) {
+				if ( scene.inputSystem.isDown( PxInputSystem.KEY_RIGHT ) ) {
 					bodyComp.velocity.x += 1;
 					animComp.flip = 0;
 				}
@@ -82,7 +82,7 @@ package examples.platformer {
 					} else {
 						animComp.gotoAndPlay( "idle" );
 					}
-					if ( PxInput.isDown( PxInput.KEY_UP ) ) {
+					if ( scene.inputSystem.isDown( PxInputSystem.KEY_UP ) ) {
 						bodyComp.velocity.y -= 11;
 						animComp.gotoAndPlay( "jump" );
 						addEntity( new PxSoundEntity( new jumpSoundCls(), Pixelizer.ZERO_POINT ) );

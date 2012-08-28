@@ -1,7 +1,7 @@
 package examples.replay {
+	import pixelizer.PxInputSystem;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
-	import pixelizer.PxInput;
 	import pixelizer.PxScene;
 	
 	/**
@@ -31,11 +31,11 @@ package examples.replay {
 		}
 		
 		override public function update( pDT : Number ) : void {
-			if ( PxInput.isPressed( PxInput.KEY_SPACE ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_SPACE ) ) {
 				spawnEntity();
 			}
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 			

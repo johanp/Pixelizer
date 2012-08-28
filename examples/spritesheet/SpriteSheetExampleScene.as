@@ -7,7 +7,7 @@ package examples.spritesheet {
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
+	import pixelizer.PxInputSystem;
 	import pixelizer.PxScene;
 	import pixelizer.render.PxAnimation;
 	import pixelizer.render.PxSpriteSheet;
@@ -110,7 +110,7 @@ package examples.spritesheet {
 				
 			}
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 			

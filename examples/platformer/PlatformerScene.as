@@ -8,7 +8,7 @@ package examples.platformer {
 	import pixelizer.prefabs.PxSoundEntity;
 	import pixelizer.PxEngine;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
+	import pixelizer.PxInputSystem;
 	import pixelizer.PxScene;
 	import pixelizer.render.PxAnimation;
 	import pixelizer.render.PxBlitRenderer;
@@ -100,15 +100,15 @@ package examples.platformer {
 			
 			super.update( pDT );
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 			
 			
-			if ( PxInput.isPressed( PxInput.KEY_D ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_D ) ) {
 				forEachEntity( entityRoot, addColliderRenderer );
 			}
-			if ( PxInput.isPressed( PxInput.KEY_E ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_E ) ) {
 				forEachEntity( entityRoot, removeColliderRenderer );
 			}
 		}

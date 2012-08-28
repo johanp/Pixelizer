@@ -67,7 +67,7 @@ package pixelizer {
 		 * @param	pEngine	Engine which initializes Pixelizer.
 		 * @param	pStage	Reference to Flash's stage.
 		 */
-		public static function init() : void {
+		static public function onEngineAddedToStage( pEngine : PxEngine, pStage : Stage ) : void {
 			if ( _isInitialized ) {
 				PxLog.log( "Pixelizer already initialized.", "[o Pixelizer]", PxLog.WARNING );
 				return;
@@ -76,6 +76,9 @@ package pixelizer {
 			PxLog.log( "*** PIXELIZER v " + MAJOR_VERSION + "." + MINOR_VERSION + "." + INTERNAL_VERSION + " ***", "[o Pixelizer]", PxLog.INFO );
 			PxLog.log( "", "[o Pixelizer]", PxLog.INFO );
 			
+			engine = pEngine;
+			stage = pStage;
+
 			matrixPool = new PxObjectPool( Matrix );
 			pointPool = new PxObjectPool( Point );
 			ZERO_POINT = pointPool.fetch();
@@ -83,21 +86,11 @@ package pixelizer {
 			
 			PxDefaultFontGenerator.generateAndStoreDefaultFont();
 			
-			_isInitialized = true;
-		
-		}
-		
-		static public function onEngineAddedToStage( pEngine : PxEngine, pStage : Stage ) : void {
-			engine = pEngine;
-			stage = pStage;
-			
 			stage.stageFocusRect = false;
 			stage.quality = StageQuality.LOW;
 			stage.scaleMode = "noScale";
 			
-			PxInput.init( stage );
-			//PxSoundManager.init();
-		
+			_isInitialized = true;
 		}
 		
 		/**

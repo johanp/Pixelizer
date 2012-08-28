@@ -13,7 +13,7 @@ package examples.benchmark {
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
 	import pixelizer.PxEngine;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
+	import pixelizer.PxInputSystem;
 	import pixelizer.PxScene;
 	import pixelizer.utils.PxMath;
 	
@@ -58,11 +58,11 @@ package examples.benchmark {
 		override public function update( pDT : Number ) : void {
 			var e : PxEntity;
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 			
-			if ( PxInput.isPressed( PxInput.KEY_Q ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_Q ) ) {
 				if ( _mode & 1 ) {
 					_mode &= ~1;
 					for each ( e in _testEntities ) {
@@ -77,7 +77,7 @@ package examples.benchmark {
 				}
 			}
 			
-			if ( PxInput.isPressed( PxInput.KEY_W ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_W ) ) {
 				if ( _mode & 2 ) {
 					_mode &= ~2;
 					for each ( e in _testEntities ) {
@@ -91,7 +91,7 @@ package examples.benchmark {
 				}
 			}
 			
-			if ( PxInput.isPressed( PxInput.KEY_E ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_E ) ) {
 				if ( _mode & 4 ) {
 					_mode &= ~4;
 					for each ( e in _testEntities ) {

@@ -3,7 +3,7 @@ package examples.nesting {
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
+	import pixelizer.PxInputSystem;
 	import pixelizer.PxScene;
 	import pixelizer.utils.PxImageUtil;
 	
@@ -53,7 +53,7 @@ package examples.nesting {
 			
 			_timePassed += pDT;
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 			

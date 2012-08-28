@@ -2,7 +2,6 @@ package pixelizer.prefabs.gui {
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
 	
 	/**
 	 * Simple entity which allows the mouse to interact with other GUI elements.
@@ -25,7 +24,7 @@ package pixelizer.prefabs.gui {
 		 * @param	pDT	Time step.
 		 */
 		override public function update( pDT : Number ) : void {
-			transform.setPosition( PxInput.mouseX, PxInput.mouseY );
+			transform.setPosition( scene.inputSystem.mouseX, scene.inputSystem.mouseY );
 			
 			super.update( pDT );
 		}

@@ -2,7 +2,7 @@ package examples.platformer {
 	import pixelizer.components.render.PxTextFieldComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
-	import pixelizer.PxInput;
+	import pixelizer.PxInputSystem;
 	import pixelizer.PxScene;
 	import pixelizer.render.PxAnimation;
 	import pixelizer.render.PxBlitRenderer;
@@ -62,11 +62,11 @@ package examples.platformer {
 		override public function update( pDT : Number ) : void {
 			super.update( pDT );
 			
-			if ( PxInput.isPressed( PxInput.KEY_SPACE ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_SPACE ) ) {
 				engine.pushScene( new PlatformerScene() );
 			}
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 		

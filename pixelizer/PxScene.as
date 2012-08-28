@@ -21,8 +21,9 @@ package pixelizer {
 		 * Systems running on current scene.
 		 */
 		private var _systems : Array;
-		private var _collisionSystem : PxCollisionSystem;
-		private var _soundSystem : PxSoundSystem;
+		protected var _collisionSystem : PxCollisionSystem;
+		protected var _soundSystem : PxSoundSystem;
+		protected var _inputSystem: PxInputSystem;
 		
 		private var _mainCamera : PxCamera;
 		
@@ -47,8 +48,9 @@ package pixelizer {
 			_entityRoot.scene = this;
 			
 			_systems = [];
-			_collisionSystem = addSystem( new PxCollisionSystem( this, 100 ) ) as PxCollisionSystem;
-			_soundSystem = addSystem( new PxSoundSystem( this, 200 ) ) as PxSoundSystem;
+			_inputSystem = addSystem( new PxInputSystem( this, 100 ) ) as PxInputSystem;
+			_collisionSystem = addSystem( new PxCollisionSystem( this, 200 ) ) as PxCollisionSystem;
+			_soundSystem = addSystem( new PxSoundSystem( this, 300 ) ) as PxSoundSystem;
 			
 			_mainCamera = new PxCamera( Pixelizer.engine.width, Pixelizer.engine.height, -Pixelizer.engine.width / 2, -Pixelizer.engine.height / 2 );
 		}
@@ -91,6 +93,7 @@ package pixelizer {
 		public function onActivated():void 
 		{
 			_soundSystem.unpause();
+			_inputSystem.reset();
 		}
 		
 		public function onDeactivated():void 
@@ -172,6 +175,11 @@ package pixelizer {
 		
 		public function get soundSystem() : PxSoundSystem {
 			return _soundSystem;
+		}
+		
+		public function get inputSystem():PxInputSystem 
+		{
+			return _inputSystem;
 		}
 		
 		/**

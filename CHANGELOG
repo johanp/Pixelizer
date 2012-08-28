@@ -8,6 +8,8 @@ CHANGELOG
 * separated sound from PxSoundEntity into PxSoundComponent which registers with PxSoundSystem
 * fixed sounds forgetting their volume on mute
 * made scene pause/unpause sounds on deactivation/activation
+* simplified internal Pixelizer initialization flow
+* converted input manager to system
 
 
 2012-05-13, 0.4.3, "the squasher of bugs"

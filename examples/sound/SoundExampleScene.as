@@ -1,11 +1,11 @@
 package examples.sound {
+	import pixelizer.PxInputSystem;
 	import flash.geom.Point;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.components.render.PxTextFieldComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
 	import pixelizer.PxScene;
 	import pixelizer.utils.PxImageUtil;
 	
@@ -53,11 +53,11 @@ package examples.sound {
 		}
 		
 		override public function update( pDT : Number ) : void {
-			if ( PxInput.mousePressed ) {
-				addEntity( new VisibleSoundEntity( new sheepSoundCls(), PxInput.mousePosition ) );
+			if ( inputSystem.mousePressed ) {
+				addEntity( new VisibleSoundEntity( new sheepSoundCls(), inputSystem.mousePosition ) );
 			}
 			
-			if ( PxInput.isPressed( PxInput.KEY_M ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_M ) ) {
 				if ( soundSystem.isMuted() ) {
 					soundSystem.unmute();
 				} else {
@@ -67,7 +67,7 @@ package examples.sound {
 			
 			super.update( pDT );
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 		

@@ -5,7 +5,6 @@ package pixelizer.prefabs.gui {
 	import pixelizer.physics.PxCollisionData;
 	import pixelizer.Pixelizer;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
 	import pixelizer.render.PxBitmapFont;
 	import pixelizer.utils.PxImageUtil;
 	import pixelizer.utils.PxRepository;
@@ -62,7 +61,7 @@ package pixelizer.prefabs.gui {
 		 */
 		override public function update( pDT : Number ) : void {
 			if ( _mouseIsOver ) {
-				if ( _onClickedFunction != null && PxInput.mousePressed ) {
+				if ( _onClickedFunction != null && scene.inputSystem.mousePressed ) {
 					_onClickedFunction( this );
 				}
 			}

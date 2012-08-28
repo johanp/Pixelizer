@@ -1,10 +1,10 @@
 package examples.gui {
+	import pixelizer.PxInputSystem;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxGUIButton;
 	import pixelizer.prefabs.gui.PxMouseEntity;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
-	import pixelizer.PxInput;
 	import pixelizer.PxScene;
 	import pixelizer.utils.PxImageUtil;
 	import pixelizer.utils.PxLog;
@@ -41,7 +41,7 @@ package examples.gui {
 		
 		override public function update( pDT : Number ) : void {
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 			

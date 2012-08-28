@@ -1,9 +1,9 @@
 package examples.input {
+	import pixelizer.PxInputSystem;
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxMouseEntity;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
-	import pixelizer.PxInput;
 	import pixelizer.PxScene;
 	import pixelizer.utils.PxImageUtil;
 	
@@ -37,39 +37,39 @@ package examples.input {
 		}
 		
 		override public function update( pDT : Number ) : void {
-			var keyCodes : Array = [ PxInput.KEY_UP, PxInput.KEY_DOWN, PxInput.KEY_LEFT, PxInput.KEY_RIGHT ];
+			var keyCodes : Array = [ PxInputSystem.KEY_UP, PxInputSystem.KEY_DOWN, PxInputSystem.KEY_LEFT, PxInputSystem.KEY_RIGHT ];
 			var keyNames : Array = [ "UP ARROW", "DOWN ARROW", "LEFT ARROW", "RIGHT ARROW" ];
 			var keyString : String = "Press some keys:\n\n";
 			for ( var i : int = 0; i < 4; i++ ) {
 				keyString += keyNames[ i ] + ": ";
-				if ( PxInput.isDown( keyCodes[ i ] ) )
+				if ( inputSystem.isDown( keyCodes[ i ] ) )
 					keyString += " DOWN ";
-				if ( PxInput.isUp( keyCodes[ i ] ) )
+				if ( inputSystem.isUp( keyCodes[ i ] ) )
 					keyString += " UP ";
-				if ( PxInput.isPressed( keyCodes[ i ] ) )
+				if ( inputSystem.isPressed( keyCodes[ i ] ) )
 					keyString += " PRESSED ";
-				if ( PxInput.isReleased( keyCodes[ i ] ) )
+				if ( inputSystem.isReleased( keyCodes[ i ] ) )
 					keyString += " RELEASED ";
 				keyString += "\n";
 			}
 			_keys.textField.text = keyString;
 			
 			var mouseString : String = "Use the mouse:\n\n";
-			mouseString += "position: " + PxInput.mousePosition + "\n";
+			mouseString += "position: " + inputSystem.mousePosition + "\n";
 			mouseString += "button: ";
-			if ( PxInput.mouseDown )
+			if ( inputSystem.mouseDown )
 				mouseString += " DOWN ";
-			if ( !PxInput.mouseDown )
+			if ( inputSystem.mouseUp )
 				mouseString += " UP ";
-			if ( PxInput.mousePressed )
+			if ( inputSystem.mousePressed )
 				mouseString += " PRESSED ";
-			if ( PxInput.mouseReleased )
+			if ( inputSystem.mouseReleased )
 				mouseString += " RELEASED ";
-			mouseString += "\nwheel: " + PxInput.mouseDelta;
+			mouseString += "\nwheel: " + inputSystem.mouseDelta;
 			
 			_mouse.textField.text = mouseString;
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 			

@@ -2,7 +2,7 @@ package examples.replay {
 	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
+	import pixelizer.PxInputSystem;
 	import pixelizer.utils.PxImageUtil;
 	import pixelizer.utils.PxInputPost;
 	import pixelizer.utils.PxInputSequence;
@@ -30,10 +30,10 @@ package examples.replay {
 			
 			if ( _recordInput ) {
 				input = new PxInputPost();
-				input.left = PxInput.isDown( PxInput.KEY_LEFT );
-				input.right = PxInput.isDown( PxInput.KEY_RIGHT );
-				input.up = PxInput.isDown( PxInput.KEY_UP );
-				input.down = PxInput.isDown( PxInput.KEY_DOWN );
+				input.left = scene.inputSystem.isDown( PxInputSystem.KEY_LEFT );
+				input.right = scene.inputSystem.isDown( PxInputSystem.KEY_RIGHT );
+				input.up = scene.inputSystem.isDown( PxInputSystem.KEY_UP );
+				input.down = scene.inputSystem.isDown( PxInputSystem.KEY_DOWN );
 				_inputSequence.storePost( input );
 			} else {
 				input = _inputSequence.fetchPost();

@@ -16,7 +16,6 @@ package examples {
 	import pixelizer.prefabs.gui.PxMouseEntity;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
 	import pixelizer.PxScene;
 	
 	public class MenuScene extends PxScene {

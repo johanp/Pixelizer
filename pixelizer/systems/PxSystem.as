@@ -20,7 +20,13 @@ package pixelizer.systems {
 			scene = null;
 		}
 		
+		public function beforeUpdate( ) : void {
+		
+		}
 		public function update( pDT : Number ) : void {
+		
+		}
+		public function afterUpdate( ) : void {
 		
 		}
 		

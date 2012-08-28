@@ -4,7 +4,7 @@ package examples.text {
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
+	import pixelizer.PxInputSystem;
 	import pixelizer.PxScene;
 	import pixelizer.render.PxBitmapFont;
 	
@@ -106,7 +106,7 @@ package examples.text {
 		override public function update( pDT : Number ) : void {
 			super.update( pDT );
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 		}

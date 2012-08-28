@@ -9,7 +9,7 @@ package examples.collision {
 	import pixelizer.components.render.PxTileMapComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.PxEntity;
-	import pixelizer.PxInput;
+	import pixelizer.PxInputSystem;
 	import pixelizer.PxScene;
 	import pixelizer.render.PxSpriteSheet;
 	import pixelizer.utils.PxImageUtil;
@@ -70,13 +70,13 @@ package examples.collision {
 		}
 		
 		override public function update( pDT : Number ) : void {
-			var vx : Number = 4 * PxMath.sign( int( PxInput.mouseX / 16 ) - int( _controllableEntity.transform.position.x / 16 ) );
-			var vy : Number = 4 * PxMath.sign( int( PxInput.mouseY / 16 ) - int( _controllableEntity.transform.position.y / 16 ) );
+			var vx : Number = 4 * PxMath.sign( int( inputSystem.mouseX / 16 ) - int( _controllableEntity.transform.position.x / 16 ) );
+			var vy : Number = 4 * PxMath.sign( int( inputSystem.mouseY / 16 ) - int( _controllableEntity.transform.position.y / 16 ) );
 			( _controllableEntity.getComponentByClass( PxBodyComponent ) as PxBodyComponent ).setVelocity( vx, vy );
 			
 			super.update( pDT );
 			
-			if ( PxInput.isPressed( PxInput.KEY_ESC ) ) {
+			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
 			}
 		}
