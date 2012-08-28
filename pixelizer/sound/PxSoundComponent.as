@@ -4,22 +4,24 @@ package pixelizer.sound {
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
+	import pixelizer.components.PxComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.PxEntity;
+	import pixelizer.PxScene;
 	import pixelizer.utils.PxLog;
 	
 	/**
 	 * Entity that plays a sound.
 	 * @author Johan Peitz
 	 */
-	public class PxSoundEntity extends PxEntity {
+	public class PxSoundComponent extends PxComponent {
 		private var _sound : Sound;
 		protected var _soundTransform : SoundTransform;
 		protected var _soundChannel : SoundChannel = null;
 		
 		private var _isLooping : Boolean;
 		
-		private var _isGlobal : Boolean;
+		private var _isAmbient : Boolean;
 		
 		private var _paused : Boolean;
 		
@@ -31,28 +33,11 @@ package pixelizer.sound {
 		 * @param	pPosition	Position to play sound at. Pass null for ambient sound.
 		 * @param	pLoop	Whether too loop sound or not.
 		 */
-		public function PxSoundEntity( pSound : Sound, pPosition : Point = null, pLoop : Boolean = false ) {
+		public function PxSoundComponent( pSound : Sound, pAmbient : Boolean = false, pLoop : Boolean = false ) {
 			_sound = pSound;
 			_isLooping = pLoop;
-			_paused = false;
-			
-			if ( pPosition != null ) {
-				transform.position.x = pPosition.x;
-				transform.position.y = pPosition.y;
-				_isGlobal = false;
-			} else {
-				_isGlobal = true;
-			}
-			
-			if ( _isGlobal ) {
-				_soundTransform = new SoundTransform( Pixelizer.globalVolume );
-			} else {
-				_soundTransform = new SoundTransform( 0, 0 );
-			}
-			
-			// start playing the sound
-			play();
-		
+			_paused = true;
+			_isAmbient = pAmbient;
 		}
 		
 		/**
@@ -71,13 +56,42 @@ package pixelizer.sound {
 			super.dispose();
 		}
 		
+		
+		/**
+		 * Invoked when collider's entity is added to scene.
+		 * Automatically adds the collider to the scene's collision manager.
+		 * @param	pScene	Scene entity was added to.
+		 */
+		override public function onEntityAddedToScene( pScene : PxScene ) : void {
+			entity.scene.soundSystem.addSound( this );
+			
+			if ( _isAmbient ) {
+				_soundTransform = new SoundTransform( entity.scene.soundSystem.volume * Pixelizer.globalVolume );
+			} else {
+				_soundTransform = new SoundTransform( 0, 0 );
+			}
+			
+			// play the sound
+			play();
+		}
+		
+		/**
+		 * Invoked when collider's entity is removed from scene.
+		 * Automatically removed the collider from the scene's collision manager.
+		 * @param	pScene	Scene entity was removed from.
+		 */
+		override public function onEntityRemovedFromScene() : void {
+			entity.scene.soundSystem.removeSound( this );
+		}
+				
+		
 		private function play( pPosition : Number = 0 ) : void {
+			_paused = false;
 			_soundChannel = _sound.play( pPosition, 0, _soundTransform );
 			if ( _soundChannel != null ) {
 				_soundChannel.addEventListener( Event.SOUND_COMPLETE, onSoundComplete );
 			} else {
 				PxLog.log( "out of sound channels, skipping sound '" + _sound + "'", this, PxLog.WARNING );
-				destroyIn( 0 );
 			}
 		
 		}
@@ -87,14 +101,18 @@ package pixelizer.sound {
 		 * @param	pDT
 		 */
 		override public function update( pDT : Number ) : void {
-			if ( parent != null && !_isGlobal ) {
+			if ( entity.parent != null && !_isAmbient ) {
 				if ( _soundChannel != null ) {
-					updateSoundTransform( transform.positionOnScene );
+					updateSoundTransform( entity.transform.positionOnScene );
 					_soundChannel.soundTransform = _soundTransform;
 				}
 			}
-			if ( _isGlobal ) {
-				setVolumeToGlobalVolume();
+			if ( _isAmbient ) {
+				if ( _soundChannel != null ) {
+					_soundTransform.pan = 0;
+					_soundTransform.volume = entity.scene.soundSystem.volume * Pixelizer.globalVolume;
+					_soundChannel.soundTransform = _soundTransform
+				}
 			}
 			
 			super.update( pDT );
@@ -126,26 +144,34 @@ package pixelizer.sound {
 			play( _pausePosition );
 		}
 		
+		public function stop():void 
+		{
+			if ( _paused ) return;
+			if ( _soundChannel != null ) {
+				_soundChannel.stop();
+			}
+		}
+		
 		private function updateSoundTransform( pScenePosition : Point ) : void {
-			var camCenter : Point = scene.camera.center;
+			var camCenter : Point = entity.scene.camera.center;
 			var volDistToCam : Number = Point.distance( pScenePosition, camCenter );
 			
 			var vol : Number = 1;
-			if ( volDistToCam > scene.soundSystem.volumeRange.x + scene.soundSystem.volumeRange.y ) {
+			if ( volDistToCam > entity.scene.soundSystem.volumeRange.x + entity.scene.soundSystem.volumeRange.y ) {
 				vol = 0;
-			} else if ( volDistToCam > scene.soundSystem.volumeRange.x ) {
-				vol = 1 - ( volDistToCam - scene.soundSystem.volumeRange.x ) / ( scene.soundSystem.volumeRange.y );
+			} else if ( volDistToCam > entity.scene.soundSystem.volumeRange.x ) {
+				vol = 1 - ( volDistToCam - entity.scene.soundSystem.volumeRange.x ) / ( entity.scene.soundSystem.volumeRange.y );
 			}
 			
-			_soundTransform.volume = vol * Pixelizer.globalVolume;
+			_soundTransform.volume = vol * entity.scene.soundSystem.volume * Pixelizer.globalVolume;
 			
 			var panDistToCam : Number = Math.abs( pScenePosition.x - camCenter.x );
 			var pan : Number = 0;
 			
-			if ( panDistToCam > scene.soundSystem.panRange.x + scene.soundSystem.panRange.y ) {
+			if ( panDistToCam > entity.scene.soundSystem.panRange.x + entity.scene.soundSystem.panRange.y ) {
 				pan = 1;
-			} else if ( panDistToCam > scene.soundSystem.panRange.x ) {
-				pan = Math.abs( panDistToCam - scene.soundSystem.panRange.x ) / ( scene.soundSystem.panRange.y );
+			} else if ( panDistToCam > entity.scene.soundSystem.panRange.x ) {
+				pan = Math.abs( panDistToCam - entity.scene.soundSystem.panRange.x ) / ( entity.scene.soundSystem.panRange.y );
 			}
 			
 			if ( pScenePosition.x < camCenter.x ) {
@@ -160,18 +186,17 @@ package pixelizer.sound {
 			_soundChannel.removeEventListener( Event.SOUND_COMPLETE, onSoundComplete );
 			if ( _isLooping ) {
 				play();
-			} else {
-				destroyIn( 0 );
+			} 
+			else {
+				// TODO: remove sound component if no longer used?
 			}
 		}
 		
 		
-		private function setVolumeToGlobalVolume() : void {
-			if ( _soundChannel != null ) {
-				_soundTransform.pan = 0;
-				_soundTransform.volume = Pixelizer.globalVolume;
-				_soundChannel.soundTransform = _soundTransform
-			}
+		
+		public function get soundChannel():SoundChannel 
+		{
+			return _soundChannel;
 		}
 	
 	}

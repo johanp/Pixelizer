@@ -5,6 +5,9 @@ CHANGELOG
 * converted collision manager to system
 * converted sound manager to system
 * fixed bug that caused occasional camera jitter
+* separated sound from PxSoundEntity into PxSoundComponent which registers with PxSoundSystem
+* fixed sounds forgetting their volume on mute
+* made scene pause/unpause sounds on deactivation/activation
 
 
 2012-05-13, 0.4.3, "the squasher of bugs"

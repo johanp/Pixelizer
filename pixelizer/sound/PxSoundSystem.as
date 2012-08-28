@@ -3,6 +3,7 @@ package pixelizer.sound {
 	import flash.media.Sound;
 	import flash.utils.Dictionary;
 	import pixelizer.Pixelizer;
+	import pixelizer.prefabs.PxSoundEntity;
 	import pixelizer.PxEntity;
 	import pixelizer.PxScene;
 	import pixelizer.systems.PxSystem;
@@ -13,7 +14,7 @@ package pixelizer.sound {
 	 * @author Johan Peitz
 	 */
 	public class PxSoundSystem extends PxSystem {
-		private var _storedSounds : Dictionary = new Dictionary();
+		private var _sounds : Array = [];
 		
 		/**
 		 * Sets the distance of where panning starts to occur and for how long until 100% on one end.
@@ -24,26 +25,57 @@ package pixelizer.sound {
 		 */
 		public var volumeRange : Point;
 		
+		private var _volume : Number;
+		private var _volumeBeforeMute : Number;
+		
 		
 		/**
-		 * Initializes the sound manager. Gets taken care of autmatically.
+		 * Initializes the sound system.
 		 */
 		public function PxSoundSystem( pScene : PxScene, pPriority : int = 0 ) : void {
 			super( pScene, pPriority );
+			
 			panRange = new Point( Pixelizer.engine.width * 0.75 / 2, Pixelizer.engine.width * 0.75 / 2 );
 			volumeRange = new Point( Pixelizer.engine.width / 2, Pixelizer.engine.width / 2 );
-			
+			_volume = 1;
 		}
+
+		/**
+		 * Clears all resources used by this system.
+		 */
+		override public function dispose() : void {
+			var pos : int = _sounds.length;
+			while ( --pos >= 0 ) {
+				( _sounds[ pos ] as PxSoundComponent ).stop();
+			}
+			_sounds = null;
+			super.dispose();
+		}
+		
+		/**
+		 * Adds a collider to the system. The collider will now be check for collision against other colliders.
+		 * @param	pCollider	Collider to add.
+		 */
+		public function addSound( pSound : PxSoundComponent ) : void {
+			_sounds.push( pSound );
+		}
+		
+		/**
+		 * Removes a collider from the system. It will no longer collide with other colliders.
+		 * @param	pCollider	Collider to remove.
+		 */
+		public function removeSound( pSound : PxSoundComponent ) : void {
+			_sounds.splice( _sounds.indexOf( pSound ), 1 );
+		}
+		
 		
 		/**
 		 * Pauses all sounds.
 		 */
 		public function pause() : void {
-			var entities : Vector.<PxEntity> = new Vector.<PxEntity>;
-			scene.getEntitesByClass( scene.entityRoot, PxSoundEntity, entities );
-			var pos : int = entities.length;
+			var pos : int = _sounds.length;
 			while ( --pos >= 0 ) {
-				( entities[ pos ] as PxSoundEntity ).pause();
+				( _sounds[ pos ] as PxSoundComponent ).pause();
 			}
 		}
 		
@@ -51,11 +83,9 @@ package pixelizer.sound {
 		 * Resumes all paused sounds.
 		 */
 		public function unpause() : void {
-			var entities : Vector.<PxEntity> = new Vector.<PxEntity>;
-			scene.getEntitesByClass( scene.entityRoot, PxSoundEntity, entities );
-			var pos : int = entities.length;
+			var pos : int = _sounds.length;
 			while ( --pos >= 0 ) {
-				( entities[ pos ] as PxSoundEntity ).unpause();
+				( _sounds[ pos ] as PxSoundComponent ).unpause();
 			}
 		}
 		
@@ -63,8 +93,9 @@ package pixelizer.sound {
 		 * Mutes all current and future sounds.
 		 */
 		public function mute() : void {
-			if ( Pixelizer.globalVolume > 0 ) {
-				Pixelizer.globalVolume = 0;
+			if ( _volume > 0 ) {
+				_volumeBeforeMute = _volume;
+				_volume = 0;
 				
 				updateAllSoundEntites();
 			}
@@ -74,19 +105,18 @@ package pixelizer.sound {
 		 * Unmutes all current and future sounds.
 		 */
 		public function unmute() : void {
-			if ( Pixelizer.globalVolume == 0 ) {
-				Pixelizer.globalVolume = 1;
+			if ( _volume == 0 ) {
+				_volume = _volumeBeforeMute;
 				
 				updateAllSoundEntites();
 			}
 		}
 		
+		
 		private function updateAllSoundEntites() : void {
-			var entities : Vector.<PxEntity> = new Vector.<PxEntity>;
-			scene.getEntitesByClass( scene.entityRoot, PxSoundEntity, entities );
-			var pos : int = entities.length;
+			var pos : int = _sounds.length;
 			while ( --pos >= 0 ) {
-				entities[ pos ].update( 0 );
+				_sounds[ pos ].update( 0 );
 			}
 		}
 		
@@ -95,7 +125,7 @@ package pixelizer.sound {
 		 * @return	True if sounds are muted.
 		 */
 		public function isMuted() : Boolean {
-			return Pixelizer.globalVolume == 0;
+			return _volume == 0;
 		}
 		
 		
@@ -106,7 +136,13 @@ package pixelizer.sound {
 		 * @param	pLoop	Whether to loop the sound or not.
 		 */
 		public function play( pSound : Sound, pPosition : Point = null, pLoop : Boolean = false ) : void {
-			Pixelizer.engine.currentScene.addEntity( new PxSoundEntity( pSound, pPosition, pLoop ) );
+			var soundEntity : PxSoundEntity = new PxSoundEntity( pSound, pPosition, pLoop );
+			Pixelizer.engine.currentScene.addEntity( soundEntity );
+		}
+		
+		public function get volume():Number 
+		{
+			return _volume;
 		}
 	
 	}

@@ -19,7 +19,7 @@ package examples.sound {
 			super( 160, 120 );
 			addComponent( new PxBlitRenderComponent( PxImageUtil.createRect( 32, 32, Pixelizer.COLOR_BLUE ) ) );
 			
-			addEntity( new VisibleSoundEntity( new birdSoundCls(), Pixelizer.ZERO_POINT, true ) );
+			addEntity( new VisibleSoundEntity( new birdSoundCls(), null, true ) );
 		}
 		
 		override public function update( pDT : Number ) : void {

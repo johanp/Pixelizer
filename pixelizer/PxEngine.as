@@ -352,6 +352,11 @@ package pixelizer {
 		private function internalPushScene( pScene : PxScene ) : void {
 			PxLog.log( "pushing scene '" + pScene + "' on stack", this, PxLog.INFO );
 			_sceneStack.push( pScene );
+			
+			if ( _currentScene != null ) {
+				_currentScene.onDeactivated();
+			}
+			
 			_currentScene = pScene;
 			_currentScene.onAddedToEngine( this );
 		}
@@ -371,6 +376,7 @@ package pixelizer {
 			
 			if ( _sceneStack.length > 0 ) {
 				_currentScene = _sceneStack[ _sceneStack.length - 1 ];
+				_currentScene.onActivated();
 			} else {
 				_currentScene = null;
 			}

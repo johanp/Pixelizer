@@ -5,7 +5,6 @@ package pixelizer {
 	import pixelizer.IPxEntityContainer;
 	import pixelizer.physics.PxCollisionSystem;
 	import pixelizer.render.PxCamera;
-	import pixelizer.sound.PxSoundEntity;
 	import pixelizer.sound.PxSoundSystem;
 	import pixelizer.systems.PxSystem;
 	import pixelizer.utils.PxMath;
@@ -58,19 +57,19 @@ package pixelizer {
 		 * Cleans up all resources used by the scene, including any added entities which will also be disposed.
 		 */
 		public function dispose() : void {
+
 			_entityRoot.dispose();
 			_entityRoot = null;
 			
 			_mainCamera.dispose();
 			_mainCamera = null;
 			
-			engine = null;
-			
 			for each ( var s : PxSystem in _systems ) {
 				s.dispose();
 			}
 			_systems = null;
-		
+
+			engine = null;
 		}
 		
 		/**
@@ -88,6 +87,17 @@ package pixelizer {
 			engine = null;
 			dispose();
 		}
+		
+		public function onActivated():void 
+		{
+			_soundSystem.unpause();
+		}
+		
+		public function onDeactivated():void 
+		{
+			_soundSystem.pause();
+		}
+		
 		
 		/**
 		 * Invoked regularly by the engine. Updates all entities and subsystems.
@@ -219,6 +229,7 @@ package pixelizer {
 			_systems.sort( PxSystem.sortOnPriority );
 			return pSystem;
 		}
+		
 	
 	}
 }

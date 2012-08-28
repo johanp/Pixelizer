@@ -8,11 +8,11 @@ package examples.platformer {
 	import pixelizer.physics.PxCollisionData;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.PxActorEntity;
+	import pixelizer.prefabs.PxSoundEntity;
 	import pixelizer.PxEntity;
 	import pixelizer.PxInput;
 	import pixelizer.render.PxBlitRenderer;
 	import pixelizer.render.PxSpriteSheet;
-	import pixelizer.sound.PxSoundEntity;
 	import pixelizer.utils.PxRepository;
 	
 	/**

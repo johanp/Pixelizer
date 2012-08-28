@@ -5,6 +5,7 @@ package examples.platformer {
 	import pixelizer.components.render.PxTextFieldComponent;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
+	import pixelizer.prefabs.PxSoundEntity;
 	import pixelizer.PxEngine;
 	import pixelizer.PxEntity;
 	import pixelizer.PxInput;
@@ -13,7 +14,6 @@ package examples.platformer {
 	import pixelizer.render.PxBlitRenderer;
 	import pixelizer.render.PxCamera;
 	import pixelizer.render.PxSpriteSheet;
-	import pixelizer.sound.PxSoundEntity;
 	
 	/**
 	 * Holds all entities and manages the game.

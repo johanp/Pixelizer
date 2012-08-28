@@ -19,7 +19,7 @@ package examples.sound {
 			backgroundColor = Pixelizer.COLOR_WHITE;
 			
 			// change sound rules so the fit on screen
-			soundSystem.panRange = new Point( 120, 40 );
+			soundSystem.panRange = new Point( 40, 120 );
 			soundSystem.volumeRange = new Point( 80, 80 );
 			
 			var e : PxEntity;
@@ -55,9 +55,6 @@ package examples.sound {
 		override public function update( pDT : Number ) : void {
 			if ( PxInput.mousePressed ) {
 				addEntity( new VisibleSoundEntity( new sheepSoundCls(), PxInput.mousePosition ) );
-					// could also have been
-					// PxSoundManager.play( new _sheepSound(), PxInput.mousePosition );
-					// but then we wouldn't see it
 			}
 			
 			if ( PxInput.isPressed( PxInput.KEY_M ) ) {
