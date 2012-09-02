@@ -27,6 +27,8 @@ package pixelizer.sound {
 		
 		private var _pausePosition : Number;
 		
+		private var _onCompleteCallback : Function;
+		
 		/**
 		 * Constructs a new component with specified sound.
 		 * @param	pSound	Sound to play.
@@ -188,7 +190,9 @@ package pixelizer.sound {
 			if ( _isLooping ) {
 				play();
 			} else {
-				// TODO: remove sound component if no longer used?
+				if ( _onCompleteCallback != null ) {
+					_onCompleteCallback( this );
+				}
 			}
 		}
 		
@@ -197,6 +201,11 @@ package pixelizer.sound {
 		 */
 		public function get soundChannel() : SoundChannel {
 			return _soundChannel;
+		}
+		
+		public function set onCompleteCallback(pCallback:Function):void 
+		{
+			_onCompleteCallback = pCallback;
 		}
 	
 	}

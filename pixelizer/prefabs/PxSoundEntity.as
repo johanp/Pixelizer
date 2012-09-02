@@ -22,15 +22,22 @@ package pixelizer.prefabs {
 		 * @param	pPosition	Position to play sound at. Pass null for ambient sound.
 		 * @param	pLoop	Whether too loop sound or not.
 		 */
-		public function PxSoundEntity( pSound : Sound, pPosition : Point, pLoop : Boolean = false ) {
+		public function PxSoundEntity( pSound : Sound, pPosition : Point, pLoop : Boolean = false, pDestroyOnComplete : Boolean = true ) {
 			if ( pPosition != null ) {
 				transform.position.x = pPosition.x;
 				transform.position.y = pPosition.y;
 			}
 			
+			
 			_soundComp = new PxSoundComponent( pSound, pPosition == null, pLoop );
+
+			if ( pDestroyOnComplete ) {
+				_soundComp.onCompleteCallback = onSoundComplete;
+			}
+			
 			addComponent( _soundComp );
 		}
+		
 		
 		/**
 		 * Disposes entity and stops sound.
@@ -41,6 +48,11 @@ package pixelizer.prefabs {
 			super.dispose();
 		}
 		
+		
+		private function onSoundComplete( pSoundComponent : PxSoundComponent ):void 
+		{
+			destroyIn( 0 );
+		}
 		
 		/**
 		 * Pauses the sound.
