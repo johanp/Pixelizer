@@ -125,10 +125,6 @@ package pixelizer {
 			for each ( s in _systems ) {
 				s.beforeUpdate( );
 			}
-
-			// update entities
-			// TODO: this should also be a system!
-			//updateEntityTree( _entityRoot, pDT );
 			
 			for each ( s in _systems ) {
 				s.update( pDT );

@@ -11,6 +11,7 @@ package examples {
 	import examples.spritesheet.SpriteSheetExampleScene;
 	import examples.text.TextExampleScene;
 	import examples.transform.TransformExampleScene;
+	import examples.camera.CameraExampleScene;
 	import pixelizer.Pixelizer;
 	import pixelizer.prefabs.gui.PxGUIButton;
 	import pixelizer.prefabs.gui.PxMouseEntity;
@@ -37,9 +38,10 @@ package examples {
 			_examples.push({ lbl: "Input", cls: InputExampleScene } );
 			_examples.push({ lbl: "GUI", cls: GUIExampleScene } );
 			_examples.push({ lbl: "Sprite Sheets", cls: SpriteSheetExampleScene } );
-			_examples.push({ lbl: "Playing Sounds", cls: SoundExampleScene } );
+			_examples.push({ lbl: "Sounds", cls: SoundExampleScene } );
 			_examples.push({ lbl: "Collisions", cls: CollisionExampleScene } );
 			_examples.push({ lbl: "Emitters", cls: EmittersExampleScene } );
+			_examples.push({ lbl: "Camera", cls: CameraExampleScene } );
 			_examples.push({ lbl: "Replays", cls: ReplayExampleScene } );
 			_examples.push({ lbl: "Platform Game", cls: PlatformerTitleScene } );
 			_examples.push({ lbl: "Benchmark", cls: BenchmarkExampleScene } );

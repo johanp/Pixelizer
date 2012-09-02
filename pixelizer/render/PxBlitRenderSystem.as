@@ -27,7 +27,6 @@ package pixelizer.render {
 		
 		private var _renderStats : PxRenderStats;
 		
-		
 		/**
 		 * Creates a new blit rendering system.
 		 * @param	pScene	Scene to which the system belongs.
@@ -36,7 +35,7 @@ package pixelizer.render {
 		 */
 		public function PxBlitRenderSystem( pScene : PxScene, pPriority : int = 0, pTransparent : Boolean = false ) {
 			super( pScene, pPriority );
-
+			
 			_surface = new Bitmap( new BitmapData( Pixelizer.engine.width, Pixelizer.engine.height, pTransparent, 0xFFFFFF ) );
 			_surface.scaleX = _surface.scaleY = Pixelizer.engine.scale;
 			_surface.smoothing = false;
@@ -90,11 +89,12 @@ package pixelizer.render {
 		}
 		
 		private function renderComponents( pEntity : PxEntity, pScene : PxScene, pPosition : Point, pRotation : Number, pScaleX : Number, pScaleY : Number ) : void {
-			_view.x = pScene.camera.view.x * pEntity.transform.scrollFactorX;
-			_view.y = pScene.camera.view.y * pEntity.transform.scrollFactorY;
-			
 			for each ( var e : PxEntity in pEntity.entities ) {
 				var pos : Point = Pixelizer.pointPool.fetch();
+				// adjust to scroll factor
+				_view.x = pScene.camera.view.x * e.transform.scrollFactorX;
+				_view.y = pScene.camera.view.y * e.transform.scrollFactorY;
+				
 				if ( pRotation != 0 ) {
 					// TODO: find faster versions of sqrt and atan2
 					var d : Number = Math.sqrt( e.transform.position.x * e.transform.position.x + e.transform.position.y * e.transform.position.y );
@@ -131,7 +131,6 @@ package pixelizer.render {
 		public function get displayObject() : DisplayObject {
 			return _surface;
 		}
-		
-		
+	
 	}
 }

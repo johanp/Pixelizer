@@ -14,6 +14,8 @@ CHANGELOG
 * converted entity updater to system
 * updated performance view to make use of system stats
 * added info in PxScene for how many seconds/frames the scene has been updated
+* fixed issue with scrollFactor
+* added camera example
 
 
 
