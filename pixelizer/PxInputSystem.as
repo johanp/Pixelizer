@@ -43,8 +43,9 @@ package pixelizer {
 		
 		
 		/**
-		 * Initializes the input manager.
-		 * @param	pStage The Flash stage. Needed to listed for keyboard events.
+		 * Initializes the input system.
+		 * @param	pScene	Scene on which to operate.
+		 * @param	pPriority	When to be invoked in relation to other sytems.
 		 */
 		public function PxInputSystem( pScene : PxScene, pPriority : int = 0 ) : void {
 			super( pScene, pPriority );

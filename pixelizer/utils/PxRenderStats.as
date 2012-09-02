@@ -29,6 +29,10 @@ package pixelizer.utils {
 			renderTime = 0;
 		}
 		
+		/**
+		 * Returns stats as readable string.
+		 * @return	Stats as readable string.
+		 */
 		override public function toString() : String {
 			var s : String = "";
 			s += "Render: " + renderTime + " ms" + "\n";

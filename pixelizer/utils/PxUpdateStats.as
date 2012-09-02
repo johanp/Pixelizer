@@ -18,6 +18,10 @@ package pixelizer.utils {
 			entitiesUpdated = 0;
 		}
 		
+		/**
+		 * Returns stats as readable string.
+		 * @return	Stats as readable string.
+		 */
 		override public function toString() : String {
 			return "Entities: " + entitiesUpdated;
 		}

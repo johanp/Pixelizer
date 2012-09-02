@@ -28,6 +28,10 @@ package pixelizer.utils {
 		 */
 		public var currentMemory : int = -1;
 			
+		/**
+		 * Returns stats as readable string.
+		 * @return	Stats as readable string.
+		 */
 		override public function toString() : String {
 			var text : String = "";
 			text += "FPS: " + fps + "\n";

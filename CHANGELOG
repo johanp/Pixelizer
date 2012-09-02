@@ -13,6 +13,7 @@ CHANGELOG
 * converted renderer to system
 * converted entity updater to system
 * updated performance view to make use of system stats
+* added info in PxScene for how many seconds/frames the scene has been updated
 
 
 

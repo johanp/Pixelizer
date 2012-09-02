@@ -28,7 +28,7 @@ package pixelizer.sound {
 		private var _pausePosition : Number;
 		
 		/**
-		 * Constructs a new entity with specified sound.
+		 * Constructs a new component with specified sound.
 		 * @param	pSound	Sound to play.
 		 * @param	pPosition	Position to play sound at. Pass null for ambient sound.
 		 * @param	pLoop	Whether too loop sound or not.
@@ -56,10 +56,9 @@ package pixelizer.sound {
 			super.dispose();
 		}
 		
-		
 		/**
-		 * Invoked when collider's entity is added to scene.
-		 * Automatically adds the collider to the scene's collision manager.
+		 * Invoked when sound's entity is added to scene.
+		 * Automatically adds the sound to the scene's sound system.
 		 * @param	pScene	Scene entity was added to.
 		 */
 		override public function onEntityAddedToScene( pScene : PxScene ) : void {
@@ -76,14 +75,13 @@ package pixelizer.sound {
 		}
 		
 		/**
-		 * Invoked when collider's entity is removed from scene.
-		 * Automatically removed the collider from the scene's collision manager.
+		 * Invoked when sound's entity is removed from scene.
+		 * Automatically removes the sound from the scene's sound systemmanager.
 		 * @param	pScene	Scene entity was removed from.
 		 */
 		override public function onEntityRemovedFromScene() : void {
 			entity.scene.soundSystem.removeSound( this );
 		}
-				
 		
 		private function play( pPosition : Number = 0 ) : void {
 			_paused = false;
@@ -144,9 +142,12 @@ package pixelizer.sound {
 			play( _pausePosition );
 		}
 		
-		public function stop():void 
-		{
-			if ( _paused ) return;
+		/**
+		 * Stops the sound.
+		 */
+		public function stop() : void {
+			if ( _paused )
+				return;
 			if ( _soundChannel != null ) {
 				_soundChannel.stop();
 			}
@@ -186,16 +187,15 @@ package pixelizer.sound {
 			_soundChannel.removeEventListener( Event.SOUND_COMPLETE, onSoundComplete );
 			if ( _isLooping ) {
 				play();
-			} 
-			else {
+			} else {
 				// TODO: remove sound component if no longer used?
 			}
 		}
 		
-		
-		
-		public function get soundChannel():SoundChannel 
-		{
+		/**
+		 * Returns the sound channel for this sound.
+		 */
+		public function get soundChannel() : SoundChannel {
 			return _soundChannel;
 		}
 	

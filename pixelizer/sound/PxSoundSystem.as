@@ -10,7 +10,7 @@ package pixelizer.sound {
 	import pixelizer.utils.PxLog;
 	
 	/**
-	 * Manages all global sound issues.
+	 * System that handles all sound in a scene.
 	 * @author Johan Peitz
 	 */
 	public class PxSoundSystem extends PxSystem {
@@ -28,7 +28,6 @@ package pixelizer.sound {
 		private var _volume : Number;
 		private var _volumeBeforeMute : Number;
 		
-		
 		/**
 		 * Initializes the sound system.
 		 */
@@ -39,7 +38,7 @@ package pixelizer.sound {
 			volumeRange = new Point( Pixelizer.engine.width / 2, Pixelizer.engine.width / 2 );
 			_volume = 1;
 		}
-
+		
 		/**
 		 * Clears all resources used by this system.
 		 */
@@ -67,7 +66,6 @@ package pixelizer.sound {
 		public function removeSound( pSound : PxSoundComponent ) : void {
 			_sounds.splice( _sounds.indexOf( pSound ), 1 );
 		}
-		
 		
 		/**
 		 * Pauses all sounds.
@@ -112,7 +110,6 @@ package pixelizer.sound {
 			}
 		}
 		
-		
 		private function updateAllSoundEntites() : void {
 			var pos : int = _sounds.length;
 			while ( --pos >= 0 ) {
@@ -128,7 +125,6 @@ package pixelizer.sound {
 			return _volume == 0;
 		}
 		
-		
 		/**
 		 * Shortcut for quickly playing a sound.
 		 * @param	pSound	Sound to play.
@@ -140,8 +136,10 @@ package pixelizer.sound {
 			Pixelizer.engine.currentScene.addEntity( soundEntity );
 		}
 		
-		public function get volume():Number 
-		{
+		/**
+		 * Returns the current volume for this system.
+		 */
+		public function get volume() : Number {
 			return _volume;
 		}
 	

@@ -5,20 +5,33 @@ package pixelizer.systems {
 	import pixelizer.utils.PxUpdateStats;
 	
 	/**
-	 * ...
+	 * The update system updates all entities in a scene.
 	 * @author Johan Peitz
 	 */
 	public class PxUpdateSystem extends PxSystem {
 		private var _updateStats : PxUpdateStats;
 		
+		/**
+		 * Creates a new update system.
+		 * @param	pScene	Scene on which to operate.
+		 * @param	pPriority	When to be invoked in relation to other sytems.
+		 */
 		public function PxUpdateSystem( pScene : PxScene, pPriority : int = 0 ) {
 			super( pScene, pPriority );
 			_stats = _updateStats = new PxUpdateStats();
 		}
 		
-		override public function beforeUpdate( ) : void {
+		/**
+		 * Resets update sats. Invoked automatically.
+		 */
+		override public function beforeUpdate() : void {
 			_updateStats.reset();
 		}
+		
+		/**
+		 * Updates all entities.
+		 * @param	pDT	Time passed.
+		 */
 		override public function update( pDT : Number ) : void {
 			updateEntityTree( scene.entityRoot, pDT );
 		}

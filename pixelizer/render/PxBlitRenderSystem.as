@@ -17,7 +17,7 @@ package pixelizer.render {
 	import pixelizer.utils.PxRenderStats;
 	
 	/**
-	 * Pixelizer renderer that uses blitting to position bitmap data onto a destination bitmap.
+	 * Rendering system that uses blitting to position bitmap data onto a destination bitmap.
 	 * @author Johan Peitz
 	 */
 	public class PxBlitRenderSystem extends PxSystem {
@@ -27,6 +27,13 @@ package pixelizer.render {
 		
 		private var _renderStats : PxRenderStats;
 		
+		
+		/**
+		 * Creates a new blit rendering system.
+		 * @param	pScene	Scene to which the system belongs.
+		 * @param	pPriority	Priority towards other systems.
+		 * @param	pTransparent	Whether the render surface should be transparent or not.
+		 */
 		public function PxBlitRenderSystem( pScene : PxScene, pPriority : int = 0, pTransparent : Boolean = false ) {
 			super( pScene, pPriority );
 
@@ -55,7 +62,7 @@ package pixelizer.render {
 		}
 		
 		/**
-		 * Invoked before rendering starts.
+		 * Invoked before rendering starts. Clears stats and locks bitmap.
 		 */
 		override public function beforeRender() : void {
 			_stats.reset();

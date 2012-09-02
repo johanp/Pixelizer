@@ -333,6 +333,7 @@ package pixelizer {
 		
 		/**
 		 * Removes to top most scene from the stack and sets the scene below to become the current scene.
+		 * The popped scene will be disposed.
 		 */
 		public function popScene() : void {
 			_sceneChanges.push({ action: "pop", scene: null } );

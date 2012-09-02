@@ -31,6 +31,9 @@ package pixelizer {
 		
 		private var _mainCamera : PxCamera;
 		
+		public var framesPassed  : int;
+		public var secondsPassed : Number;
+		
 		/**
 		 * Specifies whether the scene has a background fill.
 		 */
@@ -60,6 +63,9 @@ package pixelizer {
 			_soundSystem = addSystem( new PxSoundSystem( this, 300 ) ) as PxSoundSystem;
 			
 			_mainCamera = new PxCamera( Pixelizer.engine.width, Pixelizer.engine.height, -Pixelizer.engine.width / 2, -Pixelizer.engine.height / 2 );
+			
+			framesPassed = 0;
+			secondsPassed = 0;
 		}
 		
 		/**
@@ -135,6 +141,9 @@ package pixelizer {
 			for each ( s in _systems ) {
 				s.afterUpdate( );
 			}
+			
+			secondsPassed += pDT;
+			framesPassed ++;
 			
 		}
 		
