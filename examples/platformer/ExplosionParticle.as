@@ -18,8 +18,8 @@ package examples.platformer {
 			
 			var a : Number = Math.random() * PxMath.TWO_PI;
 			var f : Number = 5 + Math.random() * 2;
-			_body.velocity.x = f * PxMath.cos( a );
-			_body.velocity.y = f * PxMath.sin( a );
+			_body.velocity.x = f * Math.cos( a );
+			_body.velocity.y = f * Math.sin( a );
 			
 			// don't live longer than this!
 			destroyIn( pLifeTime );

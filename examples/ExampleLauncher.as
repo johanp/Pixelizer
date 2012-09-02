@@ -16,7 +16,7 @@ package examples {
 		public function ExampleLauncher() {
 			var engine : PxEngine = new PxEngine( 320, 240, 2 );
 			addChild( engine );
-			//engine.showPerformance = true;
+			engine.showPerformance = true;
 			//engine.pauseOnFocusLost = false;
 			
 			engine.pushScene( new MenuScene() );

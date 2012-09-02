@@ -16,6 +16,10 @@ package examples.camera {
 	public class CameraExampleScene extends PxScene {
 		
 		public function CameraExampleScene() {
+			background = false;
+			
+			addSystem( new BlurSystem( this, 2000 ) );
+			
 			for ( var i : int = 0; i < 1000; i++ ) {
 				var z : int = 1 + i / 100;
 				var e : PxEntity = new PxEntity( 10 * PxMath.randomInt( -16, 48 ), 10 * PxMath.randomInt( -12, 36 ) );
@@ -31,6 +35,9 @@ package examples.camera {
 			textEntity.textField.outline = true;
 			textEntity.transform.setPosition( 160, 120 );
 			addEntity( textEntity );
+			
+			// TODO: toggle tracking / manual
+			// TOOD: bounds
 			
 		}
 		

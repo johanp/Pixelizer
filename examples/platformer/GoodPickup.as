@@ -72,7 +72,7 @@ package examples.platformer {
 				if ( dist < 150 ) {
 					a = Math.atan2( b.transform.position.y - transform.position.y, b.transform.position.x - transform.position.x );
 					f = 10000 / ( dist * dist );
-					b.addVelocity( f * PxMath.cos( a ), f * Math.sin( a ) );
+					b.addVelocity( f * Math.cos( a ), f * Math.sin( a ) );
 				}
 			}
 			
@@ -84,7 +84,7 @@ package examples.platformer {
 				
 				a = Math.atan2( g.transform.position.y - transform.position.y, g.transform.position.x - transform.position.x );
 				f = 10000 / ( dist * dist );
-				g.addVelocity( -f * PxMath.cos( a ), -f * Math.sin( a ) );
+				g.addVelocity( -f * Math.cos( a ), -f * Math.sin( a ) );
 			}
 			
 			destroyIn( 0 );

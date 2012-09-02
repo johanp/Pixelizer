@@ -94,6 +94,7 @@ package pixelizer.utils {
 		 * @param	pRaidans	Angle to use for calculation.
 		 * @return	Approximative sin value.
 		 */
+		/*
 		public static function sin( pRaidans : Number ) : Number {
 			var result : Number;
 			
@@ -118,6 +119,7 @@ package pixelizer.utils {
 			
 			return result;
 		}
+		*/
 		
 		/**
 		 * Uses quick and approximate algorithm to get cos value.
@@ -125,6 +127,7 @@ package pixelizer.utils {
 		 * @param	pRaidans	Angle to use for calculation.
 		 * @return	Approximative cos value.
 		 */
+		/*
 		public static function cos( pRaidans : Number ) : Number {
 			var result : Number;
 			
@@ -150,6 +153,8 @@ package pixelizer.utils {
 			}
 			return result;
 		}
+		*/
+		
 	
 	}
 

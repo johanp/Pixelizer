@@ -1,4 +1,5 @@
 package examples.platformer {
+	import examples.camera.BlurSystem;
 	import flash.geom.Point;
 	import pixelizer.components.collision.PxBoxColliderComponent;
 	import pixelizer.components.collision.PxBoxColliderRenderComponent;

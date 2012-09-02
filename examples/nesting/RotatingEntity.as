@@ -24,7 +24,7 @@ package examples.nesting {
 		
 		override public function update( pDT : Number ) : void {
 			_timePassed += pDT * _rotSpeed;
-			transform.rotation = PxMath.sin( _timePassed * 2 ) * 0.7;
+			transform.rotation = Math.sin( _timePassed * 2 ) * 0.7;
 			
 			super.update( pDT );
 		}

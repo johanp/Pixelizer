@@ -70,7 +70,7 @@ package pixelizer.components {
 						if ( body != null ) {
 							var a : Number = PxMath.randomNumber( _emitAngle.x, _emitAngle.y );
 							var f : Number = PxMath.randomNumber( _emitForce.x, _emitForce.y );
-							var vel : Point = new Point( f * PxMath.cos( a ), f * PxMath.sin( a ) );
+							var vel : Point = new Point( f * Math.cos( a ), f * Math.sin( a ) );
 							
 							body.velocity.x += vel.x;
 							body.velocity.y += vel.y;

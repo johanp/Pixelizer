@@ -81,14 +81,14 @@ package examples.transform {
 			
 			_timePassed += pDT;
 			
-			_movingEntity.transform.position.x = 40 + 20 * PxMath.cos( _timePassed );
-			_movingEntity.transform.position.y = 160 + 40 * PxMath.sin( _timePassed * 2 );
+			_movingEntity.transform.position.x = 40 + 20 * Math.cos( _timePassed );
+			_movingEntity.transform.position.y = 160 + 40 * Math.sin( _timePassed * 2 );
 			
 			_rotatingEntity.transform.rotation = _timePassed * 2;
 			_pivotingEntity.transform.rotation = _timePassed * 2;
 			
-			_xScaleEntity.transform.scaleX = 2 * PxMath.cos( _timePassed * 2 );
-			_yScaleEntity.transform.scaleY = 2 * PxMath.sin( _timePassed * 2 );
+			_xScaleEntity.transform.scaleX = 2 * Math.cos( _timePassed * 2 );
+			_yScaleEntity.transform.scaleY = 2 * Math.sin( _timePassed * 2 );
 			
 			if ( inputSystem.isPressed( PxInputSystem.KEY_ESC ) ) {
 				engine.popScene();
