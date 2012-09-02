@@ -16,6 +16,7 @@ package examples.benchmark {
 	import pixelizer.PxInputSystem;
 	import pixelizer.PxScene;
 	import pixelizer.utils.PxMath;
+	import pixelizer.utils.PxRenderStats;
 	
 	public class BenchmarkExampleScene extends PxScene {
 		
@@ -112,7 +113,7 @@ package examples.benchmark {
 				renderStr += "[ ROTATION ] ";
 			if ( _mode & 4 )
 				renderStr += "[ ALPHA ] ";
-			_infoText.textField.text = renderStr + "\n\nRendering " + engine.renderer.renderStats.renderedObjects + " objects in " + engine.renderer.renderStats.renderTime + " ms";
+			_infoText.textField.text = renderStr + "\n\nRendering " + (_renderSystem.stats as PxRenderStats).renderedObjects + " objects in " + (_renderSystem.stats as PxRenderStats).renderTime + " ms";
 			
 			super.update( pDT );
 		}

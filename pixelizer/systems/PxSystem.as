@@ -8,7 +8,9 @@ package pixelizer.systems {
 	 */
 	public class PxSystem {
 		
-		private var _priority : int;
+		protected var _priority : int;
+		protected var _stats : PxSystemStats;
+		
 		public var scene : PxScene;
 		
 		public function PxSystem( pScene : PxScene, pPriority : int = 0 ) {
@@ -18,6 +20,7 @@ package pixelizer.systems {
 		
 		public function dispose() : void {
 			scene = null;
+			_stats = null;
 		}
 		
 		public function beforeUpdate( ) : void {
@@ -29,14 +32,28 @@ package pixelizer.systems {
 		public function afterUpdate( ) : void {
 		
 		}
+		public function beforeRender( ) : void {
 		
-		static public function sortOnPriority( pSystemA : PxSystem, pSystemB : PxSystem ) : int {
-			return pSystemA.priority - pSystemB.priority;
+		}
+		public function render( ) : void {
+		
+		}
+		public function afterRender( ) : void {
+		
 		}
 		
 		public function get priority() : int {
 			return _priority;
 		}
+		
+		public function get stats() : PxSystemStats {
+			return _stats;
+		}
+		
+		static public function sortOnPriority( pSystemA : PxSystem, pSystemB : PxSystem ) : int {
+			return pSystemA.priority - pSystemB.priority;
+		}
+		
 	}
 
 }

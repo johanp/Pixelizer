@@ -1,0 +1,61 @@
+package pixelizer.systems {
+	import pixelizer.PxEntity;
+	import pixelizer.PxScene;
+	import pixelizer.utils.PxMath;
+	import pixelizer.utils.PxUpdateStats;
+	
+	/**
+	 * ...
+	 * @author Johan Peitz
+	 */
+	public class PxUpdateSystem extends PxSystem {
+		private var _updateStats : PxUpdateStats;
+		
+		public function PxUpdateSystem( pScene : PxScene, pPriority : int = 0 ) {
+			super( pScene, pPriority );
+			_stats = _updateStats = new PxUpdateStats();
+		}
+		
+		override public function beforeUpdate( ) : void {
+			_updateStats.reset();
+		}
+		override public function update( pDT : Number ) : void {
+			updateEntityTree( scene.entityRoot, pDT );
+		}
+		
+		private function updateEntityTree( pEntity : PxEntity, pDT : Number ) : void {
+			_updateStats.entitiesUpdated++;
+			
+			pEntity.update( pDT );
+			
+			for each ( var e : PxEntity in pEntity.entities ) {
+				e.transform.rotationOnScene = pEntity.transform.rotationOnScene + e.transform.rotation;
+				
+				e.transform.scaleXOnScene = pEntity.transform.scaleXOnScene * e.transform.scaleX;
+				e.transform.scaleYOnScene = pEntity.transform.scaleYOnScene * e.transform.scaleY;
+				
+				e.transform.positionOnScene.x = pEntity.transform.positionOnScene.x;
+				e.transform.positionOnScene.y = pEntity.transform.positionOnScene.y;
+				
+				if ( e.transform.rotationOnScene == 0 ) {
+					e.transform.positionOnScene.x += e.transform.position.x * pEntity.transform.scaleXOnScene;
+					e.transform.positionOnScene.y += e.transform.position.y * pEntity.transform.scaleXOnScene;
+				} else {
+					// TODO: find faster versions of sqrt and atan2
+					var d : Number = Math.sqrt( e.transform.position.x * e.transform.position.x + e.transform.position.y * e.transform.position.y );
+					var a : Number = Math.atan2( e.transform.position.y, e.transform.position.x ) + pEntity.transform.rotationOnScene;
+					e.transform.positionOnScene.x += d * PxMath.cos( a ) * pEntity.transform.scaleXOnScene;
+					e.transform.positionOnScene.y += d * PxMath.sin( a ) * pEntity.transform.scaleYOnScene;
+				}
+				
+				updateEntityTree( e, pDT );
+			}
+			
+			if ( pEntity.destroy ) {
+				pEntity.parent.removeEntity( pEntity );
+			}
+		}
+	
+	}
+
+}

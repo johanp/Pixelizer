@@ -11,7 +11,6 @@ package examples.platformer {
 	import pixelizer.prefabs.PxSoundEntity;
 	import pixelizer.PxEntity;
 	import pixelizer.PxInputSystem;
-	import pixelizer.render.PxBlitRenderer;
 	import pixelizer.render.PxSpriteSheet;
 	import pixelizer.utils.PxRepository;
 	

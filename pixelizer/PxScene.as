@@ -2,11 +2,14 @@ package pixelizer {
 	import __AS3__.vec.Vector;
 	import flash.system.System;
 	import pixelizer.components.collision.PxColliderComponent;
+	import pixelizer.components.render.PxBlitRenderComponent;
 	import pixelizer.IPxEntityContainer;
 	import pixelizer.physics.PxCollisionSystem;
+	import pixelizer.render.PxBlitRenderSystem;
 	import pixelizer.render.PxCamera;
 	import pixelizer.sound.PxSoundSystem;
 	import pixelizer.systems.PxSystem;
+	import pixelizer.systems.PxUpdateSystem;
 	import pixelizer.utils.PxMath;
 	
 	/**
@@ -21,6 +24,7 @@ package pixelizer {
 		 * Systems running on current scene.
 		 */
 		private var _systems : Array;
+		protected var _renderSystem : PxBlitRenderSystem;
 		protected var _collisionSystem : PxCollisionSystem;
 		protected var _soundSystem : PxSoundSystem;
 		protected var _inputSystem: PxInputSystem;
@@ -42,13 +46,16 @@ package pixelizer {
 		
 		/**
 		 * Constructs a new scene.
+		 * @param	pTransparent	Sets wether underlying scenes will be visible or not.
 		 */
-		public function PxScene() {
+		public function PxScene( pTransparent : Boolean = false ) {
 			_entityRoot = new PxEntity();
 			_entityRoot.scene = this;
 			
 			_systems = [];
+			_renderSystem = addSystem( new PxBlitRenderSystem( this, 1000, pTransparent ) ) as PxBlitRenderSystem;
 			_inputSystem = addSystem( new PxInputSystem( this, 100 ) ) as PxInputSystem;
+			addSystem( new PxUpdateSystem( this, 150 ) );
 			_collisionSystem = addSystem( new PxCollisionSystem( this, 200 ) ) as PxCollisionSystem;
 			_soundSystem = addSystem( new PxSoundSystem( this, 300 ) ) as PxSoundSystem;
 			
@@ -107,11 +114,17 @@ package pixelizer {
 		 * @param	pDT	Time step in number of seconds.
 		 */
 		public function update( pDT : Number ) : void {
-			// update entities
-			updateEntityTree( _entityRoot, pDT );
-			
+			var s : PxSystem;
 			// update all systems
-			for each ( var s : PxSystem in _systems ) {
+			for each ( s in _systems ) {
+				s.beforeUpdate( );
+			}
+
+			// update entities
+			// TODO: this should also be a system!
+			//updateEntityTree( _entityRoot, pDT );
+			
+			for each ( s in _systems ) {
 				s.update( pDT );
 			}
 			
@@ -119,40 +132,29 @@ package pixelizer {
 				_mainCamera.update( pDT );
 			}
 		
+			for each ( s in _systems ) {
+				s.afterUpdate( );
+			}
+			
 		}
 		
-		private function updateEntityTree( pEntity : PxEntity, pDT : Number ) : void {
-			engine.logicStats.entitiesUpdated++;
-			
-			pEntity.update( pDT );
-			
-			for each ( var e : PxEntity in pEntity.entities ) {
-				e.transform.rotationOnScene = pEntity.transform.rotationOnScene + e.transform.rotation;
-				
-				e.transform.scaleXOnScene = pEntity.transform.scaleXOnScene * e.transform.scaleX;
-				e.transform.scaleYOnScene = pEntity.transform.scaleYOnScene * e.transform.scaleY;
-				
-				e.transform.positionOnScene.x = pEntity.transform.positionOnScene.x;
-				e.transform.positionOnScene.y = pEntity.transform.positionOnScene.y;
-				
-				if ( e.transform.rotationOnScene == 0 ) {
-					e.transform.positionOnScene.x += e.transform.position.x * pEntity.transform.scaleXOnScene;
-					e.transform.positionOnScene.y += e.transform.position.y * pEntity.transform.scaleXOnScene;
-				} else {
-					// TODO: find faster versions of sqrt and atan2
-					var d : Number = Math.sqrt( e.transform.position.x * e.transform.position.x + e.transform.position.y * e.transform.position.y );
-					var a : Number = Math.atan2( e.transform.position.y, e.transform.position.x ) + pEntity.transform.rotationOnScene;
-					e.transform.positionOnScene.x += d * PxMath.cos( a ) * pEntity.transform.scaleXOnScene;
-					e.transform.positionOnScene.y += d * PxMath.sin( a ) * pEntity.transform.scaleYOnScene;
-				}
-				
-				updateEntityTree( e, pDT );
+		
+		public function render() : void {
+			var s : PxSystem;
+			for each ( s in _systems ) {
+				s.beforeRender( );
 			}
 			
-			if ( pEntity.destroy ) {
-				pEntity.parent.removeEntity( pEntity );
+			for each ( s in _systems ) {
+				s.render( );
 			}
+			
+			for each ( s in _systems ) {
+				s.afterRender( );
+			}
+			
 		}
+
 		
 		/**
 		 * Returns the camera for this scene.
@@ -180,6 +182,11 @@ package pixelizer {
 		public function get inputSystem():PxInputSystem 
 		{
 			return _inputSystem;
+		}
+		
+		public function get renderSystem():PxBlitRenderSystem 
+		{
+			return _renderSystem;
 		}
 		
 		/**
@@ -237,6 +244,12 @@ package pixelizer {
 			_systems.sort( PxSystem.sortOnPriority );
 			return pSystem;
 		}
+		
+		public function getSystems():Array 
+		{
+			return _systems;
+		}
+		
 		
 	
 	}

@@ -12,6 +12,7 @@ package pixelizer.render {
 	import pixelizer.Pixelizer;
 	import pixelizer.PxEntity;
 	import pixelizer.PxScene;
+	import pixelizer.systems.PxSystem;
 	import pixelizer.utils.PxMath;
 	import pixelizer.utils.PxRenderStats;
 	
@@ -19,24 +20,21 @@ package pixelizer.render {
 	 * Pixelizer renderer that uses blitting to position bitmap data onto a destination bitmap.
 	 * @author Johan Peitz
 	 */
-	public class PxBlitRenderer implements IPxRenderer {
+	public class PxBlitRenderSystem extends PxSystem {
 		private var _surface : Bitmap;
-		private var _renderStats : PxRenderStats;
 		
 		private var _view : Rectangle;
 		
-		/**
-		 * Construcs a new blit renderer.
-		 * @param	pWidth	Width of output bitmap.
-		 * @param	pHeight	Height of output bitmap.
-		 * @param	pScale	Scale of output bitmap.
-		 */
-		public function PxBlitRenderer( pWidth : int, pHeight : int, pScale : int = 1 ) {
-			_surface = new Bitmap( new BitmapData( pWidth, pHeight, false, 0xFFFFFF ) );
-			_surface.scaleX = _surface.scaleY = pScale;
+		private var _renderStats : PxRenderStats;
+		
+		public function PxBlitRenderSystem( pScene : PxScene, pPriority : int = 0, pTransparent : Boolean = false ) {
+			super( pScene, pPriority );
+
+			_surface = new Bitmap( new BitmapData( Pixelizer.engine.width, Pixelizer.engine.height, pTransparent, 0xFFFFFF ) );
+			_surface.scaleX = _surface.scaleY = Pixelizer.engine.scale;
 			_surface.smoothing = false;
 			
-			_renderStats = new PxRenderStats();
+			_stats = _renderStats = new PxRenderStats();
 			
 			_view = new Rectangle();
 		}
@@ -44,21 +42,23 @@ package pixelizer.render {
 		/**
 		 * Clears all used resources.
 		 */
-		public function dispose() : void {
+		override public function dispose() : void {
 			if ( _surface.parent != null ) {
 				_surface.parent.removeChild( _surface );
 			}
 			_surface.bitmapData.dispose();
 			_surface = null;
 			_view = null;
-		
+			_renderStats = null;
+			
+			super.dispose();
 		}
 		
 		/**
 		 * Invoked before rendering starts.
 		 */
-		public function beforeRendering() : void {
-			_renderStats.reset();
+		override public function beforeRender() : void {
+			_stats.reset();
 			_renderStats.renderTime = getTimer();
 			_surface.bitmapData.lock();
 		}
@@ -68,17 +68,17 @@ package pixelizer.render {
 		 * any PxBlitRenderComponents found.
 		 * @param	pScene	Scene to render.
 		 */
-		public function render( pScene : PxScene ) : void {
+		override public function render() : void {
 			// clear bitmap data
-			if ( pScene.background ) {
-				_surface.bitmapData.fillRect( _surface.bitmapData.rect, pScene.backgroundColor );
+			if ( scene.background ) {
+				_surface.bitmapData.fillRect( _surface.bitmapData.rect, scene.backgroundColor );
 			}
 			
-			if ( pScene.camera != null ) {
-				_view.width = pScene.camera.view.width;
-				_view.height = pScene.camera.view.height;
+			if ( scene.camera != null ) {
+				_view.width = scene.camera.view.width;
+				_view.height = scene.camera.view.height;
 				
-				renderComponents( pScene.entityRoot, pScene, pScene.entityRoot.transform.position, pScene.entityRoot.transform.rotation, pScene.entityRoot.transform.scaleX, pScene.entityRoot.transform.scaleY );
+				renderComponents( scene.entityRoot, scene, scene.entityRoot.transform.position, scene.entityRoot.transform.rotation, scene.entityRoot.transform.scaleX, scene.entityRoot.transform.scaleY );
 			}
 		}
 		
@@ -112,7 +112,7 @@ package pixelizer.render {
 		/**
 		 * Invoked before when rendering is completed.
 		 */
-		public function afterRendering() : void {
+		override public function afterRender() : void {
 			_surface.bitmapData.unlock();
 			_renderStats.renderTime = getTimer() - _renderStats.renderTime;
 		}
@@ -125,13 +125,6 @@ package pixelizer.render {
 			return _surface;
 		}
 		
-		/**
-		 * Returns the latest stats for the rendering.
-		 * @return Stats of the latest rendering.
-		 */
-		public function get renderStats() : PxRenderStats {
-			return _renderStats;
-		}
-	
+		
 	}
 }

@@ -30,6 +30,7 @@ package pixelizer.prefabs.logo {
 			_onLogoComplete = pOnCompleteCallback;
 			// big white background
 			_bg = addComponent( new PxBlitRenderComponent( PxImageUtil.createRect( Pixelizer.engine.width, Pixelizer.engine.height, 0xFFFFFF ) ) ) as PxBlitRenderComponent;
+			//_bg =  new PxBlitRenderComponent( PxImageUtil.createRect( Pixelizer.engine.width, Pixelizer.engine.height, 0xFFFFFF ) ) ;
 			// create pixel entities
 			for ( var y : int = 0; y < 13; y++ ) {
 				for ( var x : int = 0; x < 28; x++ ) {

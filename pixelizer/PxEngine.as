@@ -1,4 +1,7 @@
 package pixelizer {
+	import examples.spritesheet.SpriteSheetExampleScene;
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
@@ -12,8 +15,7 @@ package pixelizer {
 	import pixelizer.components.render.PxTextFieldComponent;
 	import pixelizer.prefabs.gui.PxTextFieldEntity;
 	import pixelizer.prefabs.logo.PxLogoEntity;
-	import pixelizer.render.IPxRenderer;
-	import pixelizer.render.PxBlitRenderer;
+	import pixelizer.systems.PxSystem;
 	import pixelizer.utils.PxCollisionStats;
 	import pixelizer.utils.PxImageUtil;
 	import pixelizer.utils.PxLog;
@@ -28,7 +30,7 @@ package pixelizer {
 	public class PxEngine extends Sprite {
 		private var _pauseOnFocusLost : Boolean = true;
 		
-		private var _renderer : IPxRenderer;
+		//private var _renderer : IPxRenderer;
 		private var _logicStats : PxLogicStats;
 		
 		private var _currentScene : PxScene;
@@ -61,6 +63,8 @@ package pixelizer {
 		private var _hasFocus : Boolean = true;
 		private var _noFocusEntity : PxEntity;
 		
+		private var _sceneContainer : Sprite;
+		
 		/**
 		 * Constructs a new engine. Automatically initializes Pixelizer. Sets the dimensions for the renderer.
 		 * The size of the renderer and the scale should match the size of the application.
@@ -72,26 +76,22 @@ package pixelizer {
 		 * @param	pRendererClass	What renderer to use.
 		 * @param 	pShowLogo	Specifies whether to show Pixelizer logo at start or not.
 		 */
-		public function PxEngine( pWidth : int, pHeight : int, pScale : int = 1, pFPS : int = 30, pRendererClass : Class = null, pShowLogo : Boolean = true ) {
+		public function PxEngine( pWidth : int, pHeight : int, pScale : int = 1, pFPS : int = 30, pShowLogo : Boolean = true ) {
 			_showingLogo = pShowLogo;
 			_targetFPS = pFPS;
 			_width = pWidth;
 			_height = pHeight;
 			_scale = pScale;
-			_renderClass = pRendererClass;
-			
-			if ( _renderClass == null ) {
-				_renderClass = PxBlitRenderer;
-			}
 			
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
 		}
 		
-		
-		
 		private function onAddedToStage( pEvent : Event ) : void {
 			removeEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
 			Pixelizer.onEngineAddedToStage( this, stage );
+			
+			_sceneContainer = new Sprite();
+			addChild( _sceneContainer );
 			
 			_logicStats = new PxLogicStats();
 			
@@ -99,15 +99,12 @@ package pixelizer {
 			_sceneStack = new Vector.<PxScene>;
 			_sceneChanges = [];
 			
-			_internalScene = new PxScene();
+			_internalScene = new PxScene( true );
 			_internalScene.onAddedToEngine( this );
-			_internalScene.background = false;
+			addChild( _internalScene.renderSystem.displayObject );
 			
 			PxLog.addLogFunction( logListener );
 			PxLog.log( "size set to " + _width + "x" + _height + ", " + _scale + "x", this, PxLog.INFO );
-			
-			_renderer = new _renderClass( _width, _height, _scale );
-			addChild( _renderer.displayObject );
 			
 			if ( _showingLogo ) {
 				_internalScene.addEntity( new PxLogoEntity( onLogoComplete ) );
@@ -172,9 +169,9 @@ package pixelizer {
 		}
 		
 		private function onFocusIn( evt : Event ) : void {
-			if ( ! _pauseOnFocusLost ) 
+			if ( !_pauseOnFocusLost )
 				return;
-				
+			
 			if ( _hasFocus )
 				return;
 			
@@ -193,9 +190,9 @@ package pixelizer {
 		}
 		
 		private function onFocusOut( evt : Event ) : void {
-			if ( ! _pauseOnFocusLost ) 
+			if ( !_pauseOnFocusLost )
 				return;
-				
+			
 			if ( !_hasFocus )
 				return;
 			
@@ -216,7 +213,7 @@ package pixelizer {
 			
 			_noFocusEntity.addComponent( message );
 			_internalScene.addEntity( _noFocusEntity );
-			
+		
 		}
 		
 		/**
@@ -239,15 +236,12 @@ package pixelizer {
 				if ( _logicStats.minMemory == -1 || _logicStats.minMemory > _logicStats.currentMemory ) {
 					_logicStats.minMemory = _logicStats.currentMemory;
 				}
-				var text : String = "";
-				text += "FPS: " + logicStats.fps + "\n";
-				text += "Logic: " + logicStats.logicTime + " ms" + "\n";
-				text += "Entities: " + logicStats.entitiesUpdated + "\n";
-				text += "Colliders: " + collisionStats.colliderObjects + "\n";
-				text += "Collisions: " + collisionStats.collisionHits + "/" + collisionStats.collisionMasks + "/" + collisionStats.collisionTests + "\n";
-				text += "Render: " + renderStats.renderTime + " ms" + "\n";
-				text += "RendObjs: " + renderStats.renderedObjects + "/" + renderStats.totalObjects + "\n";
-				text += "Memory: " + _logicStats.minMemory + "/" + _logicStats.currentMemory + "/" + _logicStats.maxMemory + " MB";
+				var text : String = _logicStats.toString() + "\n";
+				for each( var s : PxSystem in _currentScene.getSystems() ) {
+					if ( s.stats != null ) {
+						text += s.stats.toString() + "\n";
+					}
+				}
 				_performaceView.textField.text = text;
 			}
 		}
@@ -269,9 +263,6 @@ package pixelizer {
 					// track logic performance
 					logicTime = getTimer();
 					
-					// update input
-					//PxInput.update( _timeStepS );
-					
 					// update current scene
 					if ( _currentScene != null && _showingLogo == false ) {
 						_currentScene.update( _timeStepS );
@@ -279,9 +270,6 @@ package pixelizer {
 					
 					// update internal scene
 					_internalScene.update( _timeStepS );
-					
-					// finalize input
-					//PxInput.afterUpdate();
 					
 					// calc logic time					
 					_logicStats.logicTime = getTimer() - logicTime;
@@ -291,15 +279,10 @@ package pixelizer {
 				_frameCount++;
 				
 				// render
-				_renderer.beforeRendering();
-				// render scenes
 				if ( _currentScene != null ) {
-					_renderer.render( _currentScene );
+					_currentScene.render();
 				}
-				
-				// render internal scene on top 
-				_renderer.render( _internalScene );
-				_renderer.afterRendering();
+				_internalScene.render();
 				
 				// make changes to scenes
 				if ( _sceneChanges.length > 0 ) {
@@ -328,14 +311,6 @@ package pixelizer {
 		}
 		
 		/**
-		 * Returns the renderer.
-		 * @return The renderer.
-		 */
-		public function get renderer() : IPxRenderer {
-			return _renderer;
-		}
-		
-		/**
 		 * Adds a scene to the top of the scene stack. The added scene will now be the current scene.
 		 * @param	pScene
 		 */
@@ -352,6 +327,7 @@ package pixelizer {
 			}
 			
 			_currentScene = pScene;
+			_sceneContainer.addChild( _currentScene.renderSystem.displayObject );
 			_currentScene.onAddedToEngine( this );
 		}
 		
@@ -366,6 +342,7 @@ package pixelizer {
 			PxLog.log( "popping scene '" + _currentScene + "' from stack", this, PxLog.INFO );
 			
 			var lastScene : PxScene = _sceneStack.pop();
+			_sceneContainer.removeChild( lastScene.renderSystem.displayObject );
 			lastScene.onRemovedFromEngine();
 			
 			if ( _sceneStack.length > 0 ) {
@@ -451,13 +428,7 @@ package pixelizer {
 			return _scale;
 		}
 		
-		/**
-		 * Returns the latest stats from the renderer.
-		 * @return The stats.
-		 */
-		public function get renderStats() : PxRenderStats {
-			return _renderer.renderStats;
-		}
+	
 		
 		/**
 		 * Returns the latest stats from the logic loop.
@@ -467,13 +438,6 @@ package pixelizer {
 			return _logicStats;
 		}
 		
-		/**
-		 * Returns the latest stats from the current scene's collision manager.
-		 * @return The stats.
-		 */
-		public function get collisionStats() : PxCollisionStats {
-			return _currentScene.collisionSystem.collisionStats;
-		}
 		
 		/**
 		 * Returns the current scene.

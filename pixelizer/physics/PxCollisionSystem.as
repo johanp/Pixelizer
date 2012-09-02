@@ -18,11 +18,7 @@ package pixelizer.physics {
 		
 		private var _colliders : Array = [];
 		private var _overlap : Point = new Point();
-		
-		/**
-		 * Stats collected during collision tests.
-		 */
-		public var collisionStats : PxCollisionStats;
+		private var _collisionStats : PxCollisionStats;
 		
 		/**
 		 * Creates a new collision system.
@@ -30,7 +26,7 @@ package pixelizer.physics {
 		public function PxCollisionSystem( pScene : PxScene, pPriority : int = 0 ) : void {
 			super( pScene, pPriority );
 			
-			collisionStats = new PxCollisionStats();
+			_stats = _collisionStats = new PxCollisionStats();
 		}
 		
 		/**
@@ -38,6 +34,7 @@ package pixelizer.physics {
 		 */
 		override public function dispose() : void {
 			_colliders = null;
+			_collisionStats = null;
 			super.dispose();
 		}
 		
@@ -70,17 +67,17 @@ package pixelizer.physics {
 			var collisionDataA : PxCollisionData = new PxCollisionData();
 			var collisionDataB : PxCollisionData = new PxCollisionData();
 			
-			collisionStats.reset();
-			collisionStats.colliderObjects = len;
+			_collisionStats.reset();
+			_collisionStats.colliderObjects = len;
 			
 			for ( var i : int = 0; i < len; i++ ) {
 				a = _colliders[ i ];
 				for ( var j : int = i + 1; j < len; j++ ) {
 					b = _colliders[ j ];
-					collisionStats.collisionTests++;
+					_collisionStats.collisionTests++;
 					
 					if (( a.collisionLayerMask & b.collisionLayer ) || ( a.collisionLayer & b.collisionLayerMask ) ) {
-						collisionStats.collisionMasks++;
+						_collisionStats.collisionMasks++;
 						
 						collisionDataA.myCollider = a;
 						collisionDataA.otherCollider = b;
@@ -91,7 +88,7 @@ package pixelizer.physics {
 						collisionDataB.overlap = collisionDataA.overlap;
 						
 						if ( collisionDataA.overlap != null ) {
-							collisionStats.collisionHits++;
+							_collisionStats.collisionHits++;
 							if ( a.hasCollidingCollider( b ) ) {
 								a.onCollisionOngoing( collisionDataA );
 								b.onCollisionOngoing( collisionDataB );

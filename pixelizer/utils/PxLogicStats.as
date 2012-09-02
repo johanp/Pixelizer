@@ -1,10 +1,11 @@
 package pixelizer.utils {
+	import pixelizer.systems.PxSystemStats;
 	
 	/**
 	 * Holder class for info about the latest logic update.
 	 * @author Johan Peitz
 	 */
-	public class PxLogicStats {
+	public class PxLogicStats extends PxSystemStats{
 		/**
 		 * Current frame rate.
 		 */
@@ -13,11 +14,6 @@ package pixelizer.utils {
 		 * Time spent doing logic.
 		 */
 		public var logicTime : int;
-		
-		/**
-		 * Number of entities updated during logic update.
-		 */
-		public var entitiesUpdated : int;
 		
 		/**
 		 * Minimum amount of memory used in mega bytes.
@@ -31,14 +27,14 @@ package pixelizer.utils {
 		 * Current amount of memory used in mega bytes.
 		 */
 		public var currentMemory : int = -1;
-		
-		/**
-		 * Resets data making it ready for the next update.
-		 */
-		public function reset() : void {
-			entitiesUpdated = 0;
+			
+		override public function toString() : String {
+			var text : String = "";
+			text += "FPS: " + fps + "\n";
+			text += "Logic: " + logicTime + " ms" + "\n";
+			text += "Memory: " + minMemory + "/" + currentMemory + "/" + maxMemory + " MB";
+			return text;
 		}
-	
 	}
 
 }

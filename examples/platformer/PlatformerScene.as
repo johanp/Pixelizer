@@ -11,7 +11,6 @@ package examples.platformer {
 	import pixelizer.PxInputSystem;
 	import pixelizer.PxScene;
 	import pixelizer.render.PxAnimation;
-	import pixelizer.render.PxBlitRenderer;
 	import pixelizer.render.PxCamera;
 	import pixelizer.render.PxSpriteSheet;
 	

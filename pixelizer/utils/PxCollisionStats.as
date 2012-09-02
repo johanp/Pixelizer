@@ -1,10 +1,11 @@
 package pixelizer.utils {
+	import pixelizer.systems.PxSystemStats;
 	
 	/**
 	 * Holder for stats collected during the collision phase.
 	 * @author Johan Peitz
 	 */
-	public class PxCollisionStats {
+	public class PxCollisionStats extends PxSystemStats {
 		/**
 		 * Amount of collider objects there are.
 		 */
@@ -25,12 +26,21 @@ package pixelizer.utils {
 		/**
 		 * Resets the stats for a new round of testing.
 		 */
-		public function reset() : void {
+		override public function reset() : void {
 			colliderObjects = 0;
 			collisionTests = 0;
 			collisionMasks = 0;
 			collisionHits = 0;
 		}
+
+		
+		override public function toString() : String {
+			var s : String = "";
+			s += "Colliders: " + colliderObjects + "\n";
+			s += "Collisions: " + collisionHits + "/" + collisionMasks + "/" + collisionTests;
+			return s;
+			
+		}		
 	}
 
 }

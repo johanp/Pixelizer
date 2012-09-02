@@ -1,10 +1,11 @@
 package pixelizer.utils {
+	import pixelizer.systems.PxSystemStats;
 	
 	/**
 	 * Holder for stats collected during the rendering.
 	 * @author Johan Peitz
 	 */
-	public class PxRenderStats {
+	public class PxRenderStats extends PxSystemStats {
 		/**
 		 * Amount of objects actually rendered.
 		 */
@@ -22,10 +23,17 @@ package pixelizer.utils {
 		/**
 		 * Resets the render stats before each run.
 		 */
-		public function reset() : void {
+		override public function reset() : void {
 			renderedObjects = 0;
 			totalObjects = 0;
 			renderTime = 0;
+		}
+		
+		override public function toString() : String {
+			var s : String = "";
+			s += "Render: " + renderTime + " ms" + "\n";
+			s += "RendObjs: " + renderedObjects + "/" + totalObjects;
+			return s;
 		}
 	
 	}
