@@ -91,13 +91,13 @@
 							// inside a solid tile, push out
 							if ( _pt.x > 0 && _pt.y > 0 ) {
 								if ( pAlignment == PxCollisionSolver.HORIZONTAL ) {
-									if ( cx < pBox.entity.transform.position.x ) {
+									if ( cx < pBox.entity.transform.position.x + pBox.collisionBox.offsetX ) {
 										pBox.entity.transform.position.x += _pt.x;
 									} else {
 										pBox.entity.transform.position.x -= _pt.x;
 									}
 								} else {
-									if ( cy < pBox.entity.transform.position.y ) {
+									if ( cy < pBox.entity.transform.position.y + pBox.collisionBox.offsetY ) {
 										pBox.entity.transform.position.y += _pt.y;
 									} else {
 										pBox.entity.transform.position.y -= _pt.y;

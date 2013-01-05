@@ -16,7 +16,8 @@ CHANGELOG
 * added info in PxScene for how many seconds/frames the scene has been updated
 * fixed issue with scrollFactor
 * added camera and filter system example
-* removed PxMath.sin/cos since they were slower than built in versions
+* removed PxMath.sin/cos since they were slower than Math.xyz versions
+* fixed collision solving bug between boxes and grids
 
 
 2012-05-13, 0.4.3, "the squasher of bugs"
